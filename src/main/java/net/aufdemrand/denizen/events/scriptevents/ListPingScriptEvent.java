@@ -48,7 +48,7 @@ public class ListPingScriptEvent extends ScriptEvent  implements Listener {
     @Override
     public boolean couldMatch(ScriptContainer scriptContainer, String s) {
         String lower = CoreUtilities.toLowerCase(s);
-        return lower.startsWith("redstone recalculated");
+        return lower.startsWith("server list ping");
     }
 
     @Override
@@ -73,8 +73,10 @@ public class ListPingScriptEvent extends ScriptEvent  implements Listener {
     public boolean applyDetermination(ScriptContainer container, String determination) {
         if (determination.length() > 0 && !determination.equalsIgnoreCase("none")) {
             String[] values = determination.split("[\\|" + dList.internal_escape + "]", 2);
-            if (new Element(values[0]).isInt())
+            if (new Element(values[0]).isInt()) {
                 event.setMaxPlayers(new Element(values[0]).asInt());
+                if (values.length == 1) return true;
+            }
             if (values.length == 2)
                 event.setMotd(values[1]);
             else
