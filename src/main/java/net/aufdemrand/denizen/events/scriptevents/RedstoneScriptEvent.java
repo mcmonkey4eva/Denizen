@@ -57,7 +57,7 @@ public class RedstoneScriptEvent extends ScriptEvent implements Listener {
 
     @Override
     public String getName() {
-        return "BucketEmpty";
+        return "RedstoneRecalculated";
     }
 
     @Override
