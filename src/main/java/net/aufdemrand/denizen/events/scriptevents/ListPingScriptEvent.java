@@ -66,19 +66,19 @@ public class ListPingScriptEvent extends ScriptEvent  implements Listener {
 
     @Override
     public void destroy() {
-        BlockRedstoneEvent.getHandlerList().unregister(this);
+        ServerListPingEvent.getHandlerList().unregister(this);
     }
 
     @Override
     public boolean applyDetermination(ScriptContainer container, String determination) {
-        String[] values = determination.split("[\\|" + dList.internal_escape + "]", 2);
-        if (new Element(values[0]).isInt())
-            event.setMaxPlayers(new Element(values[0]).asInt());
         if (determination.length() > 0 && !determination.equalsIgnoreCase("none")) {
+            String[] values = determination.split("[\\|" + dList.internal_escape + "]", 2);
+            if (new Element(values[0]).isInt())
+                event.setMaxPlayers(new Element(values[0]).asInt());
             if (values.length == 2)
                 event.setMotd(values[1]);
             else
-                event.setMotd(determination);
+                event.setMotd(values[0]);
         }
         return true;
     }
