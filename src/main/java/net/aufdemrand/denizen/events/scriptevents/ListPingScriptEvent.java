@@ -12,7 +12,6 @@ import net.aufdemrand.denizencore.utilities.CoreUtilities;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 
 import java.util.HashMap;
@@ -74,13 +73,13 @@ public class ListPingScriptEvent extends ScriptEvent  implements Listener {
         if (determination.length() > 0 && !determination.equalsIgnoreCase("none")) {
             String[] values = determination.split("[\\|" + dList.internal_escape + "]", 2);
             if (new Element(values[0]).isInt()) {
-                event.setMaxPlayers(new Element(values[0]).asInt());
+                max_players = new Element(values[0]);
                 if (values.length == 1) return true;
             }
             if (values.length == 2)
-                event.setMotd(values[1]);
+                motd = new Element(values[1]);
             else
-                event.setMotd(values[0]);
+                motd = new Element(values[0]);
         }
         return true;
     }
@@ -103,5 +102,7 @@ public class ListPingScriptEvent extends ScriptEvent  implements Listener {
         address = new Element(event.getAddress().toString());
         this.event = event;
         fire();
+        event.setMaxPlayers(max_players.asInt());
+        event.setMotd(motd.asString());
     }
 }
