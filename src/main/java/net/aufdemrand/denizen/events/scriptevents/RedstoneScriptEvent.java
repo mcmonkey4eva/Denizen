@@ -32,7 +32,7 @@ public class RedstoneScriptEvent extends ScriptEvent implements Listener {
     // <context.new_current> returns what the redstone power level is becoming.
     //
     // @Determine
-    // "CANCELLED" to stop the recalculation.
+    // Element (Integer) set the current value to a specific value.
     //
     // -->
     public RedstoneScriptEvent() {
@@ -72,12 +72,10 @@ public class RedstoneScriptEvent extends ScriptEvent implements Listener {
     public boolean applyDetermination(ScriptContainer container, String determination) {
         Element power = new Element(determination);
         if (power.isInt()) {
-            event.setNewCurrent(power.asInt());
+            new_current = power;
+            return true;
         }
-        else {
-            return super.applyDetermination(container, determination);
-        }
-        return true;
+        return super.applyDetermination(container, determination);
     }
 
     @Override
