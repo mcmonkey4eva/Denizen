@@ -580,7 +580,6 @@ public class Denizen extends JavaPlugin implements DenizenImplementation {
             OldEventManager.registerSmartEvent(new EntityInteractSmartEvent());
             OldEventManager.registerSmartEvent(new EntitySpawnSmartEvent());
             OldEventManager.registerSmartEvent(new FlagSmartEvent());
-            OldEventManager.registerSmartEvent(new ItemMoveSmartEvent());
             OldEventManager.registerSmartEvent(new ItemScrollSmartEvent());
             OldEventManager.registerSmartEvent(new NPCNavigationSmartEvent());
             OldEventManager.registerSmartEvent(new PlayerEquipsArmorSmartEvent());
@@ -595,6 +594,7 @@ public class Denizen extends JavaPlugin implements DenizenImplementation {
             ScriptEvent.registerScriptEvent(new ChatScriptEvent());
             ScriptEvent.registerScriptEvent(new EntityDespawnScriptEvent());
             ScriptEvent.registerScriptEvent(new EntityTeleportScriptEvent());
+            ScriptEvent.registerScriptEvent(new ItemMoveScriptEvent());
             ScriptEvent.registerScriptEvent(new LiquidSpreadScriptEvent());
             ScriptEvent.registerScriptEvent(new ListPingScriptEvent());
             ScriptEvent.registerScriptEvent(new RedstoneScriptEvent());
