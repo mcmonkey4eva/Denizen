@@ -21,8 +21,6 @@ public class RedstoneScriptEvent extends ScriptEvent implements Listener {
     // @Events
     // redstone recalculated
     //
-    // @Cancellable true
-    //
     // @Warning This event fires very very rapidly!
     //
     // @Triggers when a redstone wire is recalculated.
