@@ -34,10 +34,6 @@
             <id>everything</id>
             <url>http://repo.citizensnpcs.co</url>
         </repository>
-        <repository>
-            <id>comphenix-repo</id>
-            <url>http://repo.comphenix.net/content/groups/public</url>
-        </repository>
     </repositories>
 
     <!-- Dependencies -->
@@ -84,7 +80,7 @@
         <dependency>
             <groupId>net.milkbowl.vault</groupId>
             <artifactId>Vault</artifactId>
-            <version>1.4.2-SNAPSHOT</version>
+            <version>1.5.4</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
