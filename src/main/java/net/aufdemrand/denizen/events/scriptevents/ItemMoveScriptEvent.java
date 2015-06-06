@@ -35,7 +35,6 @@ public class ItemMoveScriptEvent extends ScriptEvent implements Listener {
     // <context.item> returns the dItem that was moved.
     //
     // @Determine
-    // "CANCELLED" to stop the item from being moved.
     // dItem to set a different item to be moved. NOTE: The original item will not be moved!
     //
     // -->
