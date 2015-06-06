@@ -32,7 +32,7 @@ public class RedstoneScriptEvent extends ScriptEvent implements Listener {
     // <context.new_current> returns what the redstone power level is becoming.
     //
     // @Determine
-    // Element (Integer) set the current value to a specific value.
+    // Element (Number) set the current value to a specific value.
     //
     // -->
     public RedstoneScriptEvent() {
