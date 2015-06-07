@@ -178,6 +178,7 @@ public class EntityDeathScriptEvent extends ScriptEvent implements Listener {
             damager = new dEntity(((EntityDamageByEntityEvent) lastDamage).getDamager());
         }
 
+        message = null;
         PlayerDeathEvent subEvent = null;
         if (event instanceof PlayerDeathEvent) {
             subEvent = (PlayerDeathEvent) event;
