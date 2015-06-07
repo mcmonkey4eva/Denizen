@@ -153,12 +153,20 @@ public class EntityDeathScriptEvent extends ScriptEvent implements Listener {
     @Override
     public HashMap<String, dObject> getContext() {
         HashMap<String, dObject> context = super.getContext();
-        if (cause != null) context.put("entity", entity);
-        if (damager != null) context.put("damager", damager);
-        if (message != null) context.put("message", message);
-        if (inventory != null) context.put("inventory", inventory);
-        if (cause != null) context.put("cause", cause);
-        if (cause != null) context.put("drops", drops);
+        context.put("entity", entity);
+        if (damager != null) {
+            context.put("damager", damager);
+        }
+        if (message != null) {
+            context.put("message", message);
+        }
+        if (inventory != null) {
+                context.put("inventory", inventory);
+        }
+        context.put("cause", cause);
+        if (drops != null) {
+            context.put("drops", drops);
+        }
         return context;
     }
 
