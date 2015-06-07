@@ -36,6 +36,7 @@ public class EntityDeathScriptEvent extends ScriptEvent implements Listener {
     // <context.inventory> returns the dInventory of the entity if it was a player.
     // <context.cause> returns an Element of the cause of the death.
     // <context.drops> returns a dList of all pending item drops.
+    // Causes: <@link url https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html>
     //
     // @Determine
     // Element(String) to change the death message.
