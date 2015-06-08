@@ -64,7 +64,7 @@ public class EntitySpawnScriptEvent extends ScriptEvent implements Listener {
     public boolean matches(ScriptContainer scriptContainer, String s) {
         String lower = CoreUtilities.toLowerCase(s);
 
-        if (!lower.equals("entity spawns")) return false;
+        if (lower.equals("entity spawns")) return true;
 
         Boolean entityvalid = true;
         if (!lower.startsWith("entity") &&(!lower.startsWith(entity.identifyType()) || !lower.startsWith(entity.identifySimple()))) {
