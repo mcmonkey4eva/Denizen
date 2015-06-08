@@ -71,6 +71,11 @@ public class EntitySpawnScriptEvent extends ScriptEvent implements Listener {
             entityvalid = false;
         }
 
+        cuboids = new dList();
+        for (dCuboid cuboid: dCuboid.getNotableCuboidsContaining(event.getLocation())) {
+            cuboids.add(cuboid.identify());
+        }
+
         Boolean cuboidvalid = true;
         if (lower.contains(" in "))
             if (!cuboids.contains(lower.substring(lower.lastIndexOf("in ")+ 3, lower.lastIndexOf(" because",-1))))
