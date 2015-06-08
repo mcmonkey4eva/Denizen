@@ -44,7 +44,7 @@ public class PlayerWalkScriptEvent extends ScriptEvent implements Listener {
     @Override
     public boolean couldMatch(ScriptContainer scriptContainer, String s) {
         String lower = CoreUtilities.toLowerCase(s);
-        return lower.contains("player walks");
+        return lower.equals("player walks");
     }
 
     @Override
