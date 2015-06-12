@@ -31,7 +31,7 @@ public class BlockBuiltScriptEvent extends ScriptEvent implements Listener {
     // @Context
     // <context.location> returns the dLocation of the block the player is trying to build on.
     // <context.old_material> returns the dMaterial of the block the player is trying to build on.
-    // <context.new_material> returns the dMaterial of the block the player is trying to build.
+    // <context.new_material> Deprecated, returns the dMaterial of the block the player is trying to build.
     //
     // @Determine
     // "BUILDABLE" to allow the building.
@@ -90,7 +90,7 @@ public class BlockBuiltScriptEvent extends ScriptEvent implements Listener {
     public HashMap<String, dObject> getContext() {
         HashMap<String, dObject> context = super.getContext();
         context.put("location", location);
-        context.put("new_material", new_material);
+        context.put("new_material", new_material); // Deprecated because it doesn't have proper data
         context.put("old_material", old_material);
         return context;
     }
@@ -99,8 +99,8 @@ public class BlockBuiltScriptEvent extends ScriptEvent implements Listener {
     public void onBlockBuilt(BlockCanBuildEvent event) {
         location = new dLocation(event.getBlock().getLocation());
         old_material = dMaterial.getMaterialFrom(event.getBlock().getType(), event.getBlock().getData());
-        new_material = dMaterial.getMaterialFrom(event.getMaterial());
-        cancelled = false;
+        new_material = dMaterial.getMaterialFrom(event.getMaterial());  // Deprecated because it doesn't have proper data
+        cancelled = !event.isBuildable();
         this.event = event;
         fire();
         event.setBuildable(!cancelled);
