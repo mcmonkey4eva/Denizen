@@ -171,87 +171,6 @@ public class BukkitWorldScriptHelper implements Listener {
         }
     }
 
-
-    // <--[event]
-    // @Events
-    // block burns
-    // <block> burns
-    //
-    // @Triggers when a block is destroyed by fire.
-    // @Context
-    // <context.location> returns the dLocation the block was burned at.
-    // <context.material> returns the dMaterial of the block that was burned.
-    //
-    // @Determine
-    // "CANCELLED" to stop the block from being destroyed.
-    //
-    // -->
-    @EventHandler
-    public void blockBurn(BlockBurnEvent event) {
-
-        Map<String, dObject> context = new HashMap<String, dObject>();
-
-        context.put("location", new dLocation(event.getBlock().getLocation()));
-        dMaterial material = dMaterial.getMaterialFrom(event.getBlock().getType(), event.getBlock().getData());
-        context.put("material", material);
-
-        String determination = doEvents(Arrays.asList
-                ("block burns",
-                        material.identifySimple() + " burns"),
-                null, null, context, true);
-
-        if (determination.toUpperCase().startsWith("CANCELLED"))
-            event.setCancelled(true);
-    }
-
-    // <--[event]
-    // @Events
-    // block being built
-    // block being built on <material>
-    // <material> being built
-    // <material> being built on <material>
-    //
-    // @Triggers when an attempt is made to build a block on another block. Not necessarily caused by players.
-    // @Context
-    // <context.location> returns the dLocation of the block the player is trying to build on.
-    // <context.old_material> returns the dMaterial of the block the player is trying to build on.
-    // <context.new_material> returns the dMaterial of the block the player is trying to build.
-    //
-    // @Determine
-    // "BUILDABLE" to allow the building.
-    // "CANCELLED" to cancel the building.
-    //
-    // -->
-    @EventHandler
-    public void blockCanBuild(BlockCanBuildEvent event) {
-
-        // TODO: Remove when Bukkit fixes error?
-        if (event.getMaterial() == null)
-            return;
-
-        Map<String, dObject> context = new HashMap<String, dObject>();
-        dMaterial oldMaterial = dMaterial.getMaterialFrom(event.getBlock().getType());
-        dMaterial newMaterial = dMaterial.getMaterialFrom(event.getMaterial());
-
-        context.put("location", new dLocation(event.getBlock().getLocation()));
-        context.put("old_material", oldMaterial);
-        context.put("new_material", newMaterial);
-
-        String determination = doEvents(Arrays.asList
-                ("block being built",
-                        "block being built on " + oldMaterial.identifySimple(),
-                        newMaterial.identifySimple() + " being built",
-                        newMaterial.identifySimple() + " being built on " +
-                                oldMaterial.identifySimple()),
-                null, null, context, true);
-
-        if (determination.toUpperCase().startsWith("BUILDABLE"))
-            event.setBuildable(true);
-
-        if (determination.toUpperCase().startsWith("CANCELLED"))
-            event.setBuildable(false);
-    }
-
     // <--[event]
     // @Events
     // player damages block
@@ -307,51 +226,6 @@ public class BukkitWorldScriptHelper implements Listener {
 
         if (determination.toUpperCase().startsWith("INSTABREAK"))
             event.setInstaBreak(true);
-    }
-
-    // <--[event]
-    // @Events
-    // block dispenses item
-    // block dispenses <item>
-    // <block> dispenses item
-    // <block> dispenses <item>
-    //
-    // @Triggers when a block dispenses an item.
-    // @Context
-    // <context.location> returns the dLocation of the dispenser.
-    // <context.item> returns the dItem of the item being dispensed.
-    //
-    // @Determine
-    // "CANCELLED" to stop the block from dispensing.
-    // Element(Decimal) to set the power with which the item is shot.
-    //
-    // -->
-    @EventHandler
-    public void blockDispense(BlockDispenseEvent event) {
-
-        Map<String, dObject> context = new HashMap<String, dObject>();
-        dItem item = new dItem(event.getItem());
-        dMaterial material = dMaterial.getMaterialFrom(event.getBlock().getType(), event.getBlock().getData());
-        dLocation location = new dLocation(event.getBlock().getLocation());
-
-        context.put("location", location);
-        context.put("item", item);
-
-        String determination = doEvents(Arrays.asList
-                ("block dispenses item",
-                        "block dispenses " + item.identifySimple(),
-                        material.identifySimple() + " dispenses item",
-                        material.identifySimple() + " dispenses " + item.identifySimple()),
-                null, null, context, true);
-
-        if (determination.toUpperCase().startsWith("CANCELLED"))
-            event.setCancelled(true);
-
-        else if (Argument.valueOf(determination)
-                .matchesPrimitive(aH.PrimitiveType.Double)) {
-            event.setVelocity(event.getVelocity().normalize()
-                    .multiply(aH.getDoubleFrom(determination)));
-        }
     }
 
     // <--[event]

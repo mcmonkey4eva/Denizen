@@ -1,6 +1,5 @@
 package net.aufdemrand.denizen.events.scriptevents;
 
-import net.aufdemrand.denizen.objects.dCuboid;
 import net.aufdemrand.denizen.objects.dLocation;
 import net.aufdemrand.denizen.objects.dMaterial;
 import net.aufdemrand.denizen.utilities.DenizenAPI;
@@ -12,73 +11,54 @@ import net.aufdemrand.denizencore.utilities.CoreUtilities;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockPhysicsEvent;
+import org.bukkit.event.block.BlockBurnEvent;
 
 import java.util.HashMap;
 
-public class BlockPhysicsScriptEvent extends ScriptEvent implements Listener {
+public class BlockBurnsScriptEvent extends ScriptEvent implements Listener {
 
     // <--[event]
     // @Events
-    // block physics (in <notable cuboid>)
-    // <material> physics (in <notable cuboid>)
-    //
-    // @Warning This event may fire very rapidly.
+    // block burns
+    // <block> burns
     //
     // @Cancellable true
     //
-    // @Triggers when a block's physics update.
+    // @Triggers when a block is destroyed by fire.
     //
     // @Context
-    // <context.location> returns a dLocation of the block the physics is affecting.
-    // <context.new_material> returns a dMaterial of what the block is becoming.
+    // <context.location> returns the dLocation the block was burned at.
+    // <context.material> returns the dMaterial of the block that was burned.
     //
     // -->
 
-    public BlockPhysicsScriptEvent() {
+    public BlockBurnsScriptEvent() {
         instance = this;
     }
-    public static BlockPhysicsScriptEvent instance;
+    public static BlockBurnsScriptEvent instance;
     public dLocation location;
-    public dMaterial new_material;
-    public BlockPhysicsEvent event;
+    public dMaterial material;
+    public BlockBurnEvent event;
 
     @Override
     public boolean couldMatch(ScriptContainer scriptContainer, String s) {
         String lower = CoreUtilities.toLowerCase(s);
-        return lower.contains("physics");
+        String mat = lower.substring(0, lower.indexOf(" "));
+        return lower.contains("block burns")
+                || (lower.equals(mat + " burns") && dMaterial.matches(mat));
     }
 
     @Override
     public boolean matches(ScriptContainer scriptContainer, String s) {
         String lower = CoreUtilities.toLowerCase(s);
-
-        if (lower.equals("block physics")) {
-            return true;
-        }
-
-        Boolean blockvalid = true;
-        if (!lower.startsWith("block ") && !lower.startsWith(new_material.identifySimple())) {
-            blockvalid = false;
-        }
-
-        Boolean cuboidvalid = false;
-        if (lower.contains(" in ")) {
-            String notable = "cu@"+lower.substring(lower.lastIndexOf("in ") + 3);
-            for (dCuboid cuboid: dCuboid.getNotableCuboidsContaining(location)) {
-                if(cuboid.identify().toLowerCase().matches(notable)) {
-                    cuboidvalid = true;
-                    break;
-                }
-            }
-        }
-
-        return blockvalid && cuboidvalid;
+        String mat = lower.substring(0, lower.indexOf(" "));
+        return mat.equals("block")
+                || (material.identifySimpleNoIdentifier().toLowerCase().equals(mat));
     }
 
     @Override
     public String getName() {
-        return "BlockPhysics";
+        return "BlockBurns";
     }
 
     @Override
@@ -88,7 +68,7 @@ public class BlockPhysicsScriptEvent extends ScriptEvent implements Listener {
 
     @Override
     public void destroy() {
-        BlockPhysicsEvent.getHandlerList().unregister(this);
+        BlockBurnEvent.getHandlerList().unregister(this);
     }
 
     @Override
@@ -100,14 +80,14 @@ public class BlockPhysicsScriptEvent extends ScriptEvent implements Listener {
     public HashMap<String, dObject> getContext() {
         HashMap<String, dObject> context = super.getContext();
         context.put("location", location);
-        context.put("new_material", new_material); // Deprecated in favor of context.chunk.world
+        context.put("material", material);
         return context;
     }
 
     @EventHandler
-    public void onBlockPhysics(BlockPhysicsEvent event) {
+    public void onBlockBurns(BlockBurnEvent event) {
         location = new dLocation(event.getBlock().getLocation());
-        new_material = dMaterial.getMaterialFrom(location.getBlock().getType(), location.getBlock().getData());
+        material = dMaterial.getMaterialFrom(event.getBlock().getType(), event.getBlock().getData());
         cancelled = event.isCancelled();
         this.event = event;
         fire();
