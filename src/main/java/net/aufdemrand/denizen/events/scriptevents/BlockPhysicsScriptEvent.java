@@ -5,7 +5,6 @@ import net.aufdemrand.denizen.objects.dLocation;
 import net.aufdemrand.denizen.objects.dMaterial;
 import net.aufdemrand.denizen.utilities.DenizenAPI;
 import net.aufdemrand.denizencore.events.ScriptEvent;
-import net.aufdemrand.denizencore.objects.dList;
 import net.aufdemrand.denizencore.objects.dObject;
 import net.aufdemrand.denizencore.scripts.containers.ScriptContainer;
 import net.aufdemrand.denizencore.utilities.CoreUtilities;
@@ -59,19 +58,18 @@ public class BlockPhysicsScriptEvent extends ScriptEvent implements Listener {
         }
 
         Boolean blockvalid = true;
-        if (!lower.startsWith(new_material.identifySimple())) {
+        if (!lower.startsWith("block ") && !lower.startsWith(new_material.identifySimple())) {
             blockvalid = false;
         }
 
-        Boolean cuboidvalid = true;
+        Boolean cuboidvalid = false;
         if (lower.contains(" in ")) {
-            dList cuboids = new dList();
+            String notable = "cu@"+lower.substring(lower.lastIndexOf("in ") + 3);
             for (dCuboid cuboid: dCuboid.getNotableCuboidsContaining(location)) {
-                cuboids.add(cuboid.identify());
-            }
-
-            if (!cuboids.contains(lower.substring(lower.lastIndexOf("in ") + 3))) {
-                cuboidvalid = false;
+                if(cuboid.identify().toLowerCase().matches(notable)) {
+                    cuboidvalid = true;
+                    break;
+                }
             }
         }
 
@@ -80,7 +78,7 @@ public class BlockPhysicsScriptEvent extends ScriptEvent implements Listener {
 
     @Override
     public String getName() {
-        return "ChunkLoads";
+        return "BlockPhysics";
     }
 
     @Override
