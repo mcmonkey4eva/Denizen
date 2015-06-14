@@ -117,10 +117,8 @@ public class EntityDamagedScriptEvent extends ScriptEvent implements Listener {
             }
         }
         if (target.length() > 0) {
-            if (dEntity.matches(target)) {
-                if (!entity.matchesEntity(target)) {
-                    return false;
-                }
+            if (!entity.matchesEntity(target)) {
+                return false;
             }
         }
 

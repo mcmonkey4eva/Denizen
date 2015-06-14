@@ -104,11 +104,9 @@ public class EntityKilledScriptEvent extends ScriptEvent implements Listener {
             }
         }
         if (target.length() > 0) {
-            if (dEntity.matches(target)) {
                 if (!entity.matchesEntity(target)) {
                     return false;
                 }
-            }
         }
 
 
