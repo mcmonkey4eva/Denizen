@@ -64,8 +64,9 @@ public class EntityFormsBlock extends ScriptEvent implements Listener {
         if (!entity.matchesEntity(CoreUtilities.getXthArg(0, lower))) {
             return false;
         }
-        if (!material.identifySimpleNoIdentifier().equals("block")
-                || !material.identifySimpleNoIdentifier().equals(CoreUtilities.getXthArg(2, lower))) {
+        String mat = CoreUtilities.getXthArg(2, lower);
+        if (!mat.equals("block")
+                && !mat.equals(material.identifyNoIdentifier()) && !mat.equals(material.identifySimpleNoIdentifier())) {
             return false;
         }
         if (CoreUtilities.xthArgEquals(3, lower, "in")) {
@@ -83,7 +84,7 @@ public class EntityFormsBlock extends ScriptEvent implements Listener {
                 }
             }
             else {
-                dB.echoError("Invalid event 'IN ...' check [BlockPhysics]: '" + s + "' for " + scriptContainer.getName());
+                dB.echoError("Invalid event 'IN ...' check [" + getName() + "]: '" + s + "' for " + scriptContainer.getName());
                 return false;
             }
         }

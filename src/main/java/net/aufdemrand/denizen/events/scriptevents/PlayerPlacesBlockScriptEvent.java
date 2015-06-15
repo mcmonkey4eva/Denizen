@@ -28,10 +28,6 @@ public class PlayerPlacesBlockScriptEvent extends ScriptEvent implements Listene
     // player places block in <notable cuboid>
     // player places <material> in <notable cuboid>
     //
-    // @Warning
-    // This event does not catch "hanging", "painting", or "item_frame" blocks.
-    // See "on player places hanging"
-    //
     // @Cancellable true
     //
     // @Triggers when a player places a block.
@@ -67,7 +63,9 @@ public class PlayerPlacesBlockScriptEvent extends ScriptEvent implements Listene
         String lower = CoreUtilities.toLowerCase(s);
 
         String mat = CoreUtilities.getXthArg(2, lower);
-        if (!mat.equals("block") && !mat.equals(material.identifyNoIdentifier())) {
+
+        if (!mat.equals("block")
+                && !mat.equals(material.identifyNoIdentifier()) && !mat.equals(material.identifySimpleNoIdentifier())) {
             return false;
         }
         if (CoreUtilities.xthArgEquals(3, lower, "in")) {
@@ -85,7 +83,7 @@ public class PlayerPlacesBlockScriptEvent extends ScriptEvent implements Listene
                 }
             }
             else {
-                dB.echoError("Invalid event 'IN ...' check [BlockPhysics]: '" + s + "' for " + scriptContainer.getName());
+                dB.echoError("Invalid event 'IN ...' check [" + getName() + "]: '" + s + "' for " + scriptContainer.getName());
                 return false;
             }
         }

@@ -86,7 +86,7 @@ public class EntityInteractScriptEvent extends ScriptEvent implements Listener {
                 }
             }
             else {
-                dB.echoError("Invalid event 'IN ...' check [BlockPhysics]: '" + s + "' for " + scriptContainer.getName());
+                dB.echoError("Invalid event 'IN ...' check [" + getName() + "]: '" + s + "' for " + scriptContainer.getName());
                 return false;
             }
         }

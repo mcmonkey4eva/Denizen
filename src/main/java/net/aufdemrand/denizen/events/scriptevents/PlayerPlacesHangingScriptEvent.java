@@ -58,7 +58,7 @@ public class PlayerPlacesHangingScriptEvent extends ScriptEvent implements Liste
         String lower = CoreUtilities.toLowerCase(s);
         String hangCheck = CoreUtilities.getXthArg(2, lower);
         if (!hangCheck.equals("hanging")
-                && hanging.matchesEntity(hangCheck)){
+                && (!hanging.identifySimple().equals(hangCheck) && !hanging.identifySimpleType().equals(hangCheck))){
             return false;
         }
         String notable = null;
