@@ -95,13 +95,6 @@ public class EntityDamagedScriptEvent extends ScriptEvent implements Listener {
 
     @Override
     public boolean matches(ScriptContainer scriptContainer, String s) {
-        // Check for possibility of death first
-        if (entity.isValid() && entity.isLivingEntity()) {
-            if (final_damage.asDouble() >= entity.getLivingEntity().getHealth()) {
-                return false;
-            }
-        }
-
         String lower = CoreUtilities.toLowerCase(s);
         String cmd = CoreUtilities.getXthArg(1, lower);
         String attacker = cmd.equals("damages") ? CoreUtilities.getXthArg(0, lower): CoreUtilities.getXthArg(3, lower);
