@@ -20,7 +20,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class EntityBreaksHangingScriptEvent extends ScriptEvent implements Listener {
 
@@ -60,8 +62,9 @@ public class EntityBreaksHangingScriptEvent extends ScriptEvent implements Liste
     public boolean couldMatch(ScriptContainer scriptContainer, String s) {
         String lower = CoreUtilities.toLowerCase(s);
         String entName = CoreUtilities.getXthArg(0, lower);
+        List<String> types = Arrays.asList("entity", "player", "npc");
         return lower.contains("breaks hanging")
-                && (entName.equals("entity") || dEntity.matches(entName));
+                && (types.contains(entName) || dEntity.matches(entName));
     }
 
     @Override

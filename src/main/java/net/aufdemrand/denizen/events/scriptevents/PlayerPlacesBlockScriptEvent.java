@@ -27,8 +27,10 @@ public class PlayerPlacesBlockScriptEvent extends ScriptEvent implements Listene
     // player places <material> in notable cuboid
     // player places block in <notable cuboid>
     // player places <material> in <notable cuboid>
-    // NOTE: This event does not catch "hanging", "painting", or "item_frame" blocks.
-    //       See "on player places hanging"
+    //
+    // @Warning
+    // This event does not catch "hanging", "painting", or "item_frame" blocks.
+    // See "on player places hanging"
     //
     // @Cancellable true
     //
