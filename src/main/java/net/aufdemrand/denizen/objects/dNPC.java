@@ -1205,7 +1205,7 @@ public class dNPC implements dObject, Adjustable, InventoryHolder {
         // @tags
         // <n@npc.lookclose>
         // -->
-        if (mechanism.matches("lookclose") && mechanism.requireBoolean()) {
+        if ((mechanism.matches("set_lookclose") || mechanism.matches("lookclose")) && mechanism.requireBoolean()) {
             getLookCloseTrait().lookClose(value.asBoolean());
         }
 
