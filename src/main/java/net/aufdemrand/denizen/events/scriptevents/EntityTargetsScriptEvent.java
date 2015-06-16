@@ -76,7 +76,7 @@ public class EntityTargetsScriptEvent extends ScriptEvent implements Listener {
             return false;
         }
         String victim = CoreUtilities.getXthArg(2, lower);
-        if (!victim.equals("in") || !victim.equals("because")) {
+        if (!victim.equals("in") || !victim.equals("because") || target != null) {
             if (!target.matchesEntity(victim)) {
                 return false;
             }
@@ -85,7 +85,6 @@ public class EntityTargetsScriptEvent extends ScriptEvent implements Listener {
         if (pos > 4) {
             Integer end = lower.indexOf(" ", pos) < 0 ? lower.length(): lower.indexOf(" ", pos);
             String it = lower.substring(pos, end);
-            dB.log("Notable: "+it);
             if (dCuboid.matches(it)) {
                 dCuboid cuboid = dCuboid.valueOf(it);
                 if (!cuboid.isInsideCuboid(location)) {
@@ -148,7 +147,9 @@ public class EntityTargetsScriptEvent extends ScriptEvent implements Listener {
         HashMap<String, dObject> context = super.getContext();
         context.put("entity", entity);
         context.put("reason", reason);
-        context.put("target", target);
+        if (target != null) {
+            context.put("target", target);
+        }
         context.put("cuboids", cuboids);
         return context;
     }
@@ -157,7 +158,7 @@ public class EntityTargetsScriptEvent extends ScriptEvent implements Listener {
     public void onEntityTargets(EntityTargetEvent event) {
         entity = new dEntity(event.getEntity());
         reason = new Element(event.getReason().toString());
-        target = new dEntity(event.getTarget());
+        target = event.getTarget() != null ? new dEntity(event.getTarget()): null;
         location = new dLocation(event.getEntity().getLocation());
         cuboids = new dList();
         for (dCuboid cuboid: dCuboid.getNotableCuboidsContaining(location)) {
