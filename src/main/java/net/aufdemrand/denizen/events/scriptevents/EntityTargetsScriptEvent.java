@@ -76,7 +76,7 @@ public class EntityTargetsScriptEvent extends ScriptEvent implements Listener {
             return false;
         }
         String victim = CoreUtilities.getXthArg(2, lower);
-        if (!victim.equals("in") || !victim.equals("because") || target != null) {
+        if (!victim.equals("in") && !victim.equals("because") && target != null && victim.length() > 0) {
             if (!target.matchesEntity(victim)) {
                 return false;
             }
