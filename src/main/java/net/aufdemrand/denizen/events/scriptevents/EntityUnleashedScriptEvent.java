@@ -2,8 +2,6 @@ package net.aufdemrand.denizen.events.scriptevents;
 
 import net.aufdemrand.denizen.BukkitScriptEntryData;
 import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizen.objects.dNPC;
-import net.aufdemrand.denizen.objects.dPlayer;
 import net.aufdemrand.denizen.utilities.DenizenAPI;
 import net.aufdemrand.denizencore.events.ScriptEvent;
 import net.aufdemrand.denizencore.objects.dObject;
@@ -20,7 +18,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class EntityTamesScriptEvent extends ScriptEvent implements Listener {
+public class EntityUnleashedScriptEvent extends ScriptEvent implements Listener {
 
     // <--[event]
     // @Events
@@ -38,41 +36,28 @@ public class EntityTamesScriptEvent extends ScriptEvent implements Listener {
     //
     // -->
 
-    public EntityTamesScriptEvent() {
+    public EntityUnleashedScriptEvent() {
         instance = this;
     }
-    public static EntityTamesScriptEvent instance;
+    public static EntityUnleashedScriptEvent instance;
     public dEntity entity;
-    private String cmd;
     public EntityTameEvent event;
 
     @Override
     public boolean couldMatch(ScriptContainer scriptContainer, String s) {
         String lower = CoreUtilities.toLowerCase(s);
-        cmd = CoreUtilities.getXthArg(1, lower);
+        String cmd = CoreUtilities.getXthArg(1, lower);
         String entOne = CoreUtilities.getXthArg(0, lower);
         List<String> types = Arrays.asList("entity", "player", "npc");
         return (types.contains(entOne) || dEntity.matches(entOne))
-                && (cmd.equals("tames") || cmd.equals("tamed"));
+                && cmd.equals("tames");
     }
 
     @Override
     public boolean matches(ScriptContainer scriptContainer, String s) {
-        String lower = CoreUtilities.toLowerCase(s);
-        cmd = CoreUtilities.getXthArg(1, lower);
-        String entOne = CoreUtilities.getXthArg(0, lower);
-        String entTwo = CoreUtilities.getXthArg(2, lower);
+        String target = CoreUtilities.getXthArg(0,CoreUtilities.toLowerCase(s));
         List<String> types = Arrays.asList("entity", "player", "npc");
-
-        if (cmd.equals("tamed") && (!types.contains(entOne) || !entity.matchesEntity(entOne))) {
-            return false;
-        }
-        if (cmd.equals("tames")) {
-            if (!types.contains(entTwo) || !entity.matchesEntity(entTwo)) {
-                return false;
-            }
-        }
-        return true;
+        return (types.contains(target) || entity.matchesEntity(target));
     }
 
     @Override
@@ -97,17 +82,8 @@ public class EntityTamesScriptEvent extends ScriptEvent implements Listener {
 
     @Override
     public ScriptEntryData getScriptEntryData() {
-        dPlayer player = null;
-        dNPC npc = null;
-        // TODO This needs to be fixed, owner is mostly to be a player, not the entity itself.
-        if (entity.isCitizensNPC()) {
-            npc = entity.getDenizenNPC();
-        }
-        else if (entity.isPlayer()) {
-            player = entity.getDenizenPlayer();
-        }
-
-        return new BukkitScriptEntryData(player, npc);
+        return new BukkitScriptEntryData(entity.isPlayer() ? dEntity.getPlayerFrom(event.getEntity()): null,
+                entity.isCitizensNPC() ? dEntity.getNPCFrom(event.getEntity()): null);
     }
 
     @Override
