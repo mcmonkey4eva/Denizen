@@ -17,7 +17,7 @@ import org.bukkit.event.block.EntityBlockFormEvent;
 
 import java.util.HashMap;
 
-public class EntityFormsBlock extends ScriptEvent implements Listener {
+public class EntityFormsBlockScriptEvent extends ScriptEvent implements Listener {
 
     // <--[event]
     // @Events
@@ -38,10 +38,10 @@ public class EntityFormsBlock extends ScriptEvent implements Listener {
     //
     // -->
 
-    public EntityFormsBlock() {
+    public EntityFormsBlockScriptEvent() {
         instance = this;
     }
-    public static EntityFormsBlock instance;
+    public static EntityFormsBlockScriptEvent instance;
     public dMaterial material;
     public dLocation location;
     public dEntity entity;
@@ -94,7 +94,7 @@ public class EntityFormsBlock extends ScriptEvent implements Listener {
 
     @Override
     public String getName() {
-        return "EntityFormsBlock";
+        return "EntityFormsBlockScriptEvent";
     }
 
     @Override
