@@ -12,11 +12,9 @@ import net.aufdemrand.denizencore.events.OldEventManager;
 import net.aufdemrand.denizen.objects.*;
 import net.aufdemrand.denizencore.objects.*;
 import net.aufdemrand.denizen.objects.notable.NotableManager;
-import net.aufdemrand.denizen.utilities.Conversion;
 import net.aufdemrand.denizen.utilities.DenizenAPI;
 import net.aufdemrand.denizen.utilities.ScoreboardHelper;
 import net.aufdemrand.denizen.utilities.debugging.dB;
-import net.aufdemrand.denizen.utilities.entity.Position;
 import net.aufdemrand.denizencore.objects.aH.Argument;
 
 import org.bukkit.*;
