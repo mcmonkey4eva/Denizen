@@ -911,8 +911,6 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Usage
         // Use to trigger multiple custom events with context
         // - event "player triggers custom event|player causes event" context:event|custom|npc|<player.selected_npc>
-        // @Usage
-        // TODO: Document command details
         // -->
         registerCoreMember(EventCommand.class,
                 "EVENT", "event [<event name>|...] (context:<name>|<object>|...)", 1);
