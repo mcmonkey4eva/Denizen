@@ -648,11 +648,20 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Author aufdemrand, mcmonkey
         // @Group world
         // @Description
-        // TODO: Document Command Details
+        // This command creates a new minecraft world with the specified name.
+        // TODO: Document Command Details (generator)
+        // It accepts a world type which can be specified with 'worldtype:'
+        // Recognised world type are DEFAULT (creates a normal world), FLAT (creates a world with flat terrain),
+        // LARGEBIOMES (creates a normal world with 16x larger biomes) and AMPLIFIED (creates a world with tall
+        // mountain-like terrain)
         // @Tags
         // <server.list_worlds>
         // @Usage
-        // TODO: Document Command Details
+        // Use to create a normal world with name survival
+        // - createworld survival
+        // @Usage
+        // Use to create a flat world with the name superflat
+        // - createworld superflat worldtype:FLAT
         // -->
         registerCoreMember(CreateWorldCommand.class,
                 "CREATEWORLD", "createworld [<name>] (g:<generator>) (worldtype:<type>)", 1);
