@@ -956,6 +956,12 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Usage
         // Use give give a player 1 level
         // - experience give level 1
+        // @Usage
+        // Use to give a player with the name Morphan1 10 experience points.
+        // - experience give 10 player<p@Morphan1>
+        // @Usage
+        // Use to take 1 level from a specific player
+        // - experience take level 1 player:<player>
         // -->
         registerCoreMember(ExperienceCommand.class,
                 "EXPERIENCE", "experience [{set}/give/take] (level) [<#>]", 2);
