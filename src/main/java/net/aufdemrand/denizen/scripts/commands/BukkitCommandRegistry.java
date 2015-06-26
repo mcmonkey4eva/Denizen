@@ -867,11 +867,17 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Author David Cernat
         // @Group entity
         // @Description
-        // TODO: Document Command Details
+        // This command equips an item or armor to an entity or list of entities to the specified slot.
+        // It allows or blocks to be equipped on an entity's head, the armor the npc is wearing or the item it is holding.
         // @Tags
         // <e@entity.equipment>
         // @Usage
-        // TODO: Document Command Details
+        // Use to equip a stone block on a player's head
+        // - equip <player> head:stone
+        // Use to equip a diamond sword into the hand of an npc named bob
+        // - equip <n@bob> hand:diamond_sword
+        // Use to equip an iron helmet on the head of all players on the server
+        // - equip <server.list_online_players> head:iron_helmet
         // -->
         registerCoreMember(EquipCommand.class,
                 "EQUIP", "equip (<entity>|...) (hand:<item>) (head:<item>) (chest:<item>) (legs:<item>) (boots:<item>)", 1);
