@@ -875,8 +875,10 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Usage
         // Use to equip a stone block on a player's head
         // - equip <player> head:stone
+        // @Usage
         // Use to equip a diamond sword into the hand of an npc named bob
         // - equip <n@bob> hand:diamond_sword
+        // @Usage
         // Use to equip an iron helmet on the head of all players on the server
         // - equip <server.list_online_players> head:iron_helmet
         // -->
