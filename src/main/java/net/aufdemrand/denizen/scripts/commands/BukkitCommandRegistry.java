@@ -951,7 +951,11 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // <p@player.xp.total>
         // <p@player.xp.level>
         // @Usage
-        // TODO: Document Command Details
+        // Use to set a player's experience to 0
+        // - experience 0
+        // @Usage
+        // Use give give a player 1 level
+        // - experience give level 1
         // -->
         registerCoreMember(ExperienceCommand.class,
                 "EXPERIENCE", "experience [{set}/give/take] (level) [<#>]", 2);
@@ -966,14 +970,30 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Author Alain Blanquet
         // @Group world
         // @Description
-        // TODO: Document Command Details
+        // This command causes an explosion at the location specified (or the npc / player location) which does not
+        // destroy blocks or set fire to blocks within the explosion. It accepts a 'fire' option which will set blocks
+        // on fire within the explosion radius. It also accepts a 'breakblocks' option which will cause the explosion to
+        // break blocks within the power radius as well as creating an animation and sounds.
         // Default power: 1
         // Default location: npc.location, or if no NPC link, player.location.
         // It is highly recommended you specify a location to be safe.
         // @Tags
         // TODO: Document Command Details
         // @Usage
-        // TODO: Document Command Details
+        // Use to create an explosion at a player's location
+        // - explode <player.location>
+
+        // @Usage
+        // Use to create an explosion with a power radius of 3 at a NPC's location
+        // - explode power:3 <npc.location>
+
+        // @Usage
+        // Use to create an explosion with a power radius of 3 at a 12,12,-1297 in a world called survival which breaks blocks
+        // - explode power:3 12,12,-1297,survival breakblocks
+
+        // @Usage
+        // Use to create an explosion at a player, which breaks blocks and causes fire with a power of 5
+        // - explode power:5 <player.location> fire breakblocks
         // -->
         registerCoreMember(ExplodeCommand.class,
                 "EXPLODE", "explode (power:<#.#>) (<location>) (fire) (breakblocks)", 0);
