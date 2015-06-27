@@ -4,6 +4,7 @@ import net.aufdemrand.denizen.BukkitScriptEntryData;
 import net.aufdemrand.denizen.objects.dEntity;
 import net.aufdemrand.denizen.objects.dItem;
 import net.aufdemrand.denizen.utilities.DenizenAPI;
+import net.aufdemrand.denizen.utilities.debugging.dB;
 import net.aufdemrand.denizencore.events.ScriptEvent;
 import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.aH;
@@ -121,11 +122,18 @@ public class EntityDamagedScriptEvent extends ScriptEvent implements Listener {
         }
         if (lower.contains(" with ") && iih != null) {
             int loc = lower.indexOf(" with ") + 6;
-            String item = lower.substring(loc);
+            int end = lower.indexOf(" ", loc);
+            if (end == -1) {
+                end = lower.length();
+            }
+            String item = lower.substring(loc, end);
             if (!item.equals(iih.identifyNoIdentifier())
-                    && !item.equals(iih.identifySimpleNoIdentifier())
-                    && !item.equals(iih.getScriptName().toLowerCase())) {
-                return false;
+                    && !item.equals(iih.identifySimpleNoIdentifier())) {
+                if (iih.getScriptName() != null) {
+                    if (!item.equals(iih.getScriptName().toLowerCase())) {
+                        return false;
+                    }
+                }
             }
         }
         return true;
