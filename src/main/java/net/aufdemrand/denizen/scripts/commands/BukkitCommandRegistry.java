@@ -1227,6 +1227,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Description
         // TODO: Document Command Details
         // @Tags
+        // <p@player.groups>
         // <p@player.in_group[<group>]>
         // <p@player.in_group[<group>].global>
         // <p@player.in_group[<group>].world>
