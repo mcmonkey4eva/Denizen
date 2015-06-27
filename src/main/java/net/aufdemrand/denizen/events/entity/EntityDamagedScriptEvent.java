@@ -122,7 +122,9 @@ public class EntityDamagedScriptEvent extends ScriptEvent implements Listener {
         if (lower.contains(" with ") && iih != null) {
             int loc = lower.indexOf(" with ") + 6;
             String item = lower.substring(loc);
-            if (!item.equals(iih.identifyNoIdentifier()) && item.equals(iih.identifySimpleNoIdentifier())) {
+            if (!item.equals(iih.identifyNoIdentifier())
+                    && !item.equals(iih.identifySimpleNoIdentifier())
+                    && !item.equals(iih.getScriptName().toLowerCase())) {
                 return false;
             }
         }
