@@ -2,7 +2,9 @@ package net.aufdemrand.denizen.events.entity;
 
 import net.aufdemrand.denizen.BukkitScriptEntryData;
 import net.aufdemrand.denizen.objects.dEntity;
+import net.aufdemrand.denizen.objects.dItem;
 import net.aufdemrand.denizen.utilities.DenizenAPI;
+import net.aufdemrand.denizen.utilities.debugging.dB;
 import net.aufdemrand.denizencore.events.ScriptEvent;
 import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.aH;
@@ -35,18 +37,16 @@ public class EntityDamagedScriptEvent extends ScriptEvent implements Listener {
 
     // <--[event]
     // @Events
-    // entity damaged
-    // entity damaged by <cause>
-    // <entity> damaged
-    // <entity> damaged by <cause>
-    // entity damages entity
-    // entity damages <entity>
-    // entity damaged by entity
-    // entity damaged by <entity>
-    // <entity> damages entity
-    // <entity> damaged by entity
-    // <entity> damaged by <entity>
-    // <entity> damages <entity>
+    // entity damaged (by <cause>) (with <item>)
+    // <entity> damaged (by <cause>) (with <item>)
+    // entity damages entity (with <item>)
+    // entity damages <entity> (with <item>)
+    // entity damaged by entity (with <item>)
+    // entity damaged by <entity> (with <item>)
+    // <entity> damages entity (with <item>)
+    // <entity> damaged by entity (with <item>)
+    // <entity> damaged by <entity> (with <item>)
+    // <entity> damages <entity> (with <item>)
     //
     // @Cancellable true
     //
@@ -78,6 +78,7 @@ public class EntityDamagedScriptEvent extends ScriptEvent implements Listener {
     public Element final_damage;
     public dEntity damager;
     public dEntity projectile;
+    private dItem iih;
     public EntityDamageEvent event;
 
     @Override
@@ -119,7 +120,22 @@ public class EntityDamagedScriptEvent extends ScriptEvent implements Listener {
                 return false;
             }
         }
-
+        if (lower.contains(" with ") && iih != null) {
+            int loc = lower.indexOf(" with ") + 6;
+            int end = lower.indexOf(" ", loc);
+            if (end == -1) {
+                end = lower.length();
+            }
+            String item = lower.substring(loc, end);
+            if (!item.equals(iih.identifyNoIdentifier())
+                    && !item.equals(iih.identifySimpleNoIdentifier())) {
+                if (iih.getScriptName() != null) {
+                    if (!item.equals(iih.getScriptName().toLowerCase())) {
+                        return false;
+                    }
+                }
+            }
+        }
         return true;
     }
 
@@ -179,6 +195,10 @@ public class EntityDamagedScriptEvent extends ScriptEvent implements Listener {
         damage = new Element(event.getDamage());
         final_damage = new Element(event.getFinalDamage());
         cause = new Element(event.getCause().name().toLowerCase());
+        iih = null;
+        if (entity.isLivingEntity()) {
+            iih = new dItem(entity.getLivingEntity().getEquipment().getItemInHand());
+        }
         damager = null;
         projectile = null;
         if (event instanceof EntityDamageByEntityEvent) {
