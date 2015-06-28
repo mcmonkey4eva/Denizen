@@ -1122,7 +1122,6 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // <n@npc.flag[<flag>]>
         // <server.flag[<flag>]>
         // @Usage
-        // @Usage
         // Use to create or set a flag on a player.
         // - flag player playstyle:agressive
         // @Usage
@@ -2733,7 +2732,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
 
         // <--[command]
         // @Name Time
-        // @Syntax time [{global}/player] [<time duration>] (<world>)
+        // @Syntax time ({global}/player) [<time duration>] (<world>)
         // @Required 1
         // @Stable TODO: Document Command Details
         // @Short Changes the current time in the minecraft world.
@@ -2760,7 +2759,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // TODO: Document Command Details
         // -->
         registerCoreMember(TimeCommand.class,
-                "TIME", "time [{global}/player] [<time duration>] (<world>)", 1);
+                "TIME", "time ({global}/player) [<time duration>] (<world>)", 1);
 
         // <--[command]
         // @Name Title
