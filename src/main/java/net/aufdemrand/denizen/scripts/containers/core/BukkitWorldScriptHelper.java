@@ -1135,50 +1135,6 @@ public class BukkitWorldScriptHelper implements Listener {
 
     // <--[event]
     // @Events
-    // player picks up item
-    // player picks up <item>
-    // player takes item
-    // player takes <item>
-    //
-    // @Triggers when a player picks up an item.
-    // @Context
-    // <context.item> returns the dItem.
-    // <context.entity> returns a dEntity of the item.
-    // <context.location> returns a dLocation of the item's location.
-    //
-    // @Determine
-    // "CANCELLED" to stop the item from picked up.
-    //
-    // -->
-    @EventHandler
-    public void playerPickupItem(PlayerPickupItemEvent event) {
-
-        if (dEntity.isNPC(event.getPlayer()))
-            return;
-
-        Map<String, dObject> context = new HashMap<String, dObject>();
-        dItem item = new dItem(event.getItem().getItemStack());
-        context.put("item", item);
-        context.put("entity", new dEntity(event.getItem()));
-        context.put("location", new dLocation(event.getItem().getLocation()));
-
-        List<String> events = new ArrayList<String>();
-
-        events.add("player picks up item");
-        events.add("player picks up " + item.identifySimple());
-        events.add("player picks up " + item.identifyMaterial());
-        events.add("player takes item");
-        events.add("player takes " + item.identifySimple());
-        events.add("player takes " + item.identifyMaterial());
-
-        String determination = doEvents(events, null, dEntity.getPlayerFrom(event.getPlayer()), context, true);
-
-        if (determination.toUpperCase().startsWith("CANCELLED"))
-            event.setCancelled(true);
-    }
-
-    // <--[event]
-    // @Events
     // player quits
     // player quit
     //
