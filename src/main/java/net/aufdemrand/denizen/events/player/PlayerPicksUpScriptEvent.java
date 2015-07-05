@@ -92,6 +92,8 @@ public class PlayerPicksUpScriptEvent extends BukkitScriptEvent implements Liste
     @Override
     public HashMap<String, dObject> getContext() {
         HashMap<String, dObject> context = super.getContext();
+        context.put("item", item);
+        context.put("entity", entity);
         context.put("location", location);
         return context;
     }
