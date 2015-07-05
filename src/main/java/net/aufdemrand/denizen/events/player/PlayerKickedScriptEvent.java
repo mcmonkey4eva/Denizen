@@ -49,7 +49,7 @@ public class PlayerKickedScriptEvent extends BukkitScriptEvent implements Listen
 
     @Override
     public boolean matches(ScriptContainer scriptContainer, String s) {
-        return !dEntity.isNPC(event.getPlayer());
+        return true;
     }
 
     @Override
@@ -90,6 +90,9 @@ public class PlayerKickedScriptEvent extends BukkitScriptEvent implements Listen
 
     @EventHandler
     public void onPlayerKicked(PlayerKickEvent event) {
+        if (dEntity.isNPC(event.getPlayer())) {
+            return;
+        }
         message = event.getLeaveMessage();
         this.event = event;
         cancelled = event.isCancelled();

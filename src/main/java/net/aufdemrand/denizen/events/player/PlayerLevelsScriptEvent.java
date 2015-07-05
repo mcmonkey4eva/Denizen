@@ -49,9 +49,6 @@ public class PlayerLevelsScriptEvent extends BukkitScriptEvent implements Listen
     @Override
     public boolean matches(ScriptContainer scriptContainer, String s) {
         String lower = CoreUtilities.toLowerCase(s);
-        if (dEntity.isNPC(event.getPlayer())) {
-            return false;
-        }
         List<String> data = CoreUtilities.split(lower, ' ');
         for (int index = 0; index < data.size(); index++) {
             if (data.get(index).equals("from")) {
@@ -104,6 +101,9 @@ public class PlayerLevelsScriptEvent extends BukkitScriptEvent implements Listen
 
     @EventHandler
     public void onPlayerLevels(PlayerLevelChangeEvent event) {
+        if (dEntity.isNPC(event.getPlayer())) {
+            return;
+        }
         level = event.getNewLevel();
         this.event = event;
         fire();

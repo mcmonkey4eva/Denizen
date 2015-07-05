@@ -53,7 +53,7 @@ public class PlayerJoinsScriptEvent extends BukkitScriptEvent implements Listene
 
     @Override
     public boolean matches(ScriptContainer scriptContainer, String s) {
-        return !dEntity.isNPC(event.getPlayer());
+        return true;
     }
 
     @Override
@@ -94,6 +94,9 @@ public class PlayerJoinsScriptEvent extends BukkitScriptEvent implements Listene
 
     @EventHandler
     public void onPlayerJoins(PlayerJoinEvent event) {
+        if (dEntity.isNPC(event.getPlayer())) {
+            return;
+        }
         message = event.getJoinMessage();
         Player player = event.getPlayer();
         this.event = event;

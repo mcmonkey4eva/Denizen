@@ -47,8 +47,7 @@ public class PlayerLeavesBedScriptEvent extends BukkitScriptEvent implements Lis
     @Override
     public boolean matches(ScriptContainer scriptContainer, String s) {
         String lower = CoreUtilities.toLowerCase(s);
-        return !(dEntity.isNPC(event.getPlayer()))
-                && runInCheck(scriptContainer, s, lower, location);
+        return runInCheck(scriptContainer, s, lower, location);
     }
 
     @Override
@@ -85,6 +84,9 @@ public class PlayerLeavesBedScriptEvent extends BukkitScriptEvent implements Lis
 
     @EventHandler
     public void onEntityLeavesBed(PlayerBedLeaveEvent event) {
+        if (dEntity.isNPC(event.getPlayer())) {
+            return;
+        }
         location = new dLocation(event.getBed().getLocation());
         this.event = event;
         fire();

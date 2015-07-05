@@ -56,9 +56,6 @@ public class PlayerFishesScriptEvent extends BukkitScriptEvent implements Listen
     @Override
     public boolean matches(ScriptContainer scriptContainer, String s) {
         String lower = CoreUtilities.toLowerCase(s);
-        if (dEntity.isNPC(event.getPlayer())) {
-            return false;
-        }
         String fish = CoreUtilities.getXthArg(2, lower);
         if (entity != null && fish.length() > 0) {
             if(!entity.matchesEntity(fish)) {
@@ -123,6 +120,9 @@ public class PlayerFishesScriptEvent extends BukkitScriptEvent implements Listen
 
     @EventHandler
     public void onPlayerFishes(PlayerFishEvent event) {
+        if (dEntity.isNPC(event.getPlayer())) {
+            return;
+        }
         hook = new dEntity(event.getHook());
         state = new Element(event.getState().name());
         item = null;

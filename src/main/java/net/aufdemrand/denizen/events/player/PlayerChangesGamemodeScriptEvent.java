@@ -92,6 +92,9 @@ public class PlayerChangesGamemodeScriptEvent extends BukkitScriptEvent implemen
 
     @EventHandler
     public void onPlayerChangesGamemode(PlayerGameModeChangeEvent event) {
+        if (dEntity.isNPC(event.getPlayer())) {
+            return;
+        }
         gamemode = new Element(event.getNewGameMode().name());
         cancelled = event.isCancelled();
         this.event = event;

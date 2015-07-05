@@ -50,10 +50,6 @@ public class PlayerLeashesScriptEvent extends BukkitScriptEvent implements Liste
     @Override
     public boolean matches(ScriptContainer scriptContainer, String s) {
         String lower = CoreUtilities.toLowerCase(s);
-
-        if (dEntity.isNPC(event.getPlayer())) {
-            return false;
-        }
         String target = CoreUtilities.getXthArg(2, lower);
         if (target.length() > 0) {
             if (!target.equals(CoreUtilities.toLowerCase(entity.getName()))) {
@@ -98,6 +94,9 @@ public class PlayerLeashesScriptEvent extends BukkitScriptEvent implements Liste
 
     @EventHandler
     public void onPlayerLeashes(PlayerLeashEntityEvent event) {
+        if (dEntity.isNPC(event.getPlayer())) {
+            return;
+        }
         holder = new dEntity(event.getPlayer());
         entity = new dEntity(event.getEntity());
         this.event = event;
