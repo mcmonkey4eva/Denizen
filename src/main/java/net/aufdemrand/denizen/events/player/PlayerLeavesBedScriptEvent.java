@@ -83,7 +83,7 @@ public class PlayerLeavesBedScriptEvent extends BukkitScriptEvent implements Lis
     }
 
     @EventHandler
-    public void onEntityLeavesBed(PlayerBedLeaveEvent event) {
+    public void onPlayerLeavesBed(PlayerBedLeaveEvent event) {
         if (dEntity.isNPC(event.getPlayer())) {
             return;
         }

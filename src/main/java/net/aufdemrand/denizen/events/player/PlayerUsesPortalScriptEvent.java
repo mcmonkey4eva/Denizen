@@ -93,7 +93,7 @@ public class PlayerUsesPortalScriptEvent extends ScriptEvent implements Listener
     }
 
     @EventHandler
-    public void onEntityEntersPortal(PlayerPortalEvent event) {
+    public void onPlayerEntersPortal(PlayerPortalEvent event) {
         if (dEntity.isNPC(event.getPlayer())) {
             return;
         }
