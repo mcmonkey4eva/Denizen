@@ -709,48 +709,6 @@ public class BukkitWorldScriptHelper implements Listener {
 
     // <--[event]
     // @Events
-    // player throws (hatching/non-hatching) egg
-    //
-    // @Triggers when a player throws an egg.
-    // @Context
-    // <context.egg> returns the dEntity of the egg.
-    // <context.is_hatching> returns an Element with a value of "true" if the egg will hatch and "false" otherwise.
-    //
-    // @Determine
-    // "CANCELLED" to stop the hatching.
-    // dEntity to set the type of the hatching entity.
-    //
-    // -->
-    @EventHandler
-    public void playerEggThrow(PlayerEggThrowEvent event) {
-
-        if (dEntity.isNPC(event.getPlayer()))
-            return;
-
-        Map<String, dObject> context = new HashMap<String, dObject>();
-        dEntity egg = new dEntity(event.getEgg());
-        context.put("egg", egg);
-        context.put("is_hatching", new Element(event.isHatching()));
-
-        List<String> events = new ArrayList<String>();
-        events.add("player throws egg");
-
-        if (event.isHatching()) events.add("player throws hatching egg");
-        else events.add("player throws non-hatching egg");
-
-        String determination = doEvents(events, null, dEntity.getPlayerFrom(event.getPlayer()), context);
-
-        if (determination.equalsIgnoreCase("CANCELLED")) {
-            event.setHatching(false);
-        }
-        else if (dEntity.matches(determination)) {
-            event.setHatching(true);
-            event.setHatchingType(dEntity.valueOf(determination).getBukkitEntityType());
-        }
-    }
-
-    // <--[event]
-    // @Events
     // player clicks block
     // player (<click type>) clicks (<material>) (with <item>) (in <area>)
     // player (<click type>) clicks block (with <item>)
