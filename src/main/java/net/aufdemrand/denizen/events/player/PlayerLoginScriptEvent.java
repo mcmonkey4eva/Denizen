@@ -3,9 +3,9 @@ package net.aufdemrand.denizen.events.player;
 import net.aufdemrand.denizen.BukkitScriptEntryData;
 import net.aufdemrand.denizen.events.BukkitScriptEvent;
 import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizen.objects.dItem;
-import net.aufdemrand.denizen.objects.dLocation;
+import net.aufdemrand.denizen.objects.dPlayer;
 import net.aufdemrand.denizen.utilities.DenizenAPI;
+import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.dObject;
 import net.aufdemrand.denizencore.scripts.ScriptEntryData;
 import net.aufdemrand.denizencore.scripts.containers.ScriptContainer;
@@ -13,52 +13,48 @@ import net.aufdemrand.denizencore.utilities.CoreUtilities;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 
 import java.util.HashMap;
 
-public class PlayerDropsItemScriptEvent extends BukkitScriptEvent implements Listener {
+public class PlayerLoginScriptEvent extends BukkitScriptEvent implements Listener {
 
     // <--[event]
     // @Events
-    // player drops item (in <area>)
-    // player drops <item> (in <area>)
+    // player logs in (for the first time)
+    // player (first) login
     //
-    // @Cancellable true
+    // @Cancellable false
     //
-    // @Triggers when a player drops an item.
+    // @Triggers when a player logs in to the server.
     //
     // @Context
-    // <context.item> returns the dItem.
-    // <context.entity> returns a dEntity of the item.
-    // <context.location> returns a dLocation of the item's location.
+    // <context.hostname> returns an Element of the player's hostname.
+    //
+    // @Determine
+    // "KICKED" to kick the player from the server.
+    // "KICKED Element(String)" to kick the player and specify a message to show.
     //
     // -->
 
-    public PlayerDropsItemScriptEvent() {
+    public PlayerLoginScriptEvent() {
         instance = this;
     }
 
-    public static PlayerDropsItemScriptEvent instance;
-    public dItem item;
-    public dEntity entity;
-    public dLocation location;
-    public PlayerDropItemEvent event;
+    public static PlayerLoginScriptEvent instance;
+    private String message;
+    private Boolean kicked;
+    public PlayerLoginEvent event;
 
     @Override
     public boolean couldMatch(ScriptContainer scriptContainer, String s) {
-        return CoreUtilities.toLowerCase(s).startsWith("player drops");
+        String lower = CoreUtilities.toLowerCase(s);
+        return lower.startsWith("player") && (lower.contains("logs in") || lower.contains("login"));
     }
 
     @Override
     public boolean matches(ScriptContainer scriptContainer, String s) {
-        String lower = CoreUtilities.toLowerCase(s);
-
-        String iCheck = CoreUtilities.getXthArg(2, lower);
-        if (!iCheck.equals("item") && !tryItem(item, iCheck)) {
-            return false;
-        }
-        if (!runInCheck(scriptContainer, s, lower, location)) {
+        if (CoreUtilities.toLowerCase(s).contains("first") && dPlayer.isNoted(event.getPlayer())) {
             return false;
         }
         return true;
@@ -66,7 +62,7 @@ public class PlayerDropsItemScriptEvent extends BukkitScriptEvent implements Lis
 
     @Override
     public String getName() {
-        return "PlayerDropsItem";
+        return "PlayerLogin";
     }
 
     @Override
@@ -76,11 +72,16 @@ public class PlayerDropsItemScriptEvent extends BukkitScriptEvent implements Lis
 
     @Override
     public void destroy() {
-        PlayerDropItemEvent.getHandlerList().unregister(this);
+        PlayerLoginEvent.getHandlerList().unregister(this);
     }
 
     @Override
     public boolean applyDetermination(ScriptContainer container, String determination) {
+        if (CoreUtilities.toLowerCase(determination).startsWith("kicked")) {
+            message = determination.length() > 7 ? determination.substring(7) : determination;
+            kicked = true;
+            return true;
+        }
         return super.applyDetermination(container, determination);
     }
 
@@ -92,23 +93,21 @@ public class PlayerDropsItemScriptEvent extends BukkitScriptEvent implements Lis
     @Override
     public HashMap<String, dObject> getContext() {
         HashMap<String, dObject> context = super.getContext();
-        context.put("item", item);
-        context.put("entity", entity);
-        context.put("location", location);
+        context.put("hostname", new Element(event.getAddress().toString()));
         return context;
     }
 
     @EventHandler
-    public void onPlayerDropsItem(PlayerDropItemEvent event) {
+    public void onPlayerLogin(PlayerLoginEvent event) {
         if (dEntity.isNPC(event.getPlayer())) {
             return;
         }
-        location = new dLocation(event.getPlayer().getLocation());
-        item = new dItem(event.getItemDrop().getItemStack());
-        entity = new dEntity(event.getItemDrop());
-        cancelled = event.isCancelled();
+        kicked = false;
         this.event = event;
         fire();
-        event.setCancelled(cancelled);
+        dPlayer.notePlayer(event.getPlayer());
+        if (kicked) {
+            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, message);
+        }
     }
 }
