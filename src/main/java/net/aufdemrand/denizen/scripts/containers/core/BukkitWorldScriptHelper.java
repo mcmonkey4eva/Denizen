@@ -5,7 +5,6 @@ import net.aufdemrand.denizen.Settings;
 import net.aufdemrand.denizen.objects.*;
 import net.aufdemrand.denizen.objects.notable.NotableManager;
 import net.aufdemrand.denizen.utilities.DenizenAPI;
-import net.aufdemrand.denizen.utilities.ScoreboardHelper;
 import net.aufdemrand.denizen.utilities.debugging.dB;
 import net.aufdemrand.denizencore.events.OldEventManager;
 import net.aufdemrand.denizencore.objects.*;
@@ -15,25 +14,19 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.PlayerLeashEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.vehicle.*;
-import org.bukkit.event.weather.LightningStrikeEvent;
-import org.bukkit.event.weather.WeatherChangeEvent;
-import org.bukkit.event.world.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.util.BlockIterator;
 
 import java.util.*;
@@ -979,46 +972,6 @@ public class BukkitWorldScriptHelper implements Listener {
 
         if (determination.toUpperCase().startsWith("CANCELLED"))
             event.setCancelled(true);
-    }
-
-    // <--[event]
-    // @Events
-    // player logs in (for the first time)
-    // player (first) login
-    //
-    // @Triggers when a player logs in to the server.
-    // @Context
-    // <context.hostname> returns an Element of the player's hostname.
-    //
-    // @Determine
-    // "KICKED" to kick the player from the server.
-    // "KICKED Element(String)" to kick the player and specify a message to show.
-    //
-    // -->
-    @EventHandler
-    public void playerLogin(PlayerLoginEvent event) {
-
-        if (dEntity.isNPC(event.getPlayer()))
-            return;
-
-        Map<String, dObject> context = new HashMap<String, dObject>();
-        List<String> events = new ArrayList<String>();
-        context.put("hostname", new Element(event.getHostname()));
-
-        if (!dPlayer.isNoted(event.getPlayer())) {
-            events.add("player logs in for the first time");
-            events.add("player first login");
-        }
-
-        dPlayer.notePlayer(event.getPlayer());
-
-        events.add("player logs in");
-        events.add("player login");
-        String determination = doEvents(events,
-                null, dEntity.getPlayerFrom(event.getPlayer()), context);
-
-        if (determination.toUpperCase().startsWith("KICKED"))
-            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, determination.length() > 7 ? determination.substring(7) : determination);
     }
 
     // <--[event]
