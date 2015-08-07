@@ -1448,12 +1448,12 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // TODO: Document Command Details
         // @Usage
         // Used to inject a task script:
-		// - inject s@taskscript
-		// Now the specified task script will be ran inside the existing queue.
-		// @Usage
-		// Used to inject a different path within the current script container:
-		// - inject locally path:other_path
-		// Now the other_path within the same script container will be ran inside the existing queue.
+        // - inject s@taskscript
+        // Now the specified task script will be ran inside the existing queue.
+        // @Usage
+        // Used to inject a different path within the current script container:
+        // - inject locally path:other_path
+        // Now the other_path within the same script container will be ran inside the existing queue.
         // -->
         registerCoreMember(InjectCommand.class,
                 "INJECT", "inject (locally) [<script>] (path:<name>) (instantly)", 1);
@@ -1473,7 +1473,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // TODO: Document Command Details
         // @Usage
         // To turn yourself invisible:
-		// - invisible <player> state:true
+        // - invisible <player> state:true
         // -->
         registerCoreMember(InvisibleCommand.class,
                 "INVISIBLE", "invisible [<entity>] (state:true/false/toggle)", 1);
@@ -1854,10 +1854,10 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // TODO: Document Command Details
         // @Usage
         // - narrate "<&c>Hello, stranger. You seem lonely!"
-		// This will narrate to the player linked with the queue.
-		// @Usage
-		// - narrate "<&6>A random chest appeared nearby!" targets:<context.location.find.players.within[50]>
-		// Will narrate the message to all players within 50 blocks from the context location.
+        // This will narrate to the player linked with the queue.
+        // @Usage
+        // - narrate "<&6>A random chest appeared nearby!" targets:<context.location.find.players.within[50]>
+        // Will narrate the message to all players within 50 blocks from the context location.
         // -->
         registerCoreMember(NarrateCommand.class,
                 "NARRATE", "narrate [\"<text>\"] (targets:<player>|...) (format:<name>)", 1);
@@ -1949,8 +1949,8 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // TODO: Document Command Details
         // @Usage
         // - playeffect effect:drip_lava <player.location> qty:50 offset:0.3
-		// Plays particle effects at the player location that almost look like blood!
-	    // @Usage
+        // Plays particle effects at the player location that almost look like blood!
+        // @Usage
         // - playeffect effect:red_dust qty:0 data:1 offset:<co@1,1,255.to_particle_offset>
         // Plays the effect with an RGB value specified. effects taking RGB input: RED_DUST, SPELL, INSTANT_SPELL
         // -->
