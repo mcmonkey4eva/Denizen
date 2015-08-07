@@ -1948,7 +1948,11 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Tags
         // TODO: Document Command Details
         // @Usage
-        // TODO: Document Command Details
+        // - playeffect effect:drip_lava <player.location> qty:50 offset:0.3
+		// Plays particle effects at the player location that almost look like blood!
+	    // @Usage
+        // - playeffect effect:red_dust qty:0 data:1 offset:<co@1,1,255.to_particle_offset>
+        // Plays the effect with an RGB value specified. effects taking RGB input: RED_DUST, SPELL, INSTANT_SPELL
         // -->
         registerCoreMember(PlayEffectCommand.class,
                 "PLAYEFFECT", "playeffect [<location>|...] [effect:<name>] (data:<#.#>) (visibility:<#.#>) (qty:<#>) (offset:<#.#>,<#.#>,<#.#>) (targets:<player>|...)", 2);
@@ -1968,7 +1972,10 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Tags
         // TODO: Document Command Details
         // @Usage
-        // TODO: Document Command Details
+        // - playsound <player> sound:click pitch:1.1
+        // Plays a click sound to the player only.
+        // - playsound <player.location> sound:successful_hit
+        // Plays a sound at the location of the player. Anyone nearby will hear it.
         // -->
         registerCoreMember(PlaySoundCommand.class,
                 "PLAYSOUND", "playsound [<location>|.../<player>|...] [sound:<name>] (volume:<#.#>) (pitch:<#.#>) (custom)", 2);
@@ -2163,7 +2170,8 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Tags
         // <e@entity.is_spawned>
         // @Usage
-        // TODO: Document Command Details
+        // - remove <player.location.find.entities.within[100].filter[is_mob.not]>
+        // Removes all entities within 100 blocks from the player, excluding players and NPCs.
         // -->
         registerCoreMember(RemoveCommand.class,
                 "REMOVE", "remove [<entity>|...] (<world>)", 1);
