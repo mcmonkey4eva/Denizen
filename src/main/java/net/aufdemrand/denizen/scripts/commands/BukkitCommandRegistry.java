@@ -1443,11 +1443,17 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Author aufdemrand
         // @Group core
         // @Description
-        // TODO: Document Command Details
+        // Used to add certain scripts into the current script queue.
         // @Tags
         // TODO: Document Command Details
         // @Usage
-        // TODO: Document Command Details
+        // Used to inject a task script:
+		// - inject s@taskscript
+		// Now the specified task script will be ran inside the existing queue.
+		// @Usage
+		// Used to inject a different path within the current script container:
+		// - inject locally path:other_path
+		// Now the other_path within the same script container will be ran inside the existing queue.
         // -->
         registerCoreMember(InjectCommand.class,
                 "INJECT", "inject (locally) [<script>] (path:<name>) (instantly)", 1);
@@ -1466,7 +1472,8 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Tags
         // TODO: Document Command Details
         // @Usage
-        // TODO: Document Command Details
+        // To turn yourself invisible:
+		// - invisible <player> state:true
         // -->
         registerCoreMember(InvisibleCommand.class,
                 "INVISIBLE", "invisible [<entity>] (state:true/false/toggle)", 1);
@@ -1846,7 +1853,11 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Tags
         // TODO: Document Command Details
         // @Usage
-        // TODO: Document Command Details
+        // - narrate "<&c>Hello, stranger. You seem lonely!"
+		// This will narrate to the player linked with the queue.
+		// @Usage
+		// - narrate "<&6>A random chest appeared nearby!" targets:<context.location.find.players.within[50]>
+		// Will narrate the message to all players within 50 blocks from the context location.
         // -->
         registerCoreMember(NarrateCommand.class,
                 "NARRATE", "narrate [\"<text>\"] (targets:<player>|...) (format:<name>)", 1);
