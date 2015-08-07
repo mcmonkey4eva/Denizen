@@ -1744,7 +1744,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // entitiy is specified, by default this will play for the attached player.
         //
         // Also, an example Midi song file has been included: "Denizen" by Black Coyote. He made it just for us!
-        // Check out more of his amazing work at: http://www.youtube.com/user/BlaCoyProductions
+        // Check out more of his work at: http://blackcoyote.be/
 
         // @Tags
         // None
