@@ -1055,14 +1055,7 @@ public class dPlayer implements dObject, Adjustable {
         // @attribute <p@player.last_played>
         // @returns Duration
         // @description
-        // returns the duration time of when the player was last seen.
-        // Works with offline players.
-        // -->
-        // <--[tag]
-        // @attribute <p@player.last_played.in_milliseconds>
-        // @returns Element(Number)
-        // @description
-        // returns the millisecond time of when the player was last seen.
+        // returns the date of the last player login in duration time.
         // Works with offline players.
         // -->
         if (attribute.startsWith("last_played")) {
