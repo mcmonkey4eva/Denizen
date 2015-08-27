@@ -29,7 +29,7 @@ public class VehicleDamagedScriptEvent extends BukkitScriptEvent implements List
     //
     // @Cancellable true
     //
-    // @Triggers when an entity enters a vehicle.
+    // @Triggers when a vehicle is damaged.
     //
     // @Context
     // <context.vehicle> returns the dEntity of the vehicle.
@@ -63,6 +63,9 @@ public class VehicleDamagedScriptEvent extends BukkitScriptEvent implements List
         String cmd = CoreUtilities.getXthArg(1, lower);
         String veh = cmd.equals("damaged") ? CoreUtilities.getXthArg(0, lower) : CoreUtilities.getXthArg(2, lower);
         String ent = cmd.equals("damages") ? CoreUtilities.getXthArg(0, lower) : "";
+        if (!vehicle.matchesEntity("vehicle")) {
+            return false;
+        }
         if (!vehicle.matchesEntity(veh)) {
             return false;
         }
