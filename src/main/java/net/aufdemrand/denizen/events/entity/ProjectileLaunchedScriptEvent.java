@@ -1,10 +1,12 @@
 package net.aufdemrand.denizen.events.entity;
 
+import net.aufdemrand.denizen.BukkitScriptEntryData;
 import net.aufdemrand.denizen.events.BukkitScriptEvent;
 import net.aufdemrand.denizen.objects.dEntity;
 import net.aufdemrand.denizen.objects.dLocation;
 import net.aufdemrand.denizen.utilities.DenizenAPI;
 import net.aufdemrand.denizencore.objects.dObject;
+import net.aufdemrand.denizencore.scripts.ScriptEntryData;
 import net.aufdemrand.denizencore.scripts.containers.ScriptContainer;
 import net.aufdemrand.denizencore.utilities.CoreUtilities;
 import org.bukkit.Bukkit;
@@ -28,6 +30,7 @@ public class ProjectileLaunchedScriptEvent extends BukkitScriptEvent implements 
     //
     // @Context
     // <context.entity> returns the projectile.
+    // <context.shooter> returns the projectile.
     //
     // -->
 
@@ -37,6 +40,7 @@ public class ProjectileLaunchedScriptEvent extends BukkitScriptEvent implements 
 
     public static ProjectileLaunchedScriptEvent instance;
     public dEntity entity;
+    public dEntity shooter;
     private dLocation location;
     public ProjectileLaunchEvent event;
 
@@ -83,9 +87,21 @@ public class ProjectileLaunchedScriptEvent extends BukkitScriptEvent implements 
     }
 
     @Override
+    public ScriptEntryData getScriptEntryData() {
+        if (entity != null) {
+            return new BukkitScriptEntryData(shooter.isPlayer() ? shooter.getDenizenPlayer() : null,
+                    shooter.isCitizensNPC() ? shooter.getDenizenNPC() : null);
+        }
+        return new BukkitScriptEntryData(null, null);
+    }
+
+    @Override
     public dObject getContext(String name) {
         if (name.equals("entity")) {
             return entity;
+        }
+        if (name.equals("shooter")) {
+            return shooter;
         }
         return super.getContext(name);
     }
@@ -95,6 +111,8 @@ public class ProjectileLaunchedScriptEvent extends BukkitScriptEvent implements 
         Entity projectile = event.getEntity();
         dEntity.rememberEntity(projectile);
         entity = new dEntity(projectile);
+        shooter = null;
+        shooter = entity.getShooter();
         location = new dLocation(event.getEntity().getLocation());
         cancelled = event.isCancelled();
         this.event = event;
