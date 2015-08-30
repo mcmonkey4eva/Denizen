@@ -20,16 +20,12 @@ public class VehicleDamagedScriptEvent extends BukkitScriptEvent implements List
     // @Events
     // vehicle damaged (in <area>)
     // <vehicle> damaged (in <area>)
-    // entity damages vehicle (in <area>)
-    // <entity> damages vehicle (in <area>)
-    // entity damages <vehicle> (in <area>)
-    // <entity> damages <vehicle> (in <area>)
     //
-    // @Regex ^on [^\s]+ damages [^\s]+( in ((notable (cuboid|ellipsoid))|([^\s]+)))?$
+    // @Regex ^on [^\s]+ damaged +( in ((notable (cuboid|ellipsoid))|([^\s]+)))?$
     //
     // @Cancellable true
     //
-    // @Triggers when an entity enters a vehicle.
+    // @Triggers when a vehicle is damaged.
     //
     // @Context
     // <context.vehicle> returns the dEntity of the vehicle.
@@ -54,22 +50,15 @@ public class VehicleDamagedScriptEvent extends BukkitScriptEvent implements List
     public boolean couldMatch(ScriptContainer scriptContainer, String s) {
         String lower = CoreUtilities.toLowerCase(s);
         String cmd = CoreUtilities.getXthArg(1, lower);
-        return cmd.equals("damaged") || cmd.equals("damages");
+        return cmd.equals("damaged");
     }
 
     @Override
     public boolean matches(ScriptContainer scriptContainer, String s) {
         String lower = CoreUtilities.toLowerCase(s);
-        String cmd = CoreUtilities.getXthArg(1, lower);
-        String veh = cmd.equals("damaged") ? CoreUtilities.getXthArg(0, lower) : CoreUtilities.getXthArg(2, lower);
-        String ent = cmd.equals("damages") ? CoreUtilities.getXthArg(0, lower) : "";
-        if (!vehicle.matchesEntity(veh)) {
+        String veh = CoreUtilities.getXthArg(0, lower);
+        if (!vehicle.matchesEntity("vehicle") || (!veh.equals("vehicle") && !vehicle.matchesEntity(veh))) {
             return false;
-        }
-        if (ent.length() > 0) {
-            if (entity == null || !entity.matchesEntity(ent)) {
-                return false;
-            }
         }
         return runInCheck(scriptContainer, s, lower, vehicle.getLocation());
     }
