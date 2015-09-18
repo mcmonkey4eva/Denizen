@@ -1443,11 +1443,17 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Author aufdemrand
         // @Group core
         // @Description
-        // TODO: Document Command Details
+        // Used to add certain scripts into the current script queue.
         // @Tags
         // TODO: Document Command Details
         // @Usage
-        // TODO: Document Command Details
+        // Used to inject a task script:
+        // - inject s@taskscript
+        // Now the specified task script will be ran inside the existing queue.
+        // @Usage
+        // Used to inject a different path within the current script container:
+        // - inject locally path:other_path
+        // Now the other_path within the same script container will be ran inside the existing queue.
         // -->
         registerCoreMember(InjectCommand.class,
                 "INJECT", "inject (locally) [<script>] (path:<name>) (instantly)", 1);
@@ -1466,7 +1472,8 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Tags
         // TODO: Document Command Details
         // @Usage
-        // TODO: Document Command Details
+        // To turn yourself invisible:
+        // - invisible <player> state:true
         // -->
         registerCoreMember(InvisibleCommand.class,
                 "INVISIBLE", "invisible [<entity>] (state:true/false/toggle)", 1);
@@ -1744,7 +1751,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // entitiy is specified, by default this will play for the attached player.
         //
         // Also, an example Midi song file has been included: "Denizen" by Black Coyote. He made it just for us!
-        // Check out more of his amazing work at: http://www.youtube.com/user/BlaCoyProductions
+        // Check out more of his work at: http://blackcoyote.be/
 
         // @Tags
         // None
@@ -1846,7 +1853,11 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Tags
         // TODO: Document Command Details
         // @Usage
-        // TODO: Document Command Details
+        // - narrate "<&c>Hello, stranger. You seem lonely!"
+        // This will narrate to the player linked with the queue.
+        // @Usage
+        // - narrate "<&6>A random chest appeared nearby!" targets:<context.location.find.players.within[50]>
+        // Will narrate the message to all players within 50 blocks from the context location.
         // -->
         registerCoreMember(NarrateCommand.class,
                 "NARRATE", "narrate [\"<text>\"] (targets:<player>|...) (format:<name>)", 1);
@@ -1937,7 +1948,11 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Tags
         // TODO: Document Command Details
         // @Usage
-        // TODO: Document Command Details
+        // - playeffect effect:drip_lava <player.location> qty:50 offset:0.3
+        // Plays particle effects at the player location that almost look like blood!
+        // @Usage
+        // - playeffect effect:red_dust qty:0 data:1 offset:<co@1,1,255.to_particle_offset>
+        // Plays the effect with an RGB value specified. effects taking RGB input: RED_DUST, SPELL, INSTANT_SPELL
         // -->
         registerCoreMember(PlayEffectCommand.class,
                 "PLAYEFFECT", "playeffect [<location>|...] [effect:<name>] (data:<#.#>) (visibility:<#.#>) (qty:<#>) (offset:<#.#>,<#.#>,<#.#>) (targets:<player>|...)", 2);
@@ -1957,7 +1972,10 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Tags
         // TODO: Document Command Details
         // @Usage
-        // TODO: Document Command Details
+        // - playsound <player> sound:click pitch:1.1
+        // Plays a click sound to the player only.
+        // - playsound <player.location> sound:successful_hit
+        // Plays a sound at the location of the player. Anyone nearby will hear it.
         // -->
         registerCoreMember(PlaySoundCommand.class,
                 "PLAYSOUND", "playsound [<location>|.../<player>|...] [sound:<name>] (volume:<#.#>) (pitch:<#.#>) (custom)", 2);
@@ -2152,7 +2170,8 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Tags
         // <e@entity.is_spawned>
         // @Usage
-        // TODO: Document Command Details
+        // - remove <player.location.find.entities.within[100].filter[is_mob.not]>
+        // Removes all entities within 100 blocks from the player, excluding players and NPCs.
         // -->
         registerCoreMember(RemoveCommand.class,
                 "REMOVE", "remove [<entity>|...] (<world>)", 1);
