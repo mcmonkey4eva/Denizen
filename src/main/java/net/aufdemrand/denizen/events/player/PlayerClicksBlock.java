@@ -26,8 +26,8 @@ public class PlayerClicksBlock extends BukkitScriptEvent implements Listener {
     // <--[event]
     // @Events
     // player clicks block (in <area>)
-    // player (<click type>) clicks (<material>) (with:<item>) (in <area>)
-    // player (<click type>) clicks block (with:<item>) (in <area>)
+    // player (<click type>) clicks (<material>) (at:<location>) (with <item>) (in <area>)
+    // player (<click type>) clicks block (at:<location>) (with <item>) (in <area>)
     // player stands on <pressure plate> (in <area>)
     //
     // @Regex //TODO
@@ -101,10 +101,6 @@ public class PlayerClicksBlock extends BukkitScriptEvent implements Listener {
         }
 
         // Check for older "with <item>" format
-        if (!runWithCheck(scriptContainer, s, lower, item)) {
-            return false;
-        }
-
         int index;
         List<String> data = CoreUtilities.split(lower, ' ');
         for (index = 0; index < data.size(); index++) {
@@ -120,6 +116,11 @@ public class PlayerClicksBlock extends BukkitScriptEvent implements Listener {
             }
         }
 
+        // Check for "at:location"
+        if (!runAtCheck(scriptContainer, s, lower, location)) {
+            return false;
+        }
+        // Check for "in <area>"
         return runInCheck(scriptContainer, s, lower, location);
     }
 
