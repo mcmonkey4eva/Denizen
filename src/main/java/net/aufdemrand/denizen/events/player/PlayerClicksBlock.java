@@ -26,24 +26,22 @@ public class PlayerClicksBlock extends BukkitScriptEvent implements Listener {
     // <--[event]
     // @Events
     // player clicks block (in <area>)
-    // player (<click type>) clicks (<material>) (at:<location>) (with <item>) (in <area>)
-    // player (<click type>) clicks block (at:<location>) (with <item>) (in <area>)
-    // player stands on <pressure plate> (in <area>)
+    // player (<click type>) clicks (<material>) (with <item>) (in <area>)
+    // player (<click type>) clicks block (with <item>) (in <area>)
     //
-    // @Regex //TODO
+    // @Regex ^on player [^\s]+clicks [^\s]+( with [^\s])+( in ((notable (cuboid|ellipsoid))|([^\s]+)))?$
+    //
+    // @Switch at <Location value>
     //
     // @Cancellable true
     //
-    // @Triggers when a player clicks on a block or stands on a pressure plate.
+    // @Triggers when a player clicks on a block.
     //
     // @Context
     // <context.item> returns the dItem the player is clicking with.
     // <context.location> returns the dLocation the player is clicking on.
     // <context.click_type> returns an Element of the click type.
     // <context.relative> returns a dLocation of the air block in front of the clicked block.
-    //
-    // @Determine
-    // dItem to change the item being consumed.
     //
     // -->
 
@@ -67,7 +65,7 @@ public class PlayerClicksBlock extends BukkitScriptEvent implements Listener {
         String arg1 = CoreUtilities.getXthArg(1, lower);
         String arg2 = CoreUtilities.getXthArg(2, lower);
         return lower.startsWith("player")
-                && (arg1.equals("clicks") || arg2.equals("clicks") || arg1.equals("stands"));
+                && (arg1.equals("clicks") || arg2.equals("clicks"));
     }
 
     @Override
@@ -87,15 +85,12 @@ public class PlayerClicksBlock extends BukkitScriptEvent implements Listener {
                 return false;
             }
         }
-
-        // Check for standing command
-        String cmd = (click ? arg2 : arg1);
-        if ((cmd.equals("stands") && !action.equals(Action.PHYSICAL)) || (cmd.equals("clicks") && action.equals(Action.PHYSICAL))) {
+        if (action.equals(Action.PHYSICAL)) {
             return false;
         }
 
-        // Check for block material for click/standing on
-        String blk = (click || cmd.equals("stands") ? arg3 : arg2);
+        // Check for block material for click on
+        String blk = (click ? arg3 : arg2);
         if (!tryMaterial(blockMaterial, blk)) {
             return false;
         }
@@ -141,7 +136,6 @@ public class PlayerClicksBlock extends BukkitScriptEvent implements Listener {
 
     @Override
     public boolean applyDetermination(ScriptContainer container, String determination) {
-
         return super.applyDetermination(container, determination);
     }
 
