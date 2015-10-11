@@ -532,10 +532,10 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // Use to temporarily load a chunk.
         // - chunkload ch@0,0,world duration:5m
         // @Usage
-        // Use to remove a loaded chunk.
+        // Use to stop loading a chunk.
         // - chunkload remove ch@0,0,world
         // @Usage
-        // Use to remove all manually loaded chunks.
+        // Use to stop loading any chunks.
         // - chunkload removeall
         // -->
         registerCoreMember(ChunkLoadCommand.class,
@@ -934,7 +934,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Syntax execute [as_player/as_op/as_npc/as_server] [<Bukkit command>] (silent)
         // @Required 2
         // @Stable stable
-        // @Short Executes an arbitrary server command as if the player, NPC, an op or the server typed it in.
+        // @Short Executes an arbitrary server command as if the player, NPC, or server typed it in.
         // @Author aufdemrand
         // @Group server
         // @Description
@@ -2178,15 +2178,18 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Group core
         // @Description
         // TODO: Document Command Details
+
         // @Tags
         // <entry[saveName].possibilities> returns an Element of the possibility count.
         // <entry[saveName].selected> returns an Element of the selected number.
+
         // @Usage
         // Use to choose randomly from the following commands
         // - random 3
         // - narrate "hi"
         // - narrate "hello"
         // - narrate "hey"
+
         // @Usage
         // Use to choose randomly from a braced set of commands
         // - random {
@@ -2363,8 +2366,10 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Stable unstable
         // @Short Creates, loads, pastes, and saves schematics (Sets of blocks).
         // @Author mcmonkey
+
         // @Description
         // Todo
+
         // @Tags
         // <schematic[<name>].height>
         // <schematic[<name>].length>
@@ -2372,24 +2377,31 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // <schematic[<name>].block[<location>]>
         // <schematic[<name>].origin>
         // <schematic[<name>].blocks>
+
         // @Usage
         // Use to create a new schematic from a cuboid and an origin location
         // - schematic create name:MySchematic cu@<player.location.sub[5,5,5]>|<player.location.add[5,5,5]> <player.location>
+
         // @Usage
         // Use to load a schematic
         // - schematic load name:MySchematic
+
         // @Usage
         // Use to unload a schematic
         // - schematic unload name:MySchematic
+
         // @Usage
         // Use to rotate a loaded schematic
         // - schematic rotate name:MySchematic angle:90
+
         // @Usage
         // Use to paste a loaded schematic
         // - schematic paste name:MySchematic <player.location> noair
+
         // @Usage
         // Use to save a created schematic
         // - schematic save name:MySchematic
+
         // -->
         registerCoreMember(SchematicCommand.class,
                 "SCHEMATIC", "schematic [create/load/unload/rotate/paste/save] [name:<name>] (angle:<#>) (<location>) (<cuboid>) (delayed)", 2);
@@ -2503,7 +2515,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // arguments, you will only remove those viewers from the scoreboard, not the entire scoreboard.
         //
         // @Tags
-        // None
+        // TODO: Add scoreboard tags
         // @Usage
         // Add a score for the player "mythan" to the default scoreboard under the objective "cookies" and let him see it
         // - scoreboard add obj:cookies lines:mythan score:1000 viewers:p@mythan
@@ -3157,10 +3169,13 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Author mcmonkey
         // @Group core
         // @Video /denizen/vids/Loops
+
         // @Description
         // TODO: Document Command Details
+
         // @Tags
         // <def[loop_index]> to get the number of loops so far.
+
         // @Usage
         // Use loop through a command several times.
         // - define value 1
