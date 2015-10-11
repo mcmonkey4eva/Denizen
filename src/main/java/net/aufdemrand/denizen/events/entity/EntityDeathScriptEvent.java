@@ -128,7 +128,7 @@ public class EntityDeathScriptEvent extends BukkitScriptEvent implements Listene
         else if (aH.Argument.valueOf(lower).matchesArgumentList(dItem.class)) {
             drops.clear();
             changed_drops = true;
-            dList drops_list = dList.valueOf(lower);
+            dList drops_list = dList.valueOf(determination);
             drops_list.filter(dItem.class);
             for (String drop : drops_list) {
                 dItem item = dItem.valueOf(drop);
