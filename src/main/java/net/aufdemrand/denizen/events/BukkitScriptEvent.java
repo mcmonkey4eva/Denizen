@@ -78,6 +78,22 @@ public abstract class BukkitScriptEvent extends ScriptEvent {
         return loc.getBlock().equals(location.getBlock());
     }
 
+    public boolean runAtCheck(ScriptContainer scriptContainer, String s, String lower, dLocation location) {
+        String at = getSwitch(lower, "at");
+        if (at != null) {
+            // Why would someone ever use this
+            if (at.equals("location")) {
+                return true;
+            }
+            // Check to see if value matches a location
+            dLocation loc = dLocation.valueOf(at);
+            if (loc == null || !tryLocation(location, at)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public boolean runWithCheck(ScriptContainer scriptContainer, String s, String lower, dItem held) {
         String with = getSwitch(s, "with");
         if (with != null) {
