@@ -1508,13 +1508,13 @@ public class dPlayer implements dObject, Adjustable {
         /////////////////
 
         // <--[tag]
-        // @attribute <p@player.allowed_flight>
+        // @attribute <p@player.can_fly>
         // @returns Element(Boolean)
         // @description
         // returns whether the player is allowed to fly.
         // @mechanism dPlayer.can_fly
         // -->
-        if (attribute.startsWith("allowed_flight"))
+        if (attribute.startsWith("can_fly") || attribute.startsWith("allowed_flight"))
             return new Element(getPlayerEntity().getAllowFlight())
                     .getAttribute(attribute.fulfill(1));
 
@@ -1847,7 +1847,7 @@ public class dPlayer implements dObject, Adjustable {
         // Sets the item on the player's cursor. This includes
         // chest interfaces, inventories, and hotbars, etc.
         // @tags
-        // <p@player.item_on_cursor>
+        // <player.item_on_cursor>
         // -->
         if (mechanism.matches("item_on_cursor") && mechanism.requireObject(dItem.class)) {
             getPlayerEntity().setItemOnCursor(value.asType(dItem.class).getItemStack());
@@ -1979,7 +1979,7 @@ public class dPlayer implements dObject, Adjustable {
         // @description
         // Sets whether the player is allowed to fly.
         // @tags
-        // <player.allowed_flight>
+        // <player.can_fly>
         // -->
         if (mechanism.matches("can_fly") && mechanism.requireBoolean()) {
             getPlayerEntity().setAllowFlight(value.asBoolean());
@@ -2005,7 +2005,7 @@ public class dPlayer implements dObject, Adjustable {
         // @description
         // Sets whether the player is flying.
         // @tags
-        // <p@player.is_flying>
+        // <player.is_flying>
         // -->
         if (mechanism.matches("flying") && mechanism.requireBoolean()) {
             getPlayerEntity().setFlying(value.asBoolean());
@@ -2019,8 +2019,8 @@ public class dPlayer implements dObject, Adjustable {
         // Sets the game mode of the player.
         // Valid gamemodes are survival, creative, adventure, and spectator.
         // @tags
-        // <p@player.gamemode>
-        // <p@player.gamemode.id>
+        // <player.gamemode>
+        // <player.gamemode.id>
         // -->
         if (mechanism.matches("gamemode") && mechanism.requireEnum(false, GameMode.values())) {
             setGameMode(GameMode.valueOf(value.asString().toUpperCase()));
