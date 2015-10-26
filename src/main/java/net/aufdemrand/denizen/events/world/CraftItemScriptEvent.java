@@ -136,7 +136,8 @@ public class CraftItemScriptEvent extends BukkitScriptEvent implements Listener 
         inventory = event.getInventory();
         Player holder = (Player) event.getView().getPlayer();
         dPlayer player = new dPlayer(holder);
-        location = player.getEyeLocation();
+        location = new dLocation(player.getEyeLocation().getBlock().getLocation());
+        dB.log("location: "+location);
         Recipe erecipe = event.getRecipe();
         item = erecipe.getResult() != null ? new dItem(erecipe.getResult()) : null;
         recipe = new dList();
