@@ -7,7 +7,6 @@ import net.aufdemrand.denizen.objects.dItem;
 import net.aufdemrand.denizen.objects.dLocation;
 import net.aufdemrand.denizen.objects.dMaterial;
 import net.aufdemrand.denizen.utilities.DenizenAPI;
-import net.aufdemrand.denizen.utilities.debugging.dB;
 import net.aufdemrand.denizencore.objects.dObject;
 import net.aufdemrand.denizencore.scripts.ScriptEntryData;
 import net.aufdemrand.denizencore.scripts.containers.ScriptContainer;
@@ -18,7 +17,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class PlayerStandsOn extends BukkitScriptEvent implements Listener {
+public class PlayerStandsOnScriptEvent extends BukkitScriptEvent implements Listener {
 
     // <--[event]
     // @Events
@@ -35,11 +34,11 @@ public class PlayerStandsOn extends BukkitScriptEvent implements Listener {
     //
     // -->
 
-    public PlayerStandsOn() {
+    public PlayerStandsOnScriptEvent() {
         instance = this;
     }
 
-    public static PlayerStandsOn instance;
+    public static PlayerStandsOnScriptEvent instance;
 
     public dItem item;
     public dLocation location;
@@ -67,7 +66,7 @@ public class PlayerStandsOn extends BukkitScriptEvent implements Listener {
 
     @Override
     public String getName() {
-        return "PlayerStandsOn";
+        return "PlayerStandsOnScriptEvent";
     }
 
     @Override

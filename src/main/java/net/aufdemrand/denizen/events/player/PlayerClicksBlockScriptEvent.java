@@ -21,7 +21,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.List;
 
-public class PlayerClicksBlock extends BukkitScriptEvent implements Listener {
+public class PlayerClicksBlockScriptEvent extends BukkitScriptEvent implements Listener {
 
     // <--[event]
     // @Events
@@ -45,11 +45,11 @@ public class PlayerClicksBlock extends BukkitScriptEvent implements Listener {
     //
     // -->
 
-    public PlayerClicksBlock() {
+    public PlayerClicksBlockScriptEvent() {
         instance = this;
     }
 
-    public static PlayerClicksBlock instance;
+    public static PlayerClicksBlockScriptEvent instance;
 
     public dItem item;
     public dLocation location;
@@ -121,7 +121,7 @@ public class PlayerClicksBlock extends BukkitScriptEvent implements Listener {
 
     @Override
     public String getName() {
-        return "PlayerClicksBlock";
+        return "PlayerClicksBlockScriptEvent";
     }
 
     @Override
