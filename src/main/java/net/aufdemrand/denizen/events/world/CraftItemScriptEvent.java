@@ -64,7 +64,6 @@ public class CraftItemScriptEvent extends BukkitScriptEvent implements Listener 
     public boolean couldMatch(ScriptContainer scriptContainer, String s) {
         String lower = CoreUtilities.toLowerCase(s);
         String cmd = CoreUtilities.getXthArg(1, lower);
-        dB.log("Adding in hanlders for CraftItem");
         return cmd.equals("crafted");
     }
 
@@ -72,8 +71,6 @@ public class CraftItemScriptEvent extends BukkitScriptEvent implements Listener 
     public boolean matches(ScriptContainer scriptContainer, String s) {
         String lower = CoreUtilities.toLowerCase(s);
         String cItem = CoreUtilities.getXthArg(0, lower);
-        dB.log("string: "+lower);
-        dB.log("Location: "+location);
 
         if (!tryItem(item, cItem)) {
             return false;
@@ -136,13 +133,13 @@ public class CraftItemScriptEvent extends BukkitScriptEvent implements Listener 
 
     @EventHandler(ignoreCancelled = true)
     public void onCraftItem(PrepareItemCraftEvent event) {
-        dB.log("<red>Entering CraftItem Event");
         inventory = event.getInventory();
         Player holder = (Player) event.getView().getPlayer();
-        location = ((dPlayer) holder).getEyeLocation();
-        dB.log("Location: "+location);
+        dPlayer player = new dPlayer(holder);
+        location = player.getEyeLocation();
         Recipe erecipe = event.getRecipe();
         item = erecipe.getResult() != null ? new dItem(erecipe.getResult()) : null;
+        recipe = new dList();
         for (ItemStack ritem : inventory.getMatrix()) {
             if (ritem != null)
                 recipe.add(new dItem(ritem).identify());
