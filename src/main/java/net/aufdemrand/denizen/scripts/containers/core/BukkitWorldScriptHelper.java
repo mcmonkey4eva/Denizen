@@ -15,13 +15,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.*;
@@ -137,65 +135,6 @@ public class BukkitWorldScriptHelper implements Listener {
     /////////////////////
     //   INVENTORY EVENTS
     /////////////////
-
-    // <--[event]
-    // @Events
-    // item crafted
-    // <item> crafted
-    // <material> crafted
-    //
-    // @Triggers when an item's recipe is correctly formed.
-    // @Context
-    // <context.inventory> returns the dInventory of the crafting inventory.
-    // <context.item> returns the dItem to be crafted.
-    // <context.recipe> returns a dList of dItems in the recipe.
-    //
-    // @Determine
-    // "CANCELLED" to stop the item from being crafted.
-    // dItem to change the item that is crafted.
-    //
-    // -->
-    @EventHandler
-    public void craftItemEvent(PrepareItemCraftEvent event) {
-        Map<String, dObject> context = new HashMap<String, dObject>();
-        List<String> events = new ArrayList<String>();
-        events.add("item crafted");
-
-        CraftingInventory inventory = event.getInventory();
-        context.put("inventory", new dInventory(inventory));
-
-        Recipe recipe = event.getRecipe();
-        dItem result = recipe.getResult() != null ? new dItem(recipe.getResult()) : null;
-        if (result != null) {
-            context.put("item", result);
-            events.add(result.identifySimple() + " crafted");
-            events.add(result.identifyMaterial() + " crafted");
-            events.add(result.identifySimpleNoIdentifier() + " crafted");
-            events.add(result.identifyMaterialNoIdentifier() + " crafted");
-        }
-
-        dList recipeList = new dList();
-        for (ItemStack item : inventory.getMatrix()) {
-            if (item != null)
-                recipeList.add(new dItem(item).identify());
-            else
-                recipeList.add(new dItem(Material.AIR).identify());
-        }
-        context.put("recipe", recipeList);
-
-        Player player = (Player) event.getView().getPlayer();
-
-        String determination = doEvents(events, null, dEntity.getPlayerFrom(player), context);
-
-        if (determination.toUpperCase().startsWith("CANCELLED")) {
-            inventory.setResult(null);
-            player.updateInventory();
-        }
-        else if (dItem.matches(determination)) {
-            inventory.setResult(dItem.valueOf(determination).getItemStack());
-            player.updateInventory();
-        }
-    }
 
     // <--[language]
     // @Name Inventory Actions
