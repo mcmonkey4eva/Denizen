@@ -29,7 +29,8 @@ public class PlayerPlacesBlockScriptEvent extends BukkitScriptEvent implements L
     //
     // @Context
     // <context.location> returns the dLocation of the block that was placed.
-    // <context.material> returns the dMaterial of the block that was placed.
+    // <context.old_material> returns the dMaterial of the original block (i.e. AIR, WATER, LAVA).
+    // <context.new_material> returns the dMaterial of the block that was placed.
     // <context.cuboids> DEPRECATED.
     // <context.item_in_hand> returns the dItem of the item in hand.
     //
@@ -41,7 +42,8 @@ public class PlayerPlacesBlockScriptEvent extends BukkitScriptEvent implements L
 
     public static PlayerPlacesBlockScriptEvent instance;
     public dLocation location;
-    public dMaterial material;
+    public dMaterial new_material;
+    public dMaterial old_material;
     public dList cuboids;
     public dItem item_in_hand;
     public BlockPlaceEvent event;
@@ -59,7 +61,7 @@ public class PlayerPlacesBlockScriptEvent extends BukkitScriptEvent implements L
         String lower = CoreUtilities.toLowerCase(s);
 
         String mat = CoreUtilities.getXthArg(2, lower);
-        if (!tryItem(item_in_hand, mat) && !tryMaterial(material, mat)) {
+        if (!tryItem(item_in_hand, mat) && !tryMaterial(new_material, mat)) {
             return false;
         }
 
@@ -100,8 +102,11 @@ public class PlayerPlacesBlockScriptEvent extends BukkitScriptEvent implements L
         if (name.equals("location")) {
             return location;
         }
-        else if (name.equals("material")) {
-            return material;
+        else if (name.equals("material") || (name.equals("new_material"))) {
+            return new_material;
+        }
+        else if (name.equals("old_material")) {
+            return old_material;
         }
         else if (name.equals("item_in_hand")) {
             return item_in_hand;
@@ -117,7 +122,8 @@ public class PlayerPlacesBlockScriptEvent extends BukkitScriptEvent implements L
         if (dEntity.isNPC(event.getPlayer())) {
             return;
         }
-        material = dMaterial.getMaterialFrom(event.getBlock().getType(), event.getBlock().getData());
+        new_material = dMaterial.getMaterialFrom(event.getBlock().getType(), event.getBlock().getData());
+        old_material = dMaterial.getMaterialFrom(event.getBlockReplacedState().getType(), event.getBlockReplacedState().getBlock().getData());
         location = new dLocation(event.getBlock().getLocation());
         cuboids = new dList();
         for (dCuboid cuboid : dCuboid.getNotableCuboidsContaining(location)) {
