@@ -1060,12 +1060,26 @@ public class dPlayer implements dObject, Adjustable {
         // -->
         if (attribute.startsWith("last_played")) {
             attribute = attribute.fulfill(1);
-            if (attribute.startsWith("milliseconds") || attribute.startsWith("in_milliseconds"))
-                return new Element(getOfflinePlayer().getLastPlayed())
-                        .getAttribute(attribute.fulfill(1));
-            else
-                return new Duration(getOfflinePlayer().getLastPlayed() / 50)
-                        .getAttribute(attribute);
+            if (attribute.startsWith("milliseconds") || attribute.startsWith("in_milliseconds")) {
+                if (isOnline()) {
+                    return new Element(System.currentTimeMillis())
+                            .getAttribute(attribute.fulfill(1));
+                }
+                else {
+                    return new Element(getOfflinePlayer().getLastPlayed())
+                            .getAttribute(attribute.fulfill(1));
+                }
+            }
+            else {
+                if (isOnline()) {
+                    return new Duration(System.currentTimeMillis() / 50)
+                            .getAttribute(attribute);
+                }
+                else {
+                    return new Duration(getOfflinePlayer().getLastPlayed() / 50)
+                            .getAttribute(attribute);
+                }
+            }
         }
 
         // <--[tag]
@@ -1661,6 +1675,7 @@ public class dPlayer implements dObject, Adjustable {
         // -->
         if (attribute.startsWith("statistic")) {
             Statistic statistic = Statistic.valueOf(attribute.getContext(1).toUpperCase());
+            if (statistic == null) return null;
 
             // <--[tag]
             // @attribute <p@player.statistic[<statistic>].qualifier[<material>/<entity>]>
@@ -1670,7 +1685,6 @@ public class dPlayer implements dObject, Adjustable {
             // specified qualifier, which can be either an entity or material.
             // -->
             if (attribute.getAttribute(2).startsWith("qualifier")) {
-                if (statistic == null) return null;
                 dObject obj = ObjectFetcher.pickObjectFor(attribute.getContext(2));
                 try {
                     if (obj instanceof dMaterial)
@@ -1687,8 +1701,6 @@ public class dPlayer implements dObject, Adjustable {
                     return null;
                 }
             }
-
-            if (statistic == null) return null;
             try {
                 return new Element(getPlayerEntity().getStatistic(statistic)).getAttribute(attribute.fulfill(1));
             }
