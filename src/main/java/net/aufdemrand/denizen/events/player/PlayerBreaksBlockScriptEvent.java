@@ -39,7 +39,6 @@ public class PlayerBreaksBlockScriptEvent extends BukkitScriptEvent implements L
     // @Context
     // <context.location> returns the dLocation the block was broken at.
     // <context.material> returns the dMaterial of the block that was broken.
-    // <context.old_material> returns the dMaterial of the block that was
     // <context.cuboids> DEPRECATED.
     // <context.xp> returns how much XP will be dropped.
     //
@@ -57,6 +56,7 @@ public class PlayerBreaksBlockScriptEvent extends BukkitScriptEvent implements L
     public static PlayerBreaksBlockScriptEvent instance;
     public dLocation location;
     public dMaterial material;
+    public dList cuboids;
     public Element xp;
     public BlockBreakEvent event;
 
@@ -146,10 +146,6 @@ public class PlayerBreaksBlockScriptEvent extends BukkitScriptEvent implements L
             return material;
         }
         else if (name.equals("cuboids")) { // NOTE: Deprecated in favor of context.location.cuboids
-            dList cuboids = new dList();
-            for (dCuboid cuboid : dCuboid.getNotableCuboidsContaining(location)) {
-                cuboids.add(cuboid.identifySimple());
-            }
             return cuboids;
         }
         else if (name.equals("xp")) {
@@ -165,6 +161,10 @@ public class PlayerBreaksBlockScriptEvent extends BukkitScriptEvent implements L
         }
         material = dMaterial.getMaterialFrom(event.getBlock().getType(), event.getBlock().getData());
         location = new dLocation(event.getBlock().getLocation());
+        cuboids = new dList();
+        for (dCuboid cuboid : dCuboid.getNotableCuboidsContaining(location)) {
+            cuboids.add(cuboid.identifySimple());
+        }
         cancelled = event.isCancelled();
         xp = new Element(event.getExpToDrop());
         this.event = event;
