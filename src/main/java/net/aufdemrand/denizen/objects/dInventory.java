@@ -1216,6 +1216,22 @@ public class dInventory implements dObject, Notable, Adjustable {
         }
 
         // <--[tag]
+        // @attribute <in@inventory.empty_slots>
+        // @returns Element(Integer)
+        // @description
+        // Returns the number of empty slots in an inventory.
+        // -->
+        if (attribute.startsWith("empty_slots")) {
+            Integer empty = 0;
+            for (ItemStack item : getContents()) {
+                if (item == null || item.getType() == Material.AIR) {
+                    empty = empty + 1;
+                }
+            }
+            return new Element(empty).getAttribute(attribute.fulfill(1));
+        }
+
+        // <--[tag]
         // @attribute <in@inventory.is_full>
         // @returns Element(Boolean)
         // @description
