@@ -585,6 +585,7 @@ public class Denizen extends JavaPlugin implements DenizenImplementation {
             ScriptEvent.registerScriptEvent(new ChatScriptEvent());
             ScriptEvent.registerScriptEvent(new ChunkLoadScriptEvent());
             ScriptEvent.registerScriptEvent(new ChunkUnloadScriptEvent());
+            ScriptEvent.registerScriptEvent(new CraftItemScriptEvent());
             ScriptEvent.registerScriptEvent(new CreeperPoweredScriptEvent());
             ScriptEvent.registerScriptEvent(new EntityBreaksHangingScriptEvent());
             ScriptEvent.registerScriptEvent(new EntityChangesBlockScriptEvent());
