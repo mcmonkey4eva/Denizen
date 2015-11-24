@@ -12,6 +12,7 @@ import net.aufdemrand.denizencore.scripts.ScriptEntryData;
 import net.aufdemrand.denizencore.scripts.containers.ScriptContainer;
 import net.aufdemrand.denizencore.utilities.CoreUtilities;
 import org.bukkit.Bukkit;
+import org.bukkit.block.Biome;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -37,8 +38,8 @@ public class BiomeEnterExitScriptEvent extends ScriptEvent implements Listener {
     // @Context
     // <context.from> returns the block location moved from.
     // <context.to> returns the block location moved to.
-    // <context.old_biome> returns an element of the biome being left.
-    // <context.new_biome> returns an element of the biome being entered.
+    // <context.old_biome> returns an element of the biome being left. (Deprecated: use <context.from.biome>)
+    // <context.new_biome> returns an element of the biome being entered. (Deprecated: use <context.to.biome>)
     //
     // -->
 
@@ -57,8 +58,20 @@ public class BiomeEnterExitScriptEvent extends ScriptEvent implements Listener {
     @Override
     public boolean couldMatch(ScriptContainer scriptContainer, String s) {
         String lower = CoreUtilities.toLowerCase(s);
-        return lower.startsWith("player enters")
-                || lower.startsWith("player exits");
+        if (!lower.startsWith("player enters") && !lower.startsWith("player exits")) {
+            return false;
+        }
+        String biome = CoreUtilities.getXthArg(2, lower).toUpperCase();
+        Boolean btest = biome.equals("BIOME");
+        if (!btest) {
+            for (Biome b: Biome.values()) {
+                if (biome.equals(b.toString())) {
+                    btest = true;
+                    break;
+                }
+            }
+        }
+        return btest;
     }
 
     @Override
@@ -68,9 +81,9 @@ public class BiomeEnterExitScriptEvent extends ScriptEvent implements Listener {
         String direction = lower.substring(lower.indexOf(" ") + 1, lower.lastIndexOf(" ") - 1);
 
         return !(old_biome.toString().toLowerCase().equals(new_biome.toString().toLowerCase()))
-                && (biome_test.equals("biome")
+                && ((biome_test.equals("biome")
                 || (direction.equals("enters") && biome_test.equals(new_biome.toString().toLowerCase()))
-                || (direction.equals("exits") && biome_test.equals(old_biome.toString().toLowerCase())));
+                || (direction.equals("exits") && biome_test.equals(old_biome.toString().toLowerCase()))));
     }
 
     @Override
