@@ -2284,13 +2284,24 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Author David Cernat
         // @Group player
         // @Description
-        // Used to add to, remove from or set the amount of oxygen of a player. Also allows for the changing of the
-        // player's maximum oxygen level.
+        // Used to add to, remove from or set the amount of current oxygen of a player. Also allows for the changing of the
+        // player's maximum oxygen level. Value is in ticks, so 30 equals to 1 bubble.
+        //
         // @Tags
         // <p@player.oxygen>
         // <p@player.oxygen.max>
+        //
         // @Usage
-        // TODO: Document Command Details
+        // Use to set the player's current oxygen level to 5 bubbles.
+        // - oxygen 150
+        //
+        // @Usage
+        // Use to add 1 bubble to the player's current oxygen level.
+        // - oxygen 30 mode:add
+        //
+        // @Usage
+        // Use to set the player's maximum oxygen level to 20 bubbles.
+        // - oxygen 600 type:maximum
         // -->
         registerCoreMember(OxygenCommand.class,
                 "OXYGEN", "oxygen [<#>] (type:{remaining}/maximum) (mode:{set}/add/remove)", 1);
@@ -2698,18 +2709,20 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // Alternatively, use "infinite" if you want the entity to spin forever.
         //
         // You can use "cancel" to prematurely stop the ongoing rotation (useful when set to infinite)
-        
+        //
         // @Tags
         // <e@entity.location.yaw>
         // <e@entity.location.pitch>
-        
+        //
         // @Usage
         // Use to rotate the player's yaw by 10 every tick for 3 seconds total
         // - rotate <player> duration:3s
         //
+        // @Usage
         // Use to rotate the player's pitch by 20 every 5 ticks for a second total
         // - rotate <player> yaw:0.0 pitch:20.0 frequency:5t
         //
+        // @Usage
         // Use to prematurely stop the player's rotation
         // - rotate cancel <player>
         // -->
