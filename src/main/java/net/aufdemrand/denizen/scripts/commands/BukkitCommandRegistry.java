@@ -2868,6 +2868,17 @@ public class BukkitCommandRegistry extends CommandRegistry {
         //   - narrate "hello"
         //   - narrate "hey"
         //   }
+        //
+        // @Usage
+        // Use to perform multiple commands randomly
+        // - random:
+        //   - repeat 1:
+        //     - narrate "Hello"
+        //     - narrate "How are you?"
+        // - random:
+        //   - repeat 1:
+        //     - narrate "Hey"
+        //     - narrate "It is a nice day."
         // -->
         registerCoreMember(RandomCommand.class,
                 "RANDOM", "random [<#>/<commands>]", 1);
