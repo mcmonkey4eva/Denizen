@@ -2837,7 +2837,18 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Group core
         //
         // @Description
-        // TODO: Document Command Details
+        // The random command uses Java's built-in random utility to
+        // determine which script command is chosen.
+        //
+        // Specifying a number as argument will get the next following
+        // scripts commands in the queue to be picked at random.
+        // Example "- random 3" will get the next 3 commands
+        // in the current queue and pick one of those 3 to run,
+        // the other 2 commands, that was in range, will be skipped.
+        //
+        // If braces are used for argument, then it is for every
+        // denizen command, in the brace, one of them will be picked
+        // and the rest, in the brace, will be skipped.
         //
         // @Tags
         // <entry[saveName].possibilities> returns an Element of the possibility count.
