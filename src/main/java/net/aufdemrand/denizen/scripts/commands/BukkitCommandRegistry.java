@@ -2863,11 +2863,11 @@ public class BukkitCommandRegistry extends CommandRegistry {
         //
         // @Usage
         // Use to choose randomly from a braced set of commands
-        // - random {
+        // - random:
         //   - narrate "hi"
         //   - narrate "hello"
         //   - narrate "hey"
-        //   }
+        //
         //
         // @Usage
         // Use to perform multiple commands randomly
