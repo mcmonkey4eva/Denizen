@@ -2875,7 +2875,6 @@ public class BukkitCommandRegistry extends CommandRegistry {
         //   - repeat 1:
         //     - narrate "Hello"
         //     - narrate "How are you?"
-        // - random:
         //   - repeat 1:
         //     - narrate "Hey"
         //     - narrate "It is a nice day."
