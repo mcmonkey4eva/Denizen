@@ -2853,8 +2853,8 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Group core
         //
         // @Description
-        // The random command uses Java's built-in random utility to
-        // determine which script command is chosen.
+        // The random command picks one of the following script command
+        // and skips all the other script commands that are in range.
         //
         // Specifying a number as argument will get the next following
         // scripts commands in the queue to be picked at random.
@@ -3454,13 +3454,32 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Group player
         //
         // @Description
-        // TODO: Document Command Details
+        // Shows a fake block for a player which is not affected on server-side.
+        // You can show a block for a player without anyone else can see it.
+        //
+        // If a player stands on a showfake block which is originally and air block,
+        // then the server will treat this as the player is flying/falling.
+        //
+        // If a player tries to interact with the block (usually by right-clicking or left-click),
+        // the server will then update the block for the player with the original block and the
+        // effect of showfake is lost.
+        //
+        // If no duration is specefied, then it assumes the default duration of 10 seconds.
         //
         // @Tags
         // TODO: Document Command Details
         //
         // @Usage
-        // TODO: Document Command Details
+        // Use to place a fake gold block at where the player is looking
+        // - showfake GOLD_BLOCK <player.location.cursor_on> players:<player> duration:1m
+        //
+        // @Usage
+        // Use to place a stone block right on player's face
+        // - showfake STONE <player.location.add[0,1,0]> players:<player> duration:5s
+        //
+        // @Usage
+        // Use to place fake lava (shows visual fire if standing in it)
+        // - showfake LAVA <player.location> players:<server.list_online_players> duration:5s
         // -->
         registerCoreMember(ShowFakeCommand.class,
                 "SHOWFAKE", "showfake [<material>|.../cancel] [<location>|...] (players:<player>|...) (d:<duration>{10s})", 2);
