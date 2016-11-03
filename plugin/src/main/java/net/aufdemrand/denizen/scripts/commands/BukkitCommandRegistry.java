@@ -2659,14 +2659,27 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Group world
         //
         // @Description
-        // TODO: Document Command Details
+        // Specifying a player or list of players will only play
+        // the sound for them for each of their current location.
+        // Sounds are played at locations and will not
+        // follow a player, if specified, when playing.
+        // If a location is specified, it will play the sound for
+        // all players if they are nearby that location specified.
+        // For a list of all sounds, check https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
         // Optionally, specify 'custom' to play a custom sound added by a resource pack, changing the sound string to something like 'random.click'
         //
         // @Tags
         // None
         //
         // @Usage
-        // TODO: Document Command Details
+        // Use to play a sound for a player
+        // - playsound <player> sound:ORB_PICKUP pitch:1
+        // @Usage
+        // Use to play a sound at a location for all nearby
+        // - playsound <player.location> sound:LEVEL_UP
+        // @Usage
+        // Use to notify all players with a sound
+        // - playsound <server.list_online_players> sound:LEVEL_UP volume:0.5 pitch:0.8
         // -->
         registerCoreMember(PlaySoundCommand.class,
                 "PLAYSOUND", "playsound [<location>|.../<player>|...] [sound:<name>] (volume:<#.#>) (pitch:<#.#>) (custom)", 2);
