@@ -69,6 +69,9 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // player. Accepts the 'format:<name>' argument, which will reformat the text according to the specified
         // format script.
         //
+        // @Tags
+        // None
+        //
         // @Usage
         // Use to send a message to the player's action bar.
         // - actionbar "Hey there <player.name>!"
