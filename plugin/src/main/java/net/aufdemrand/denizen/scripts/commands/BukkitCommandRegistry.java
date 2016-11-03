@@ -1691,6 +1691,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // <p@player.in_group[<group>]>
         // <p@player.in_group[<group>].global>
         // <p@player.in_group[<group>].world>
+        // <p@player.groups>
         //
         // @Usage
         // Use to add a player to the Admin group.
@@ -2410,7 +2411,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // This command is ~holdable.
         //
         // @Tags
-        // <l@location.block.material
+        // <l@location.block.material>
         //
         // @Usage
         // Use to change the block a player is looking at to stone.
@@ -3487,7 +3488,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // If no duration is specefied, then it assumes the default duration of 10 seconds.
         //
         // @Tags
-        // TODO: Document Command Details
+        // <l@location.block.material>
         //
         // @Usage
         // Use to place a fake gold block at where the player is looking
