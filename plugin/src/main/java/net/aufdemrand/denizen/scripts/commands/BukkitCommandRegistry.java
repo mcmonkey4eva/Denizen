@@ -3801,7 +3801,20 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // <e@entity.location>
         //
         // @Usage
-        // TODO: Document Command Details
+        // Use to teleport a player to the its cursor is pointing on
+        // - teleport <player> <player.location.cursor_on>
+        //
+        // @Usage
+        // Use to teleport a player high above
+        // - teleport <player> <player.location.add[0,200,0]>
+        //
+        // @Usage
+        // Use to teleport to a random online player
+        // - teleport <player> <server.list_online_players.random.location>
+        //
+        // @Usage
+        // Use to teleport all players to your location
+        // - teleport <server.list_online_players> <player.location>
         // -->
         registerCoreMember(TeleportCommand.class,
                 "TELEPORT", "teleport (<entity>|...) [<location>]", 1);
