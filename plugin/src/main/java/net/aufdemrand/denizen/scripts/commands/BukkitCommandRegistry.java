@@ -3773,14 +3773,28 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Group item
         //
         // @Description
-        // TODO: Document Command Details
+        // Takes items from a player or inventory.
+        // If the player or inventory does not have the item being taken, nothing happens.
+        // Specifying a slot will take the items from that specific slot.
+        // If an economy is registered, specifying money instead of a item will take money from the player's economy.
+        // If no quantity is specified, it is assmued one.
         //
         // @Tags
         // <p@player.item_in_hand>
         // <p@player.money>
         //
         // @Usage
-        // TODO: Document Command Details
+        // Use to take money from the player
+        // - take money quantity:10
+        // @Usage
+        // Use to take an arrow from the player's enderchest
+        // - take arrow from:<player.enderchest>
+        // @Usage
+        // Use to take the current holding item from the player's hand
+        // - take iteminhand
+        // @Usage
+        // Use to take 5 emeralds from the player's inventory
+        // - take emerald quantity:5
         // -->
         registerCoreMember(TakeCommand.class,
                 "TAKE", "take [money/iteminhand/bydisplay:<name>/bycover:<title>|<author>/slot:<#>/<item>|...] (qty:<#>) (from:<inventory>)", 1);
