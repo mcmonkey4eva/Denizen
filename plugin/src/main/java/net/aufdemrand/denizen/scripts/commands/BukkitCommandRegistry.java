@@ -1464,6 +1464,9 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Description
         // The flag command sets or modifies custom value storage database entries connected to
         // each player, each NPC, each entity, and the server.
+        // All the flag values are stored default in "plugins/denizen/saves.yml" file.
+        // For an alternative way of storing values, use either yaml (See <a href="/cmds/yaml">command/YAML</a>)
+        // or sql (See <a href="/cmds/SQL">command/SQL</a>)
         // TODO: Document Command Details
         //
         // @Tags
