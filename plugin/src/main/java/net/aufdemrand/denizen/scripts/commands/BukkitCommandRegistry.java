@@ -1465,8 +1465,8 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // The flag command sets or modifies custom value storage database entries connected to
         // each player, each NPC, each entity, and the server.
         // All the flag values are stored default in "plugins/denizen/saves.yml" file.
-        // For an alternative way of storing values, use either yaml (See <a href="/cmds/yaml">command/YAML</a>)
-        // or sql (See <a href="/cmds/SQL">command/SQL</a>)
+        // For an alternative way of storing values, use either yaml (See <@link command yaml>)
+        // or sql (See <@link command sql>)
         // TODO: Document Command Details
         //
         // @Tags
@@ -3108,7 +3108,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // Specifying context or definitions as argument
         // allows the transfer oof definitions to the new queue.
         // Definitions are not carried over if not specified.
-        // (See <a href="/cmds/Define">command/Define</a>)
+        // (See <@link command define>)
         //
         // Specifying a player argument will run the queue with a player attached
         // to that queue. The same can be done to attach an npc.
