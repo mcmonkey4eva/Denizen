@@ -2664,7 +2664,16 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // None
         //
         // @Usage
-        // TODO: Document Command Details
+        // Use to create a fake explosion.
+        // - playeffect <player.location> effect:HUGE_EXPLOSION visibility:500 quantity:10 offset:2.0
+        //
+        // @Usage
+        // Use to play a cloud effect.
+        // - playeffect <player.location.add[0,5,0]> effect:CLOUD quantity:20 data:1 offset:0.0
+        //
+        // @Usage
+        // Use to play some effects at spawn.
+        // - playeffect <w@world.spawn_location> effect:FIREWORKS_SPARK visibility:100 quantity:375 data:0 offset:50.0
         // -->
         registerCoreMember(PlayEffectCommand.class,
                 "PLAYEFFECT", "playeffect [<location>|...] [effect:<name>] (data:<#.#>) (visibility:<#.#>) (qty:<#>) (offset:<#.#>,<#.#>,<#.#>) (targets:<player>|...)", 2);
