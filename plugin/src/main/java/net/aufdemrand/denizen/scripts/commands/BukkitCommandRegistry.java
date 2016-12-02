@@ -2432,12 +2432,12 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // - modifyblock cu@<player.location>|<player.location.cursor_on> li@stone|dirt li@25|25
         //
         // @Usage
-        // Use to modify an area around naturally.
+        // Use to clear the area around the player and drop their respective items.
         // - modifyblock <player.location> air radius:5 naturally delayed
         //
         // @Usage
         // Use to modify the ground beneath the player's feet.
-        // - modifyblock cu@<player.location.add[1,0,1]>|<player.location.add[-1,-5,-1]> air
+        // - modifyblock cu@<player.location.add[2,-1,2]>|<player.location.add[-2,-1,-2]> WOOL,14
         // -->
         registerCoreMember(ModifyBlockCommand.class,
                 "MODIFYBLOCK", "modifyblock [<location>|.../<ellipsoid>/<cuboid>] [<material>|...] (radius:<#>) (height:<#>) (depth:<#>) (no_physics/naturally) (delayed) (<script>) (<percent chance>|...)", 2);
