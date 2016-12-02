@@ -1646,6 +1646,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
         //
         // @Usage
         // Use to give an item and place it in a specific slot if possible.
+        // - give WATCH slot:5
         // -->
         registerCoreMember(GiveCommand.class,
                 "GIVE", "give [money/xp/<item>|...] (qty:<#>) (engrave) (to:<inventory>) (slot:<#>)", 1);
