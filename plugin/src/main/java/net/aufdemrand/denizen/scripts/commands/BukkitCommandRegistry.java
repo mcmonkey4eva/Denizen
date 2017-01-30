@@ -2665,7 +2665,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
         //
         // @Usage
         // Use to create a fake explosion.
-        // - playeffect <player.location> effect:HUGE_EXPLOSION visibility:500 quantity:10 offset:2.0
+        // - playeffect <player.location> effect:EXPLOSION_HUGE visibility:500 quantity:10 offset:2.0
         //
         // @Usage
         // Use to play a cloud effect.
