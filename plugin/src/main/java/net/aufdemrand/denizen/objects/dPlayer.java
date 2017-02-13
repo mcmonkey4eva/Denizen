@@ -1493,6 +1493,40 @@ public class dPlayer implements dObject, Adjustable {
         }
 
         // <--[tag]
+        // @attribute <p@player.list_achievements>
+        // @returns dList(Element)
+        // @description
+        // Returns a list of all achievements the player has.
+        // For a list of all available achievements, see:
+        // <@link url https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Achievement.html>
+        // -->
+        if (attribute.startsWith("list_achievements")) {
+            dList achievements = new dList();
+            for (Achievement achievement : Achievement.values()) {
+                if (getPlayerEntity().hasAchievement(achievement)) {
+                    achievements.add(achievement.toString());
+                }
+            }
+            return achievements.getAttribute(attribute.fulfill(1));
+        }
+
+        // <--[tag]
+        // @attribute <p@player.has_achievement[<achievement>]>
+        // @returns Element(Boolean)
+        // @description
+        // Returns whether the player has the achievement or not.
+        // For a list of all available achievements, see:
+        // <@link url https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Achievement.html>
+        // -->
+        if (attribute.startsWith("has_achievement") && attribute.hasContext(1)) {
+            if (new Element(attribute.getContext(1)).matchesEnum(Achievement.values())) {
+                Achievement achievement = Achievement.valueOf(attribute.getContext(1).toUpperCase());
+                return new Element(getPlayerEntity().hasAchievement(achievement)).getAttribute(attribute.fulfill(1));
+            }
+            return Element.FALSE.getAttribute(attribute.fulfill(1));
+        }
+
+        // <--[tag]
         // @attribute <p@player.open_inventory>
         // @returns dInventory
         // @description
@@ -2238,7 +2272,6 @@ public class dPlayer implements dObject, Adjustable {
         // @tags
         // None
         // -->
-        // TODO: Player achievement tags.
         if (mechanism.matches("award_achievement") && mechanism.requireEnum(false, Achievement.values())) {
             getPlayerEntity().awardAchievement(Achievement.valueOf(value.asString().toUpperCase()));
         }
