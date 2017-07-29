@@ -1985,7 +1985,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // Places a cooldown on a material in a player's inventory.
         //
         // @Tags
-        // <player.item_cooldown[<material>]>
+        // <p@player.item_cooldown[<material>]>
         //
         // @Usage
         // Places a 1 second cooldown on using an ender pearl.
