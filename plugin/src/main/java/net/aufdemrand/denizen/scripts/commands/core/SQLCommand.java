@@ -73,6 +73,11 @@ public class SQLCommand extends AbstractCommand implements Holdable {
                 scriptEntry.addObject("username", arg.asElement());
             }
 
+            else if (!scriptEntry.hasObject("ssl")
+                    && arg.matchesPrefix("ssl")) {
+                scriptEntry.addObject("ssl", arg.asElement());
+            }
+
             else if (!scriptEntry.hasObject("password")
                     && arg.matchesPrefix("password")) {
                 scriptEntry.addObject("password", arg.asElement());
@@ -90,6 +95,10 @@ public class SQLCommand extends AbstractCommand implements Holdable {
         if (!scriptEntry.hasObject("action")) {
             throw new InvalidArgumentsException("Must specify an action!");
         }
+
+        if (!scriptEntry.hasObject("ssl")) {
+            scriptEntry.addObject("ssl", new Element("true"));
+        }
     }
 
     @Override
@@ -99,6 +108,7 @@ public class SQLCommand extends AbstractCommand implements Holdable {
         final Element server = scriptEntry.getElement("server");
         final Element username = scriptEntry.getElement("username");
         final Element password = scriptEntry.getElement("password");
+        final Element ssl = scriptEntry.getElement("ssl");
         final Element sqlID = scriptEntry.getElement("sqlid");
         final Element query = scriptEntry.getElement("query");
 
@@ -106,6 +116,7 @@ public class SQLCommand extends AbstractCommand implements Holdable {
                 + action.debug()
                 + (server != null ? server.debug() : "")
                 + (username != null ? username.debug() : "")
+                + (ssl != null ? ssl.debug() : "")
                 + (password != null ? aH.debugObj("password", "NotLogged") : "")
                 + (query != null ? query.debug() : ""));
 
@@ -128,6 +139,10 @@ public class SQLCommand extends AbstractCommand implements Holdable {
                     dB.echoError(scriptEntry.getResidingQueue(), "Must specify a password!");
                     return;
                 }
+                if (ssl == null) {
+                    dB.echoError(scriptEntry.getResidingQueue(), "Must specify if using SSL!");
+                    return;
+                }
                 if (connections.containsKey(sqlID.asString().toUpperCase())) {
                     dB.echoError(scriptEntry.getResidingQueue(), "Already connected to a server with ID '" + sqlID.asString() + "'!");
                     return;
@@ -140,7 +155,7 @@ public class SQLCommand extends AbstractCommand implements Holdable {
                             dB.echoDebug(scriptEntry, "Connecting to " + server.asString());
                         }
                         try {
-                            con = getConnection(username.asString(), password.asString(), server.asString());
+                            con = getConnection(username.asString(), password.asString(), server.asString(), ssl.asString());
                         }
                         catch (final Exception e) {
                             Bukkit.getScheduler().runTaskLater(DenizenAPI.getCurrentInstance(), new Runnable() {
@@ -315,10 +330,11 @@ public class SQLCommand extends AbstractCommand implements Holdable {
         }
     }
 
-    public Connection getConnection(String userName, String password, String server) throws SQLException {
+    public Connection getConnection(String userName, String password, String server, String ssl) throws SQLException {
         Properties connectionProps = new Properties();
         connectionProps.put("user", userName);
         connectionProps.put("password", password);
+        connectionProps.put("ssl", ssl);
         connectionProps.put("LoginTimeout", "7");
         return DriverManager.getConnection("jdbc:mysql://" + server, connectionProps);
     }
