@@ -807,14 +807,25 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Author aufdemrand, David Cernat
         // @Group world
         //
-        // @Description
-        // TODO: Document Command Details
+        // Copies a block and all its content. If its a chest, all its items inside are copied over as well.
+        // If a cuboid is specified; the location that the cuboid is copied to is the corner block as its origin.
+        // Use this to fill or move a chest along with its items.
+        // Specifying remove_original will remove the block that was copied.
         //
         // @Tags
         // <l@location.material>
         //
         // @Usage
-        // TODO: Document Command Details
+        // Use to copy a block from a location to another location.
+        // - copyblock l@20,70,25,world to:l@20,75,25,world
+        //
+        // @Usage
+        // Use to copy a block from a location to the player's cursor.
+        // - copyblock l@20,70,25,world to:<player.cursor_on>
+        //
+        // @Usage
+        // Use to move a block that the player is looking at.
+        // - copyblock <player.cursor_on> to:<player.location>
         // -->
         registerCoreMember(CopyBlockCommand.class,
                 "COPYBLOCK", "copyblock [<location>/<cuboid>] [to:<location>] (remove_original)", 1);
@@ -1290,13 +1301,13 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Group core
         //
         // @Description
-        // TODO: Document Command Details
+        // DEPRECATED, use flags instead!
         //
         // @Tags
-        // TODO: Document Command Details
+        // DEPRECATED, use flags instead!
         //
         // @Usage
-        // TODO: Document Command Details
+        // DEPRECATED, use flags instead!
         // -->
         registerCoreMember(FailCommand.class,
                 "FAIL", "fail (script:<name>)", 0);
@@ -1373,13 +1384,13 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Group core
         //
         // @Description
-        // TODO: Document Command Details
+        // DEPRECATED, use flags instead!
         //
         // @Tags
-        // TODO: Document Command Details
+        // DEPRECATED, use flags instead!
         //
         // @Usage
-        // TODO: Document Command Details
+        // DEPRECATED, use flags instead!
         // -->
         registerCoreMember(FinishCommand.class,
                 "FINISH", "finish (script:<name>)", 0);
@@ -1404,7 +1415,8 @@ public class BukkitCommandRegistry extends CommandRegistry {
         //
         // @Tags
         // <e@entity.firework_item> returns the firework item which was used to launch the firework.
-        // TODO: Document Command Details
+        // <i@item.is_firework> returns if the item is a firework.
+        // <i@item.firework> Returns the firework's property string as a list.
         //
         // @Usage
         // Use to launch a star firework which explodes yellow and fades to white afterwards at the player's location
@@ -2550,6 +2562,8 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Group core
         //
         // @Description
+        // Add or remove a notable object for that can be used to reference objects such as in events.
+        // Notable objects keep their properties when saved compared to saving data using flags etc.
         // TODO: Document Command Details
         //
         // @Tags
@@ -2570,6 +2584,10 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Usage
         // Use to note a location.
         // - note l@10,5,10,world as:mylocation
+        //
+        // @Usage
+        // Use to note a region with WorldEdit selection.
+        // - note <player.selected_region> as:mycuboid
         // -->
         registerCoreMember(NoteCommand.class,
                 "NOTE", "note [<Notable dObject>/remove] [as:<name>]", 2);
@@ -2681,7 +2699,12 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Group world
         //
         // @Description
-        // TODO: Document Command Details
+        // Allows the playing of particle effects anywhere without the need of the source it comes from originally.
+        // The particles you may use, can come from sources such as a potion effect or a portal/Enderman with their particles respectively.
+        // Some particles have different data which may include different behavior depending on the data. Default data is 0
+        // Specifying a visibility value changes the sight radius of the effect. For example if visibility is 15; Targeted players won't see it unless they are 15 blocks or closer.
+        // You can add a quantity value that allow multiple of the same effect played at the same time. If an offset is set, each particle will be played at a different location in the offset area.
+        // Everyone will see the particle effects unless a target has been specified.
         // See <@link language Particle Effects> for a list of valid effect names.
         //
         // @Tags
@@ -2893,13 +2916,19 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Group core
         //
         // @Description
+        // Allows queues to be modified during their run. It can also be used to modify other queues currently running
+        // Clearing a queue will remove it and not run any of the next commands in the queue.
+        // It is possible to pause a queue but it will try to finish its last command that was executed.
         // TODO: Document Command Details
         //
         // @Tags
         // <queue>
         // <queue.id>
         // <queue.size>
+        // <queue.list>
+        // <queue.stats>
         // <queue.exists[queue_id]>
+        // <s@script.list_queues>
         //
         // @Usage
         // Use to clear the current queue.
@@ -2997,7 +3026,12 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // <e@entity.is_spawned>
         //
         // @Usage
-        // TODO: Document Command Details
+        // Use to remove the entity the player is looking at.
+        // - remove <player.target>
+        //
+        // @Usage
+        // Use to remove all dropped items in the world called cookies.
+        // - remove <w@cookies.entities.filter[name.is[EQUALS].to[DROPPED_ITEM]]>
         // -->
         registerCoreMember(RemoveCommand.class,
                 "REMOVE", "remove [<entity>|...] (<world>)", 1);
@@ -3577,7 +3611,9 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Group world
         //
         // @Description
-        // TODO: Document Command Details
+        // Modifies a sign with text. Used to change text on a sign.
+        // If no sign is found, a sign will be placed at the location with the text.
+        // add a direction to change the direction of the
         // Specify 'automatic' as a type to use whatever sign type and direction is already placed there.
         // If there is not already a sign there, defaults to a sign_post.
         //
@@ -3585,7 +3621,17 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // <l@location.block.sign_contents>
         //
         // @Usage
-        // TODO: Document Command Details
+        // Use to edit some text on a sign
+        // - sign type:automatic "Hello|this is|some|text" <player.location>
+        //
+        // @Usage
+        // Use to show the time on a sign that points north
+        // - sign type:automatic "I point|North.|System Time<&co>|<util.date.time>" l@233,65,123 direction:n
+        //
+        // @Usage
+        // Use to force a sign to be a wall_sign if no sign is found.
+        // - sign type:wall_sign "Player<&co>|<player.name>|Online Players<&co>|<server.list_online_players.size>" l@233,65,123
+        //
         // -->
         registerCoreMember(SignCommand.class,
                 "SIGN", "sign (type:{automatic}/sign_post/wall_sign) [\"<line>|...\"] [<location>] (direction:n/s/e/w)", 1);
@@ -3651,7 +3697,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
 
         // <--[command]
         // @Name SQL
-        // @Syntax sql [id:<ID>] [disconnect/connect:<server> (username:<username>) (password:<password>)/query:<query>/update:<update>]
+        // @Syntax sql [id:<ID>] [disconnect/connect:<server> (username:<username>) (password:<password>)/query:<query>/update:<update>/ssl:<true/false>]
         // @Required 1
         // @Stable unstable
         // @Short Interacts with a MySQL server.
@@ -3669,6 +3715,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // SQL connections are not instant - they can take several seconds, or just never connect at all.
         // It is recommended you hold the connection command by doing "- ~sql ..." rather than just "- sql ..."
         // as this will delay the commands following the connect command until after the connection is established.
+        // Is it possible to change the SSL if using Secure Socket Layer Certificate. This is by default set to true if not specified.
         //
         // @Tags
         // <entry[saveName].result> returns a dList of all rows from a query or update command, of the form li@escaped_text/escaped_text|escaped_text/escaped_text
@@ -3681,6 +3728,10 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Usage
         // Use to connect to an SQL server with a UTF8 text encoding
         // - ~sql id:name connect:localhost:3306/test?characterEncoding=utf8 username:space password:space
+        //
+        // @Usage
+        // Use to connect to an SQL server with SSL option.
+        // - ~sql id:name connect:localhost:3306/test username:space password:space ssl:false
         //
         // @Usage
         // Use to update an SQL server.
@@ -4107,7 +4158,12 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Group entity
         //
         // @Description
-        // TODO: Document Command Details
+        // Makes a npc or an entity walk to a location.
+        // The entity may or may not exact be at the location when the command has finished executing.
+        // Specifying stop will make the entity stop at whatever walk it is currently doing, whenever it comes from the walk command, a plugin or on its own.
+        // Specifying a radius will make it walk to a random location inside the radius where the origin is the location specified.
+        // auto_range can be given to ignore the path range limit. Be warned that it may cost performance as it usually does if a path range is high.
+        // This command is ~holdable.
         //
         // @Tags
         // <n@npc.navigator.is_navigating>
@@ -4153,7 +4209,11 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Video /denizen/vids/Loops
         //
         // @Description
-        // TODO: Document Command Details
+        // Runs through a loop until the tag condition is false.
+        // Useful for loops to run endlessly or until a certain condition has changed.
+        // Be careful when using this command as it has the potential to get your server stuck if not used correctly.
+        // Make sure you least have a wait command or delay in the while loop unless you know what you are doing.
+        // The loop will be skipped if the tag is starting as false.
         //
         // @Tags
         // <def[loop_index]> to get the number of loops so far.
@@ -4167,7 +4227,24 @@ public class BukkitCommandRegistry extends CommandRegistry {
         //   }
         //
         // @Usage
-        // TODO: Document Command Details
+        // Use as a counter until removed again.
+        // - flag server Looping_Number:0
+        // - while <server.has_flag[Looping_Number]> {
+        //   - flag server Looping_Number:++
+        //   - announce "<server.flag[Looping_Number].round>"
+        //   - wait 1s
+        // }
+        //
+        // @Usage
+        // Use to stop the while command through the loop
+        // - define loop true
+        // - while <def[loop]> {
+        //   - if <server.has_flag[Stop_Looping]> {
+        //     - while stop
+        //   }
+        //   - wait 2t
+        // }
+        //
         // -->
         registerCoreMember(WhileCommand.class,
                 "WHILE", "while [stop/next/<comparison tag>] [<commands>]", 1);
