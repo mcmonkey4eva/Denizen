@@ -1301,13 +1301,13 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Group core
         //
         // @Description
-        // TODO: Document Command Details
+        // DEPRECATED, use flags instead!
         //
         // @Tags
-        // TODO: Document Command Details
+        // DEPRECATED, use flags instead!
         //
         // @Usage
-        // TODO: Document Command Details
+        // DEPRECATED, use flags instead!
         // -->
         registerCoreMember(FailCommand.class,
                 "FAIL", "fail (script:<name>)", 0);
@@ -1384,13 +1384,13 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Group core
         //
         // @Description
-        // TODO: Document Command Details
+        // DEPRECATED, use flags instead!
         //
         // @Tags
-        // TODO: Document Command Details
+        // DEPRECATED, use flags instead!
         //
         // @Usage
-        // TODO: Document Command Details
+        // DEPRECATED, use flags instead!
         // -->
         registerCoreMember(FinishCommand.class,
                 "FINISH", "finish (script:<name>)", 0);
@@ -1415,7 +1415,8 @@ public class BukkitCommandRegistry extends CommandRegistry {
         //
         // @Tags
         // <e@entity.firework_item> returns the firework item which was used to launch the firework.
-        // TODO: Document Command Details
+        // <i@item.is_firework> returns if the item is a firework.
+        // <i@item.firework> Returns the firework's property string as a list.
         //
         // @Usage
         // Use to launch a star firework which explodes yellow and fades to white afterwards at the player's location
@@ -2692,7 +2693,12 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Group world
         //
         // @Description
-        // TODO: Document Command Details
+        // Allows the playing of particle effects anywhere without the need of the source it comes from originally.
+        // The particles you may use, can come from sources such as a potion effect or a portal/Enderman with their particles respectively.
+        // Some particles have different data which may include different behavior depending on the data. Default data is 0
+        // Specifying a visibility value changes the sight radius of the effect. For example if visibility is 15; Targeted players won't see it unless they are 15 blocks or closer.
+        // You can add a quantity value that allow multiple of the same effect played at the same time. If an offset is set, each particle will be played at a different location in the offset area.
+        // Everyone will see the particle effects unless a target has been specified.
         // See <@link language Particle Effects> for a list of valid effect names.
         //
         // @Tags
@@ -3588,7 +3594,9 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Group world
         //
         // @Description
-        // TODO: Document Command Details
+        // Modifies a sign with text. Used to change text on a sign.
+        // If no sign is found, a sign will be placed at the location with the text.
+        // add a direction to change the direction of the
         // Specify 'automatic' as a type to use whatever sign type and direction is already placed there.
         // If there is not already a sign there, defaults to a sign_post.
         //
@@ -3596,7 +3604,17 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // <l@location.block.sign_contents>
         //
         // @Usage
-        // TODO: Document Command Details
+        // Use to edit some text on a sign
+        // - sign type:automatic "Hello|this is|some|text" <player.location>
+        //
+        // @Usage
+        // Use to show the time on a sign that points north
+        // - sign type:automatic "I point|North.|System Time<&co>|<util.date.time>" l@233,65,123 direction:n
+        //
+        // @Usage
+        // Use to force a sign to be a wall_sign if no sign is found.
+        // - sign type:wall_sign "Player<&co>|<player.name>|Online Players<&co>|<server.list_online_players.size>" l@233,65,123
+        //
         // -->
         registerCoreMember(SignCommand.class,
                 "SIGN", "sign (type:{automatic}/sign_post/wall_sign) [\"<line>|...\"] [<location>] (direction:n/s/e/w)", 1);
