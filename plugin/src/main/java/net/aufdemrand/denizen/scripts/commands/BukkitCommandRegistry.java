@@ -2562,6 +2562,8 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Group core
         //
         // @Description
+        // Add or remove a notable object for that can be used to reference objects such as in events.
+        // Notable objects keep their properties when saved compared to saving data using flags etc.
         // TODO: Document Command Details
         //
         // @Tags
@@ -2582,6 +2584,10 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Usage
         // Use to note a location.
         // - note l@10,5,10,world as:mylocation
+        //
+        // @Usage
+        // Use to note a region with WorldEdit selection.
+        // - note <player.selected_region> as:mycuboid
         // -->
         registerCoreMember(NoteCommand.class,
                 "NOTE", "note [<Notable dObject>/remove] [as:<name>]", 2);
@@ -2910,13 +2916,19 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Group core
         //
         // @Description
+        // Allows queues to be modified during their run. It can also be used to modify other queues currently running
+        // Clearing a queue will remove it and not run any of the next commands in the queue.
+        // It is possible to pause a queue but it will try to finish its last command that was executed.
         // TODO: Document Command Details
         //
         // @Tags
         // <queue>
         // <queue.id>
         // <queue.size>
+        // <queue.list>
+        // <queue.stats>
         // <queue.exists[queue_id]>
+        // <s@script.list_queues>
         //
         // @Usage
         // Use to clear the current queue.
@@ -3014,7 +3026,12 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // <e@entity.is_spawned>
         //
         // @Usage
-        // TODO: Document Command Details
+        // Use to remove the entity the player is looking at.
+        // - remove <player.target>
+        //
+        // @Usage
+        // Use to remove all dropped items in the world called cookies.
+        // - remove <w@cookies.entities.filter[name.is[EQUALS].to[DROPPED_ITEM]]>
         // -->
         registerCoreMember(RemoveCommand.class,
                 "REMOVE", "remove [<entity>|...] (<world>)", 1);
