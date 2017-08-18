@@ -807,14 +807,25 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Author aufdemrand, David Cernat
         // @Group world
         //
-        // @Description
-        // TODO: Document Command Details
+        // Copies a block and all its content. If its a chest, all its items inside are copied over as well.
+        // If a cuboid is specified; the location that the cuboid is copied to is the corner block as its origin.
+        // Use this to fill or move a chest along with its items.
+        // Specifying remove_original will remove the block that was copied.
         //
         // @Tags
         // <l@location.material>
         //
         // @Usage
-        // TODO: Document Command Details
+        // Use to copy a block from a location to another location.
+        // - copyblock l@20,70,25,world to:l@20,75,25,world
+        //
+        // @Usage
+        // Use to copy a block from a location to the player's cursor.
+        // - copyblock l@20,70,25,world to:<player.cursor_on>
+        //
+        // @Usage
+        // Use to move a block that the player is looking at.
+        // - copyblock <player.cursor_on> to:<player.location>
         // -->
         registerCoreMember(CopyBlockCommand.class,
                 "COPYBLOCK", "copyblock [<location>/<cuboid>] [to:<location>] (remove_original)", 1);
@@ -4107,7 +4118,12 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Group entity
         //
         // @Description
-        // TODO: Document Command Details
+        // Makes a npc or an entity walk to a location.
+        // The entity may or may not exact be at the location when the command has finished executing.
+        // Specifying stop will make the entity stop at whatever walk it is currently doing, whenever it comes from the walk command, a plugin or on its own.
+        // Specifying a radius will make it walk to a random location inside the radius where the origin is the location specified.
+        // auto_range can be given to ignore the path range limit. Be warned that it may cost performance as it usually does if a path range is high.
+        // This command is ~holdable.
         //
         // @Tags
         // <n@npc.navigator.is_navigating>
@@ -4153,7 +4169,11 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Video /denizen/vids/Loops
         //
         // @Description
-        // TODO: Document Command Details
+        // Runs through a loop until the tag condition is false.
+        // Useful for loops to run endlessly or until a certain condition has changed.
+        // Be careful when using this command as it has the potential to get your server stuck if not used correctly.
+        // Make sure you least have a wait command or delay in the while loop unless you know what you are doing.
+        // The loop will be skipped if the tag is starting as false.
         //
         // @Tags
         // <def[loop_index]> to get the number of loops so far.
@@ -4167,7 +4187,24 @@ public class BukkitCommandRegistry extends CommandRegistry {
         //   }
         //
         // @Usage
-        // TODO: Document Command Details
+        // Use as a counter until removed again.
+        // - flag server Looping_Number:0
+        // - while <server.has_flag[Looping_Number]> {
+        //   - flag server Looping_Number:++
+        //   - announce "<server.flag[Looping_Number].round>"
+        //   - wait 1s
+        // }
+        //
+        // @Usage
+        // Use to stop the while command through the loop
+        // - define loop true
+        // - while <def[loop]> {
+        //   - if <server.has_flag[Stop_Looping]> {
+        //     - while stop
+        //   }
+        //   - wait 2t
+        // }
+        //
         // -->
         registerCoreMember(WhileCommand.class,
                 "WHILE", "while [stop/next/<comparison tag>] [<commands>]", 1);
