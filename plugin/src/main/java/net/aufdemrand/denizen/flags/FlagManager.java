@@ -11,6 +11,7 @@ import net.aufdemrand.denizen.utilities.depends.Depends;
 import net.aufdemrand.denizencore.DenizenCore;
 import net.aufdemrand.denizencore.events.OldEventManager;
 import net.aufdemrand.denizencore.objects.*;
+import net.aufdemrand.denizencore.utilities.CoreUtilities;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.*;
@@ -295,7 +296,7 @@ public class FlagManager {
                 return false;
             }
             for (String val : value.values) {
-                if (val.equalsIgnoreCase(stringValue)) {
+                if (CoreUtilities.toLowerCase(val).equals(CoreUtilities.toLowerCase(stringValue))) {
                     return true;
                 }
                 try {
@@ -525,8 +526,7 @@ public class FlagManager {
                 for (String val : value.values) {
 
                     // Evaluate as String
-                    if (val.equalsIgnoreCase(String.valueOf(obj))) {
-
+                    if (CoreUtilities.toLowerCase(val).equals(CoreUtilities.toLowerCase(String.valueOf(obj)))) {
                         value.values.remove(x);
                         break;
                     }
@@ -674,7 +674,8 @@ public class FlagManager {
             checkExpired();
             // Possibly use reflection to check whether dList or dElement is calling this?
             // If dList, return fl@..., if dElement, return f@...
-            return (flagOwner.equalsIgnoreCase("SERVER") ? "fl@" + flagName : "fl[" + flagOwner + "]@" + flagName);
+
+            return (CoreUtilities.toLowerCase(flagOwner).equals("server") ? "fl@" + flagName : "fl[" + flagOwner + "]@" + flagName);
         }
 
         // <--[event]
@@ -947,7 +948,7 @@ public class FlagManager {
         public boolean asBoolean() {
             adjustIndex();
             try {
-                return !values.get(index).equalsIgnoreCase("FALSE");
+                return !CoreUtilities.toLowerCase(values.get(index)).equals("FALSE");
             }
             catch (Exception e) {
                 return false;
@@ -1050,6 +1051,7 @@ public class FlagManager {
         public Object asAutoDetectedObject() {
             adjustIndex();
             String arg = values.get(index);
+            String lower = CoreUtilities.toLowerCase(arg);
 
             try {
                 // If an Integer
@@ -1063,10 +1065,10 @@ public class FlagManager {
                 }
 
                 // If a Boolean
-                else if (arg.equalsIgnoreCase("true")) {
+                else if (lower.equals("true")) {
                     return true;
                 }
-                else if (arg.equalsIgnoreCase("false")) {
+                else if (lower.equals("false")) {
                     return false;
                 }
 

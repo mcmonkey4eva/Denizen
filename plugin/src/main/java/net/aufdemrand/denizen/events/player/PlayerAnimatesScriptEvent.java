@@ -53,8 +53,8 @@ public class PlayerAnimatesScriptEvent extends BukkitScriptEvent implements List
             return false;
         }
 
-        String ani = CoreUtilities.getXthArg(2, lower);
-        if (ani.length() > 0 && !ani.equals("in") && !ani.equalsIgnoreCase(animation)) {
+        String tempAnimation = CoreUtilities.getXthArg(2, lower);
+        if (tempAnimation.length() > 0 && !tempAnimation.equals("in") && !tempAnimation.equals(CoreUtilities.toLowerCase(animation))) {
             return false;
         }
 

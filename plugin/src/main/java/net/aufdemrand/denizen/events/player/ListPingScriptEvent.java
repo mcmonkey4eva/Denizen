@@ -74,7 +74,7 @@ public class ListPingScriptEvent extends ScriptEvent implements Listener {
 
     @Override
     public boolean applyDetermination(ScriptContainer container, String determination) {
-        if (determination.length() > 0 && !determination.equalsIgnoreCase("none")) {
+        if (determination.length() > 0 && !CoreUtilities.toLowerCase(determination).equals("none")) {
             String[] values = determination.split("[\\|" + dList.internal_escape + "]", 2);
             if (new Element(values[0]).isInt()) {
                 max_players = new Element(values[0]);

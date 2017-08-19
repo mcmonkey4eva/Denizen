@@ -70,7 +70,7 @@ public class EntitySpawnScriptEvent extends BukkitScriptEvent implements Listene
         }
 
         if (CoreUtilities.xthArgEquals(2, lower, "because")
-                && !CoreUtilities.getXthArg(3, lower).equalsIgnoreCase(reason.toString())) {
+                && !CoreUtilities.getXthArg(3, lower).equals(CoreUtilities.toLowerCase(reason.toString()))) {
             return false;
         }
 

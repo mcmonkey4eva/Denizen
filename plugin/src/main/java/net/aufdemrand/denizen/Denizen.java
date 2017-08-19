@@ -75,6 +75,7 @@ import net.aufdemrand.denizencore.scripts.queues.ScriptQueue;
 import net.aufdemrand.denizencore.scripts.queues.core.InstantQueue;
 import net.aufdemrand.denizencore.tags.TagContext;
 import net.aufdemrand.denizencore.tags.TagManager;
+import net.aufdemrand.denizencore.utilities.CoreUtilities;
 import net.aufdemrand.denizencore.utilities.debugging.Debuggable;
 import net.aufdemrand.denizencore.utilities.debugging.dB.DebugElement;
 import net.citizensnpcs.api.CitizensAPI;
@@ -1193,7 +1194,7 @@ public class Denizen extends JavaPlugin implements DenizenImplementation {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String cmdName, String[] args) {
-
+        cmdName = CoreUtilities.toLowerCase(cmdName);
         // <--[language]
         // @name /ex command
         // @group Console Commands
@@ -1216,7 +1217,7 @@ public class Denizen extends JavaPlugin implements DenizenImplementation {
 
         // -->
 
-        if (cmdName.equalsIgnoreCase("ex")) {
+        if (cmdName.equals("ex")) {
             List<Object> entries = new ArrayList<Object>();
             String entry = "";
             for (String arg : args) {
@@ -1604,56 +1605,57 @@ public class Denizen extends JavaPlugin implements DenizenImplementation {
     }
 
     @Override
-    public boolean matchesType(String comparable, String comparedto) {
+    public boolean matchesType(String comparable, String comparedTo) {
 
         boolean outcome = false;
+        comparedTo = CoreUtilities.toLowerCase(comparedTo);
 
-        if (comparedto.equalsIgnoreCase("location")) {
+        if (comparedTo.equals("location")) {
             outcome = dLocation.matches(comparable);
         }
 
-        else if (comparedto.equalsIgnoreCase("material")) {
+        else if (comparedTo.equals("material")) {
             outcome = dMaterial.matches(comparable);
         }
 
-        else if (comparedto.equalsIgnoreCase("materiallist")) {
+        else if (comparedTo.equals("materiallist")) {
             outcome = dList.valueOf(comparable).containsObjectsFrom(dMaterial.class);
         }
 
-        else if (comparedto.equalsIgnoreCase("entity")) {
+        else if (comparedTo.equals("entity")) {
             outcome = dEntity.matches(comparable);
         }
 
-        else if (comparedto.equalsIgnoreCase("spawnedentity")) {
+        else if (comparedTo.equals("spawnedentity")) {
             outcome = (dEntity.matches(comparable) && dEntity.valueOf(comparable).isSpawned());
         }
 
-        else if (comparedto.equalsIgnoreCase("npc")) {
+        else if (comparedTo.equals("npc")) {
             outcome = dNPC.matches(comparable);
         }
 
-        else if (comparedto.equalsIgnoreCase("player")) {
+        else if (comparedTo.equals("player")) {
             outcome = dPlayer.matches(comparable);
         }
 
-        else if (comparedto.equalsIgnoreCase("offlineplayer")) {
+        else if (comparedTo.equals("offlineplayer")) {
             outcome = (dPlayer.valueOf(comparable) != null && !dPlayer.valueOf(comparable).isOnline());
         }
 
-        else if (comparedto.equalsIgnoreCase("onlineplayer")) {
+        else if (comparedTo.equals("onlineplayer")) {
             outcome = (dPlayer.valueOf(comparable) != null && dPlayer.valueOf(comparable).isOnline());
         }
 
-        else if (comparedto.equalsIgnoreCase("item")) {
+        else if (comparedTo.equals("item")) {
             outcome = dItem.matches(comparable);
         }
 
-        else if (comparedto.equalsIgnoreCase("cuboid")) {
+        else if (comparedTo.equals("cuboid")) {
             outcome = dCuboid.matches(comparable);
         }
 
         else {
-            dB.echoError("Invalid 'matches' type '" + comparedto + "'!");
+            dB.echoError("Invalid 'matches' type '" + comparedTo + "'!");
         }
 
         return outcome;

@@ -17,7 +17,6 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.Arrays;
@@ -64,7 +63,7 @@ public class PlayerClicksBlockScriptEvent extends BukkitScriptEvent implements L
         if (index == -1) return true;
 
         String in = CoreUtilities.getXthArg(index + 1, lower);
-        if (dInventory.matches(in) || in.equalsIgnoreCase("inventory")) {
+        if (dInventory.matches(in) || in.equals("inventory")) {
             return false;
         }
         return true;
@@ -78,7 +77,7 @@ public class PlayerClicksBlockScriptEvent extends BukkitScriptEvent implements L
             dB.echoError("Invalid USING hand in " + getName() + " for '" + s + "' in " + scriptContainer.getName());
             return false;
         }
-        if (!using.equals("either_hand") && !using.equalsIgnoreCase(hand.identify())) {
+        if (!using.equals("either_hand") && !using.equals(CoreUtilities.toLowerCase(hand.identify()))) {
             return false;
         }
         return true;
