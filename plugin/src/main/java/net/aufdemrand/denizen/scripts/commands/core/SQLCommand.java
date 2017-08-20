@@ -94,7 +94,7 @@ public class SQLCommand extends AbstractCommand implements Holdable {
         }
 
         if (!scriptEntry.hasObject("ssl")) {
-            scriptEntry.defaultObject("ssl", Element.FALSE);
+            scriptEntry.defaultObject("ssl", new Element("false"));
         }
 
         if (!scriptEntry.hasObject("action")) {
