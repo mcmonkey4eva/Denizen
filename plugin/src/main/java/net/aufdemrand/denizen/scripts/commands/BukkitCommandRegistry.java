@@ -3669,7 +3669,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // SQL connections are not instant - they can take several seconds, or just never connect at all.
         // It is recommended you hold the connection command by doing "- ~sql ..." rather than just "- sql ..."
         // as this will delay the commands following the connect command until after the connection is established.
-        // Is it possible to change the SSL if using Secure Socket Layer Certificate. This is by default set to true if not specified.
+        // Is it possible to change the SSL if using Secure Socket Layer Certificate. This is by default set to false if not specified.
         //
         // @Tags
         // <entry[saveName].result> returns a dList of all rows from a query or update command, of the form li@escaped_text/escaped_text|escaped_text/escaped_text
