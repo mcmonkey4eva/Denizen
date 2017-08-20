@@ -3651,7 +3651,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
 
         // <--[command]
         // @Name SQL
-        // @Syntax sql [id:<ID>] [disconnect/connect:<server> (username:<username>) (password:<password>)/query:<query>/update:<update>/ssl:<true/false>]
+        // @Syntax sql [id:<ID>] [disconnect/connect:<server> (username:<username>) (password:<password>) (ssl:<true/false>)/query:<query>/update:<update>]
         // @Required 1
         // @Stable unstable
         // @Short Interacts with a MySQL server.

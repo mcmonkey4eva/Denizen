@@ -79,8 +79,9 @@ public class SQLCommand extends AbstractCommand implements Holdable {
             }
 
             else if (!scriptEntry.hasObject("ssl")
-                    && arg.matchesPrefix("ssl")) {
-                scriptEntry.addObject("ssl", arg.asElement());
+                    && arg.matchesPrefix("ssl")
+                    && arg.asElement().isBoolean()) {
+                        scriptEntry.addObject("ssl", arg.asElement());
             }
 
             else {
@@ -93,7 +94,7 @@ public class SQLCommand extends AbstractCommand implements Holdable {
         }
 
         if (!scriptEntry.hasObject("ssl")) {
-            scriptEntry.addObject("ssl", new Element("true"));
+            scriptEntry.defaultObject("ssl", Element.FALSE);
         }
 
         if (!scriptEntry.hasObject("action")) {
@@ -136,10 +137,6 @@ public class SQLCommand extends AbstractCommand implements Holdable {
                 }
                 if (password == null) {
                     dB.echoError(scriptEntry.getResidingQueue(), "Must specify a password!");
-                    return;
-                }
-                if (ssl == null) {
-                    dB.echoError(scriptEntry.getResidingQueue(), "Must specify if using ssl!");
                     return;
                 }
                 if (connections.containsKey(sqlID.asString().toUpperCase())) {
@@ -333,7 +330,7 @@ public class SQLCommand extends AbstractCommand implements Holdable {
         Properties connectionProps = new Properties();
         connectionProps.put("user", userName);
         connectionProps.put("password", password);
-        connectionProps.put("ssl", ssl);
+        connectionProps.put("useSSL", ssl);
         connectionProps.put("LoginTimeout", "7");
         return DriverManager.getConnection("jdbc:mysql://" + server, connectionProps);
     }
