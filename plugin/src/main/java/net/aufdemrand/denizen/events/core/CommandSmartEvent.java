@@ -23,23 +23,7 @@ import java.util.regex.Pattern;
 
 public class CommandSmartEvent implements OldSmartEvent, Listener {
 
-    class CommandHandlerData {
-        public final String name;
-        public final String event;
-
-        public CommandHandlerData(String name, String event) {
-            this.name = name;
-            this.event = event;
-        }
-    }
-
     List<CommandHandlerData> cmds = new ArrayList<CommandHandlerData>();
-
-
-    ///////////////////
-    // SMARTEVENT METHODS
-    ///////////////
-
 
     @Override
     public boolean shouldInitialize(Set<String> events) {
@@ -69,6 +53,10 @@ public class CommandSmartEvent implements OldSmartEvent, Listener {
     }
 
 
+    ///////////////////
+    // SMARTEVENT METHODS
+    ///////////////
+
     @Override
     public void _initialize() {
         // Yay! Your event is in use! Register it here.
@@ -78,7 +66,6 @@ public class CommandSmartEvent implements OldSmartEvent, Listener {
         dB.log("Loaded Command SmartEvent.");
     }
 
-
     @Override
     public void breakDown() {
         // Unregister events or any other temporary links your event created in _intialize()
@@ -86,20 +73,20 @@ public class CommandSmartEvent implements OldSmartEvent, Listener {
         ServerCommandEvent.getHandlerList().unregister(this);
     }
 
-    //////////////
-    //  MECHANICS
-    ///////////
-
     private List<String> getAll(String cmd) {
         List<String> newEvents = new ArrayList<String>();
         cmd = CoreUtilities.toLowerCase(cmd);
         for (CommandHandlerData chd : cmds) {
-            if (chd.name.equalsIgnoreCase(cmd)) {
+            if (CoreUtilities.toLowerCase(chd.name).equals(cmd)) {
                 newEvents.add(chd.event + " command");
             }
         }
         return newEvents;
     }
+
+    //////////////
+    //  MECHANICS
+    ///////////
 
     // <--[event]
     // @Events
@@ -198,10 +185,20 @@ public class CommandSmartEvent implements OldSmartEvent, Listener {
         context.put("raw_args", new Element((message.split(" ").length > 1 ? event.getCommand().split(" ", 2)[1] : "")));
         context.put("server", Element.TRUE);
 
-        String determination = BukkitWorldScriptHelper.doEvents(events, null, null, context);
+        String determination = CoreUtilities.toLowerCase(BukkitWorldScriptHelper.doEvents(events, null, null, context));
 
-        if (determination.equalsIgnoreCase("FULFILLED") || determination.equalsIgnoreCase("CANCELLED")) {
+        if (determination.equals("FULFILLED") || determination.equals("CANCELLED")) {
             event.setCommand("denizen do_nothing");
+        }
+    }
+
+    class CommandHandlerData {
+        public final String name;
+        public final String event;
+
+        public CommandHandlerData(String name, String event) {
+            this.name = name;
+            this.event = event;
         }
     }
 }

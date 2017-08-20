@@ -76,7 +76,9 @@ public class PlayerFishesScriptEvent extends BukkitScriptEvent implements Listen
 
         List<String> data = CoreUtilities.split(lower, ' ');
         for (int index = 0; index < data.size(); index++) {
-            if (data.get(index).equals("while") && !data.get(index + 1).equalsIgnoreCase(state.asString())) {
+            if (data.get(index).equals("while") &&
+                    !CoreUtilities.toLowerCase(data.get(index + 1))
+                            .equals(CoreUtilities.toLowerCase(state.asString()))) {
                 return false;
             }
         }

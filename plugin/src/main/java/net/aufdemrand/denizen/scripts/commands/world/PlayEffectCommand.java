@@ -258,9 +258,6 @@ public class PlayEffectCommand extends AbstractCommand {
 
             // Play a ParticleEffect
             else if (particleEffect != null) {
-                float osX = (float) offset.getX();
-                float osY = (float) offset.getY();
-                float osZ = (float) offset.getZ();
                 List<Player> players = new ArrayList<Player>();
                 if (targets == null) {
                     float rad = radius.asFloat();
@@ -301,14 +298,15 @@ public class PlayEffectCommand extends AbstractCommand {
                     }
                 }
                 // TODO: better this all
-                if (iconcrack_type.asString().equalsIgnoreCase("iconcrack")) {
+                String crackType = CoreUtilities.toLowerCase(iconcrack_type.asString());
+                if (crackType.equals("iconcrack")) {
                     ItemStack itemStack = new ItemStack(iconcrack.asInt(), 1, (short)(iconcrack_data != null ? iconcrack_data.asInt() : 0));
                     Particle particle = NMSHandler.getInstance().getParticleHelper().getParticle("ITEM_CRACK");
                     for (Player player : players) {
                         particle.playFor(player, location, qty.asInt(), offset.toVector(), data.asFloat(), itemStack);
                     }
                 }
-                else if (iconcrack_type.asString().equalsIgnoreCase("blockcrack")) {
+                else if (crackType.equals("blockcrack")) {
                     MaterialData materialData = new MaterialData(iconcrack.asInt(), (byte) (iconcrack_data != null ? iconcrack_data.asInt() : 0));
                     Particle particle = NMSHandler.getInstance().getParticleHelper().getParticle("BLOCK_CRACK");
                     for (Player player : players) {

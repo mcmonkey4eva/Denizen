@@ -20,6 +20,7 @@ import net.aufdemrand.denizencore.events.core.ReloadScriptsScriptEvent;
 import net.aufdemrand.denizencore.scripts.ScriptHelper;
 import net.aufdemrand.denizencore.scripts.ScriptRegistry;
 import net.aufdemrand.denizencore.scripts.containers.ScriptContainer;
+import net.aufdemrand.denizencore.utilities.CoreUtilities;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -334,10 +335,9 @@ public class DenizenCommandHandler {
             Messaging.send(sender, player.getName() + " has no active listeners.");
             return;
         }
-
         if (args.hasValueFlag("report")) {
             for (AbstractListener quest : denizen.getListenerRegistry().getListenersFor(player).values()) {
-                if (quest.getListenerId().equalsIgnoreCase(args.getFlag("report"))) {
+                if (CoreUtilities.toLowerCase(quest.getListenerId()).equals(args.getFlag("report"))) {
                     Messaging.send(sender, quest.report());
                 }
             }
@@ -346,7 +346,7 @@ public class DenizenCommandHandler {
         }
         else if (args.hasValueFlag("cancel")) {
             for (AbstractListener quest : denizen.getListenerRegistry().getListenersFor(player).values()) {
-                if (quest.getListenerId().equalsIgnoreCase(args.getFlag("cancel"))) {
+                if (CoreUtilities.toLowerCase(quest.getListenerId()).equals(args.getFlag("cancel"))) {
 
                     Messaging.send(sender, "Cancelling '" + quest.getListenerId() + "' for " + player.getName() + ".");
                     quest.cancel();
@@ -357,7 +357,7 @@ public class DenizenCommandHandler {
         }
         else if (args.hasValueFlag("finish")) {
             for (AbstractListener quest : denizen.getListenerRegistry().getListenersFor(player).values()) {
-                if (quest.getListenerId().equalsIgnoreCase(args.getFlag("finish"))) {
+                if (CoreUtilities.toLowerCase(quest.getListenerId()).equals(args.getFlag("finish"))) {
                     Messaging.send(sender, "Force-finishing '" + quest.getListenerId() + "' for " + player.getName() + ".");
                     quest.finish();
                 }
@@ -421,22 +421,23 @@ public class DenizenCommandHandler {
         }
         // Reload a specific item
         if (args.length() > 2) {
-            if (args.getString(1).equalsIgnoreCase("saves")) {
+            String firstArg = CoreUtilities.toLowerCase(args.getString(1));
+            if (firstArg.equals("saves")) {
                 denizen.reloadSaves();
                 Messaging.send(sender, "Denizen/saves.yml reloaded from disk to memory.");
                 return;
             }
-            else if (args.getString(1).equalsIgnoreCase("notables")) {
+            else if (firstArg.equals("notables")) {
                 denizen.notableManager().reloadNotables();
                 Messaging.send(sender, "Denizen/notables.yml reloaded from disk to memory.");
                 return;
             }
-            else if (args.getString(1).equalsIgnoreCase("config")) {
+            else if (firstArg.equals("config")) {
                 denizen.reloadConfig();
                 Messaging.send(sender, "Denizen/config.yml reloaded from disk to memory.");
                 return;
             }
-            else if (args.getString(1).equalsIgnoreCase("scripts")) {
+            else if (firstArg.equals("scripts")) {
                 DenizenCore.reloadScripts();
                 Messaging.send(sender, "Denizen/scripts/... reloaded from disk to memory.");
                 if (ScriptHelper.hadError()) {
@@ -451,7 +452,7 @@ public class DenizenCommandHandler {
                 ReloadScriptsScriptEvent.instance.fire();
                 return;
             }
-            else if (args.getString(1).equalsIgnoreCase("externals")) {
+            else if (firstArg.equals("externals")) {
                 denizen.runtimeCompiler.reload();
                 Messaging.send(sender, "Denizen/externals/... reloaded from disk to memory.");
                 return;
@@ -494,7 +495,7 @@ public class DenizenCommandHandler {
             ScriptContainer scriptContainer = ScriptRegistry.getScriptContainer(script);
             // If a --type has been specified...
             if (type != null) {
-                if (scriptContainer.getContainerType().equalsIgnoreCase(type)) {
+                if (CoreUtilities.toLowerCase(scriptContainer.getContainerType()).equals(type)) {
                     if (filter != null) {
                         if (script.contains(filter.toUpperCase())) {
                             paginator.addLine("<a>" + scriptContainer.getContainerType().substring(0, 3) + "  <b>" + script);

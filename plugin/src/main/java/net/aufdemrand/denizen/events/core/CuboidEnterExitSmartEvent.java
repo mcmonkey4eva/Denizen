@@ -56,7 +56,7 @@ public class CuboidEnterExitSmartEvent implements OldSmartEvent, Listener {
                 boolean registerable = true;
 
                 // Check if this event is for a cuboid who's name is not known at script time
-                if (m.group(1).equalsIgnoreCase("notable cuboid")) {
+                if (CoreUtilities.toLowerCase(m.group(1)).equals("notable cuboid")) {
                     broad_detection = true;
                 }
                 else {
