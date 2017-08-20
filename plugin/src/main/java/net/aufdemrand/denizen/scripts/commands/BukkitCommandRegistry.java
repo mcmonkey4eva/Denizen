@@ -3681,7 +3681,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
         //
         // @Usage
         // Use to connect to an SQL server with SSL option.
-        // - ~sql id:name connect:localhost:3306/test username:space password:space ssl:false
+        // - ~sql id:name connect:localhost:3306/test username:space password:space ssl:true
         //
         // @Usage
         // Use to connect to an SQL server with a UTF8 text encoding
