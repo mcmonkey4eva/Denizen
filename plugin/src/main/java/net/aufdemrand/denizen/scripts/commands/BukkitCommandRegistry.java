@@ -3654,11 +3654,11 @@ public class BukkitCommandRegistry extends CommandRegistry {
         //
         // @Usage
         // Use to show the time on a sign that points north
-        // - sign type:automatic "I point|North.|System Time<&co>|<util.date.time>" l@233,65,123 direction:n
+        // - sign type:automatic "I point|North.|System Time<&co>|<util.date.time>" l@233,65,123,world direction:n
         //
         // @Usage
         // Use to force a sign to be a wall_sign if no sign is found.
-        // - sign type:wall_sign "Player<&co>|<player.name>|Online Players<&co>|<server.list_online_players.size>" l@233,65,123
+        // - sign type:wall_sign "Player<&co>|<player.name>|Online Players<&co>|<server.list_online_players.size>" l@233,65,123,world
         //
         // -->
         registerCoreMember(SignCommand.class,
@@ -4271,7 +4271,13 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // the size over the course of the duration.
         //
         // @Tags
-        // None
+        // <l@location.is_within_border>
+        // <w@world.border_size>
+        // <w@world.border_center>
+        // <w@world.border_damage>
+        // <w@world.border_damage_buffer>
+        // <w@world.border_warning_distance>
+        // <w@world.border_warning_time>
         //
         // @Usage
         // Use to set the size of a world border.
