@@ -92,6 +92,32 @@ public class ItemPatterns implements Property {
             return null;
         }
 
+        // <--[language]
+        // @name Pattern Color
+        // @group Tags
+        // @description
+        // Possible colors for pattern
+        // BLACK, BLUE, BROWN, CYAN, GRAY, GREEN,
+        // LIGHT_BLUE, LIME, MAGENTA, ORANGE, PINK,
+        // PURPLE, RED, SILVER, WHITE, YELLOW
+        // -->
+
+        // <--[language]
+        // @name Patterns
+        // @group Tags
+        // @description
+        // Possible patterns
+        // BASE, BORDER, BRICKS, CIRCLE_MIDDLE, CREEPER, CROSS, CURLY_BORDER,
+        // DIAGONAL_LEFT, DIAGONAL_LEFT_MIRROR, DIAGONAL_RIGHT, DIAGONAL_RIGHT_MIRROR,
+        // FLOWER, GRADIENT, GRADIENT_UP, HALFT_HORIZONTAL,
+        // HALF_HORIZONTAL_MIRROR, HALF_VERTICAL, HALF_VERTICAL_MIRROR, MOJANG,
+        // RHOMBUS_MIDDLE, SKULL, SQUARE_BOTTOM_LEFT, SQUARE_BOTTOM_RIGHT,
+        // SQUARE_TOP_LEFT, SQUARE_TOP_RIGHT, STRAIGHT_CROSS, STRIPE_BOTTUM,
+        // STRIPE_CENTER, STRIPE_DOWNLEFT, STRIPE_DOWNRIGHT, STRIPE_LEFT,
+        // STRIPE_MIDDLE, STRIPE_RIGHT, STRIPE_SMALL, STRIPE_TOP, TRIANGLE_BOTTOM,
+        // TRIANGLE_TOP, TRIANGLES_BOTTOM, TRIANGLES_TOP
+        // -->
+
         // <--[tag]
         // @attribute <i@item.patterns>
         // @returns dList
@@ -99,9 +125,8 @@ public class ItemPatterns implements Property {
         // @mechanism dItem.patterns
         // @description
         // Lists a banner's patterns in the form "li@COLOR/PATTERN|COLOR/PATTERN" etc.
-        // TODO: Local meta for these links
-        // For the list of possible colors, see <@link url http://bit.ly/1dydq12>.
-        // For the list of possible patterns, see <@link url http://bit.ly/1MqRn7T>.
+        // For the list of possible colors, see <@link language Pattern Color>.
+        // For the list of possible patterns, see <@link language Patterns>.
         // -->
         if (attribute.startsWith("patterns")) {
             return listPatterns().getAttribute(attribute.fulfill(1));
@@ -135,8 +160,8 @@ public class ItemPatterns implements Property {
         // @description
         // Changes the patterns of a banner. Input must be in the form
         // "li@COLOR/PATTERN|COLOR/PATTERN" etc.
-        // For the list of possible colors, see <@link url http://bit.ly/1dydq12>.
-        // For the list of possible patterns, see <@link url http://bit.ly/1MqRn7T>.
+        // For the list of possible colors, see <@link language Pattern Color>.
+        // For the list of possible patterns, see <@link language Patterns>.
         // @tags
         // <i@item.patterns>
         // -->
