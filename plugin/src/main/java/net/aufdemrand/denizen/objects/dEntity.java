@@ -1916,7 +1916,7 @@ public class dEntity implements dObject, Adjustable {
         // @description
         // Returns the material of a fallingblock-type entity.
         // -->
-        if (attribute.startsWith("fallingblock_material")) {
+        if (attribute.startsWith("fallingblock_material") && entity instanceof FallingBlock) {
             return dMaterial.getMaterialFrom(((FallingBlock) entity).getMaterial())
                     .getAttribute(attribute.fulfill(1));
         }
@@ -2374,6 +2374,18 @@ public class dEntity implements dObject, Adjustable {
         }
 
         // <--[tag]
+        // @attribute <e@entity.is_monster>
+        // @returns Element(Boolean)
+        // @group data
+        // @description
+        // Returns whether the entity is a hostile monster.
+        // -->
+        if (attribute.startsWith("is_monster")) {
+            return new Element(getBukkitEntity() instanceof Monster)
+                    .getAttribute(attribute.fulfill(1));
+        }
+
+        // <--[tag]
         // @attribute <e@entity.is_mob>
         // @returns Element(Boolean)
         // @group data
@@ -2634,6 +2646,30 @@ public class dEntity implements dObject, Adjustable {
         // -->
         if (mechanism.matches("fall_distance") && mechanism.requireFloat()) {
             entity.setFallDistance(value.asFloat());
+        }
+
+        // <--[mechanism]
+        // @object dEntity
+        // @name fallingblock_drop_item
+        // @input Element(Boolean)
+        // @description
+        // Sets whether the falling block will drop an item if broken
+        // -->
+        if (mechanism.matches("fallingblock_drop_item") && mechanism.requireBoolean()
+                && entity instanceof FallingBlock) {
+            ((FallingBlock) entity).setDropItem(value.asBoolean());
+        }
+
+        // <--[mechanism]
+        // @object dEntity
+        // @name fallingblock_hurt_entities
+        // @input Element(Boolean)
+        // @description
+        // Sets whether the falling block will hurt entities when it lands
+        // -->
+        if (mechanism.matches("fallingblock_hurt_entities") && mechanism.requireBoolean()
+                && entity instanceof FallingBlock) {
+            ((FallingBlock) entity).setHurtEntities(value.asBoolean());
         }
 
         // <--[mechanism]
