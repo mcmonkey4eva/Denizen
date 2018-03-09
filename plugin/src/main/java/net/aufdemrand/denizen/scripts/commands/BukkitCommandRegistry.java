@@ -965,7 +965,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
 
         // <--[command]
         // @Name Disengage
-        // @Syntax disengage
+        // @Syntax disengage (player)
         // @Required 0
         // @Stable stable
         // @Short Enables an NPCs triggers that have been temporarily disabled by the engage command.
@@ -1087,7 +1087,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
 
         // <--[command]
         // @Name Engage
-        // @Syntax engage (<duration>)
+        // @Syntax engage (player) (<duration>)
         // @Required 0
         // @Stable stable
         // @Short Temporarily disables an NPCs toggled interact script-container triggers.
@@ -1104,6 +1104,8 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // While engaged, all triggers and actions associated with triggers will not 'fire', except
         // the 'on unavailable' assignment script-container action, which will fire for triggers that
         // were enabled previous to the engage command.
+        //
+        // Use the 'player' argument to only affect the linked player.
         //
         // Engage can be useful when NPCs are carrying out a task that shouldn't be interrupted, or
         // to provide a good way to avoid accidental 'retrigger'.
