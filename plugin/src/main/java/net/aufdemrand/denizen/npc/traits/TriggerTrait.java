@@ -186,7 +186,7 @@ public class TriggerTrait extends Trait implements Listener {
             return false;
         }
         // Check engaged
-        if (EngageCommand.getEngaged(npc)) {
+        if (EngageCommand.getEngaged(npc, player)) {
             return false;
         }
         // Set cool down
@@ -224,7 +224,7 @@ public class TriggerTrait extends Trait implements Listener {
         }
 
         // Check engaged
-        if (EngageCommand.getEngaged(npc)) {
+        if (EngageCommand.getEngaged(npc, player)) {
 
             // Put the trigger_type into context
             context.put("trigger_type", new Element(trigger_type));
