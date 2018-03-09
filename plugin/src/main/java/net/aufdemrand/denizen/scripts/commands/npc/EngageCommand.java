@@ -78,24 +78,26 @@ public class EngageCommand extends AbstractCommand {
 
 	}
 
-    /*
-     * Engaged NPCs cannot interact with Players
-     */
-    private static Map<NPC, Long> currentlyEngaged = new HashMap<NPC, Long>();
-    private static Map<String, Long> currentlyEngagedPlayer = new HashMap<String, Long>();
-    
-    public static String getHashKey(NPC npc, dPlayer player) {
-    	return npc.getId() + "." + player;
-    }
+	/*
+	 * Engaged NPCs cannot interact with Players
+	 */
+	private static Map<NPC, Long> currentlyEngaged = new HashMap<NPC, Long>();
+	private static Map<String, Long> currentlyEngagedPlayer = new HashMap<String, Long>();
 
-    /**
-     * Checks if the dNPC is ENGAGED. Engaged NPCs do not respond to
-     * Player interaction.
-     *
-     * @param npc the Denizen NPC being checked
-     * @param dPlayer Player being checked (optional)
-     * @return if the dNPC is currently engaged
-     */
+	public static String getHashKey(NPC npc, dPlayer player) {
+		return npc.getId() + "." + player;
+	}
+
+	/**
+	 * Checks if the dNPC is ENGAGED. Engaged NPCs do not respond to Player
+	 * interaction.
+	 *
+	 * @param npc
+	 *            the Denizen NPC being checked
+	 * @param dPlayer
+	 *            Player being checked (optional)
+	 * @return if the dNPC is currently engaged
+	 */
 	public static boolean getEngaged(NPC npc) {
 		if (currentlyEngaged.containsKey(npc)) {
 			return currentlyEngaged.get(npc) > System.currentTimeMillis();
@@ -112,21 +114,23 @@ public class EngageCommand extends AbstractCommand {
 		return false;
 	}
 
-    /**
-     * Sets a dNPC's ENGAGED status. Engaged NPCs do not respond to Player
-     * interaction. Note: Denizen NPC will automatically disengage after the
-     * engage_timeout_in_seconds which is set in the Denizen config.yml.
-     *
-     * @param npc     the dNPC affected
-     * @param player  the dPlayer affected (optional)
-     * @param engaged true sets the dNPC engaged, false sets the dNPC as disengaged
-     */
+	/**
+	 * Sets a dNPC's ENGAGED status. Engaged NPCs do not respond to Player
+	 * interaction. Note: Denizen NPC will automatically disengage after the
+	 * engage_timeout_in_seconds which is set in the Denizen config.yml.
+	 *
+	 * @param npc
+	 *            the dNPC affected
+	 * @param player
+	 *            the dPlayer affected (optional)
+	 * @param engaged
+	 *            true sets the dNPC engaged, false sets the dNPC as disengaged
+	 */
 	public static void setEngaged(NPC npc, boolean engaged) {
 		if (engaged) {
 			currentlyEngaged.put(npc, System.currentTimeMillis()
 					+ (long) (Duration.valueOf(Settings.engageTimeoutInSeconds()).getSeconds()) * 1000);
-		}
-		if (!engaged) {
+		} else {
 			currentlyEngaged.remove(npc);
 		}
 	}
@@ -135,21 +139,23 @@ public class EngageCommand extends AbstractCommand {
 		if (engaged) {
 			currentlyEngagedPlayer.put(getHashKey(npc, player), System.currentTimeMillis()
 					+ (long) (Duration.valueOf(Settings.engageTimeoutInSeconds()).getSeconds()) * 1000);
-		}
-		if (!engaged) {
+		} else {
 			currentlyEngagedPlayer.remove(getHashKey(npc, player));
 		}
 	}
 
-    /**
-     * Sets a dNPC as ENGAGED for a specific amount of seconds. Engaged NPCs do not
-     * respond to Player interaction. If the NPC is previously engaged, using this will
-     * over-ride the previously set duration.
-     *
-     * @param npc      the dNPC to set as engaged
-     * @param player   the dPlayer affected (optional)
-     * @param duration the number of seconds to engage the dNPC
-     */
+	/**
+	 * Sets a dNPC as ENGAGED for a specific amount of seconds. Engaged NPCs do not
+	 * respond to Player interaction. If the NPC is previously engaged, using this
+	 * will over-ride the previously set duration.
+	 *
+	 * @param npc
+	 *            the dNPC to set as engaged
+	 * @param player
+	 *            the dPlayer affected (optional)
+	 * @param duration
+	 *            the number of seconds to engage the dNPC
+	 */
 	public static void setEngaged(NPC npc, int duration) {
 		currentlyEngaged.put(npc, System.currentTimeMillis() + duration * 1000);
 	}
