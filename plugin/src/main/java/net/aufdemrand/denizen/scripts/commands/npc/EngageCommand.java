@@ -19,68 +19,64 @@ import java.util.Map;
 
 public class EngageCommand extends AbstractCommand {
 
-    @Override
-    public void parseArgs(ScriptEntry scriptEntry) throws InvalidArgumentsException {
+	@Override
+	public void parseArgs(ScriptEntry scriptEntry) throws InvalidArgumentsException {
 
-        // Check for NPC
-        if (!((BukkitScriptEntryData) scriptEntry.entryData).hasNPC()) {
-            throw new InvalidArgumentsException("This command requires a linked NPC!");
-        }
+		// Check for NPC
+		if (!((BukkitScriptEntryData) scriptEntry.entryData).hasNPC()) {
+			throw new InvalidArgumentsException("This command requires a linked NPC!");
+		}
 
-        // Parse arguments
-        for (aH.Argument arg : aH.interpret(scriptEntry.getArguments())) {
+		// Parse arguments
+		for (aH.Argument arg : aH.interpret(scriptEntry.getArguments())) {
 
-            if (!scriptEntry.hasObject("player")
-                    && ((BukkitScriptEntryData) scriptEntry.entryData).hasPlayer()) {
-                scriptEntry.addObject("player", new Element(true) );
-            }
-            
-            else if (!scriptEntry.hasObject("duration")
-                    && arg.matchesArgumentType(Duration.class)) {
-                scriptEntry.addObject("duration", arg.asType(Duration.class));
-            }
+			if (!scriptEntry.hasObject("player") && ((BukkitScriptEntryData) scriptEntry.entryData).hasPlayer()) {
+				scriptEntry.addObject("player", new Element(true));
+			}
 
-            else {
-                arg.reportUnhandled();
-            }
+			else if (!scriptEntry.hasObject("duration") && arg.matchesArgumentType(Duration.class)) {
+				scriptEntry.addObject("duration", arg.asType(Duration.class));
+			}
 
-        }
+			else {
+				arg.reportUnhandled();
+			}
 
-        scriptEntry.defaultObject("duration", new Duration(0));
+		}
 
-    }
+		scriptEntry.defaultObject("duration", new Duration(0));
 
-    @Override
-    public void execute(ScriptEntry scriptEntry) throws CommandExecutionException {
+	}
 
-        Duration duration = scriptEntry.getdObject("duration");
-        dNPC npc = ((BukkitScriptEntryData) scriptEntry.entryData).getNPC();
+	@Override
+	public void execute(ScriptEntry scriptEntry) throws CommandExecutionException {
 
-        // Report to dB
-        if (!scriptEntry.hasObject("player")) {
-	        dB.report(scriptEntry, getName(), npc.debug() + duration.debug());
-	
-	        if (duration.getSecondsAsInt() > 0) {
-	            setEngaged(npc.getCitizen(), duration.getSecondsAsInt());
-	        }
-	        else {
-	            setEngaged(npc.getCitizen(), true);
-	        }
-        } 
-        
-        else {
-            dPlayer player = ((BukkitScriptEntryData) scriptEntry.entryData).getPlayer();
-	        dB.report(scriptEntry, getName(), npc.debug() + player.debug() + duration.debug());
-	
-	        if (duration.getSecondsAsInt() > 0) {
-	            setEngaged(npc.getCitizen(), player, duration.getSecondsAsInt());
-	        }
-	        else {
-	            setEngaged(npc.getCitizen(), player, true);
-	        }
-        }
+		Duration duration = scriptEntry.getdObject("duration");
+		dNPC npc = ((BukkitScriptEntryData) scriptEntry.entryData).getNPC();
 
-    }
+		// Report to dB
+		if (!scriptEntry.hasObject("player")) {
+			dB.report(scriptEntry, getName(), npc.debug() + duration.debug());
+
+			if (duration.getSecondsAsInt() > 0) {
+				setEngaged(npc.getCitizen(), duration.getSecondsAsInt());
+			} else {
+				setEngaged(npc.getCitizen(), true);
+			}
+		}
+
+		else {
+			dPlayer player = ((BukkitScriptEntryData) scriptEntry.entryData).getPlayer();
+			dB.report(scriptEntry, getName(), npc.debug() + player.debug() + duration.debug());
+
+			if (duration.getSecondsAsInt() > 0) {
+				setEngaged(npc.getCitizen(), player, duration.getSecondsAsInt());
+			} else {
+				setEngaged(npc.getCitizen(), player, true);
+			}
+		}
+
+	}
 
     /*
      * Engaged NPCs cannot interact with Players
@@ -100,20 +96,21 @@ public class EngageCommand extends AbstractCommand {
      * @param dPlayer Player being checked (optional)
      * @return if the dNPC is currently engaged
      */
-    public static boolean getEngaged(NPC npc) {
-        if (currentlyEngaged.containsKey(npc)) {
-            return currentlyEngaged.get(npc) > System.currentTimeMillis();
-        }
-        return false;
-    }
-    public static boolean getEngaged(NPC npc, dPlayer player) {
-        if (currentlyEngaged.containsKey(npc)) {
-            return currentlyEngaged.get(npc) > System.currentTimeMillis();
-        } else if (currentlyEngagedPlayer.containsKey(getHashKey(npc, player))) {
-            return currentlyEngagedPlayer.get(getHashKey(npc, player)) > System.currentTimeMillis();
-        }
-        return false;
-    }
+	public static boolean getEngaged(NPC npc) {
+		if (currentlyEngaged.containsKey(npc)) {
+			return currentlyEngaged.get(npc) > System.currentTimeMillis();
+		}
+		return false;
+	}
+
+	public static boolean getEngaged(NPC npc, dPlayer player) {
+		if (currentlyEngaged.containsKey(npc)) {
+			return currentlyEngaged.get(npc) > System.currentTimeMillis();
+		} else if (currentlyEngagedPlayer.containsKey(getHashKey(npc, player))) {
+			return currentlyEngagedPlayer.get(getHashKey(npc, player)) > System.currentTimeMillis();
+		}
+		return false;
+	}
 
     /**
      * Sets a dNPC's ENGAGED status. Engaged NPCs do not respond to Player
@@ -124,24 +121,25 @@ public class EngageCommand extends AbstractCommand {
      * @param player  the dPlayer affected (optional)
      * @param engaged true sets the dNPC engaged, false sets the dNPC as disengaged
      */
-    public static void setEngaged(NPC npc, boolean engaged) {
-        if (engaged) {
-            currentlyEngaged.put(npc, System.currentTimeMillis()
-                    + (long) (Duration.valueOf(Settings.engageTimeoutInSeconds()).getSeconds()) * 1000);
-        }
-        if (!engaged) {
-            currentlyEngaged.remove(npc);
-        }
-    }
-    public static void setEngaged(NPC npc, dPlayer player, boolean engaged) {
-        if (engaged) {
-            currentlyEngagedPlayer.put(getHashKey(npc, player), System.currentTimeMillis()
-                    + (long) (Duration.valueOf(Settings.engageTimeoutInSeconds()).getSeconds()) * 1000);
-        }
-        if (!engaged) {
-            currentlyEngagedPlayer.remove(getHashKey(npc, player));
-        }
-    }
+	public static void setEngaged(NPC npc, boolean engaged) {
+		if (engaged) {
+			currentlyEngaged.put(npc, System.currentTimeMillis()
+					+ (long) (Duration.valueOf(Settings.engageTimeoutInSeconds()).getSeconds()) * 1000);
+		}
+		if (!engaged) {
+			currentlyEngaged.remove(npc);
+		}
+	}
+
+	public static void setEngaged(NPC npc, dPlayer player, boolean engaged) {
+		if (engaged) {
+			currentlyEngagedPlayer.put(getHashKey(npc, player), System.currentTimeMillis()
+					+ (long) (Duration.valueOf(Settings.engageTimeoutInSeconds()).getSeconds()) * 1000);
+		}
+		if (!engaged) {
+			currentlyEngagedPlayer.remove(getHashKey(npc, player));
+		}
+	}
 
     /**
      * Sets a dNPC as ENGAGED for a specific amount of seconds. Engaged NPCs do not
@@ -152,10 +150,11 @@ public class EngageCommand extends AbstractCommand {
      * @param player   the dPlayer affected (optional)
      * @param duration the number of seconds to engage the dNPC
      */
-    public static void setEngaged(NPC npc, int duration) {
-        currentlyEngaged.put(npc, System.currentTimeMillis() + duration * 1000);
-    }
-    public static void setEngaged(NPC npc, dPlayer player, int duration) {
-        currentlyEngagedPlayer.put(getHashKey(npc, player), System.currentTimeMillis() + duration * 1000);
-    }
+	public static void setEngaged(NPC npc, int duration) {
+		currentlyEngaged.put(npc, System.currentTimeMillis() + duration * 1000);
+	}
+
+	public static void setEngaged(NPC npc, dPlayer player, int duration) {
+		currentlyEngagedPlayer.put(getHashKey(npc, player), System.currentTimeMillis() + duration * 1000);
+	}
 }
