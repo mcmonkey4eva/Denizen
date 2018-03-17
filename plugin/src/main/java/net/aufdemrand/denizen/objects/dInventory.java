@@ -499,8 +499,7 @@ public class dInventory implements dObject, Notable, Adjustable {
         ItemStack[] oldContents = inventory.getContents();
         ItemStack[] newContents = new ItemStack[size];
         if (oldSize > size) {
-            for (int i = 0; i < size; i++) // TODO: Why is this a manual copy?
-            {
+            for (int i = 0; i < size; i++) { // TODO: Why is this a manual copy?
                 newContents[i] = oldContents[i];
             }
         }
@@ -508,8 +507,7 @@ public class dInventory implements dObject, Notable, Adjustable {
             newContents = oldContents;
         }
         String title = inventory.getTitle();
-        inventory = Bukkit.getServer().createInventory(null, size,
-                (title != null ? title : inventory.getType().getDefaultTitle()));
+        inventory = Bukkit.getServer().createInventory(null, size, (title != null ? title : inventory.getType().getDefaultTitle()));
         inventory.setContents(newContents);
         loadIdentifiers();
     }
@@ -1306,7 +1304,7 @@ public class dInventory implements dObject, Notable, Adjustable {
         // Returns whether the inventory can fit an item.
         // -->
         if (attribute.startsWith("can_fit") && attribute.hasContext(1)) {
-            List<dItem> items = dList.valueOf(attribute.getContext(1)).filter(dItem.class);
+            List<dItem> items = dList.valueOf(attribute.getContext(1)).filter(dItem.class, attribute.getScriptEntry());
             if (items == null || items.isEmpty()) {
                 return null;
             }
