@@ -1631,14 +1631,13 @@ public class dInventory implements dObject, Notable, Adjustable {
 
             return new Element(found_items >= qty).getAttribute(attribute.fulfill(attribs));
         }
-        
+
         // <--[tag]
         // @attribute <in@inventory.contains.nbt[<key>]>
         // @returns Element(Boolean)
         // @description
         // Returns whether the inventory contains an item with the specified key.
         // -->
-        
         if (attribute.startsWith("contains.nbt") && attribute.hasContext(2)) {
             String keyName = attribute.getContext(2);
             int qty = 1;
