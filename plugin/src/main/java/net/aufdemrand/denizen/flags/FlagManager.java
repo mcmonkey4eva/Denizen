@@ -14,6 +14,7 @@ import net.aufdemrand.denizencore.objects.*;
 import net.aufdemrand.denizencore.utilities.CoreUtilities;
 import org.bukkit.configuration.ConfigurationSection;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 // <--[language]
@@ -858,8 +859,8 @@ public class FlagManager {
                 case DECREASE:
                 case MULTIPLY:
                 case DIVIDE:
-                    double currentValue = get(index).asDouble();
-                    set(CoreUtilities.doubleToString(math(currentValue, Double.valueOf(value.asString()), action)), index);
+                    BigDecimal currentValue = get(index).asBD();
+                    set(CoreUtilities.bigDecToString(math(currentValue, value.asBigDecimal(), action)), index);
                     break;
 
                 case SET_BOOLEAN:
@@ -887,25 +888,25 @@ public class FlagManager {
             }
         }
 
-        private double math(double currentValue, double value, Action flagAction) {
+        private BigDecimal math(BigDecimal currentValue, BigDecimal value, Action flagAction) {
             switch (flagAction) {
                 case INCREASE:
-                    return currentValue + value;
+                    return currentValue.add(value);
 
                 case DECREASE:
-                    return currentValue - value;
+                    return currentValue.subtract(value);
 
                 case MULTIPLY:
-                    return currentValue * value;
+                    return currentValue.multiply(value);
 
                 case DIVIDE:
-                    return currentValue / value;
+                    return currentValue.divide(value);
 
                 default:
                     break;
             }
 
-            return 0;
+            return new BigDecimal(0);
         }
 
     }
@@ -952,6 +953,20 @@ public class FlagManager {
             }
             catch (Exception e) {
                 return false;
+            }
+        }
+
+        /**
+         * Retrieves a BigDecimal of the specified index. If value is not set,
+         * or the value is not convertible to a BigDecimal, 0 is returned.
+         */
+        public BigDecimal asBD() {
+            adjustIndex();
+            try {
+                return aH.getBigDecFrom(values.get(index));
+            }
+            catch (Exception e) {
+                return new BigDecimal(0);
             }
         }
 
