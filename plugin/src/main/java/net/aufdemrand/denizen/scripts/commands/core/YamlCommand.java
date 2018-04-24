@@ -16,6 +16,7 @@ import net.aufdemrand.denizencore.scripts.commands.AbstractCommand;
 import net.aufdemrand.denizencore.tags.Attribute;
 import net.aufdemrand.denizencore.tags.ReplaceableTagEvent;
 import net.aufdemrand.denizencore.tags.TagManager;
+import net.aufdemrand.denizencore.utilities.CoreUtilities;
 import net.aufdemrand.denizencore.utilities.YamlConfiguration;
 import net.aufdemrand.denizencore.utilities.text.StringHolder;
 import org.bukkit.Bukkit;
@@ -363,16 +364,16 @@ public class YamlCommand extends AbstractCommand implements Listener {
 
                     switch (yaml_action) {
                         case INCREASE:
-                            Set(yaml, index, keyStr, String.valueOf(aH.getFloatFrom(Get(yaml, index, keyStr, "0")) + aH.getFloatFrom(valueStr)));
+                            Set(yaml, index, keyStr, CoreUtilities.doubleToString(aH.getFloatFrom(Get(yaml, index, keyStr, "0")) + aH.getFloatFrom(valueStr)));
                             break;
                         case DECREASE:
-                            Set(yaml, index, keyStr, String.valueOf(aH.getFloatFrom(Get(yaml, index, keyStr, "0")) - aH.getFloatFrom(valueStr)));
+                            Set(yaml, index, keyStr, CoreUtilities.doubleToString(aH.getFloatFrom(Get(yaml, index, keyStr, "0")) - aH.getFloatFrom(valueStr)));
                             break;
                         case MULTIPLY:
-                            Set(yaml, index, keyStr, String.valueOf(aH.getFloatFrom(Get(yaml, index, keyStr, "1")) * aH.getFloatFrom(valueStr)));
+                            Set(yaml, index, keyStr, CoreUtilities.doubleToString(aH.getFloatFrom(Get(yaml, index, keyStr, "1")) * aH.getFloatFrom(valueStr)));
                             break;
                         case DIVIDE:
-                            Set(yaml, index, keyStr, String.valueOf(aH.getFloatFrom(Get(yaml, index, keyStr, "1")) / aH.getFloatFrom(valueStr)));
+                            Set(yaml, index, keyStr, CoreUtilities.doubleToString(aH.getFloatFrom(Get(yaml, index, keyStr, "1")) / aH.getFloatFrom(valueStr)));
                             break;
                         case DELETE:
                             yaml.set(keyStr, null);
