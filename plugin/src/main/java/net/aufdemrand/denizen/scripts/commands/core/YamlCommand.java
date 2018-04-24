@@ -3,7 +3,6 @@ package net.aufdemrand.denizen.scripts.commands.core;
 import net.aufdemrand.denizen.Settings;
 import net.aufdemrand.denizen.utilities.DenizenAPI;
 import net.aufdemrand.denizen.utilities.Utilities;
-import net.aufdemrand.denizencore.utilities.CoreUtilities;
 import net.aufdemrand.denizencore.utilities.debugging.dB;
 import net.aufdemrand.denizencore.exceptions.CommandExecutionException;
 import net.aufdemrand.denizencore.exceptions.InvalidArgumentsException;
@@ -17,6 +16,7 @@ import net.aufdemrand.denizencore.scripts.commands.AbstractCommand;
 import net.aufdemrand.denizencore.tags.Attribute;
 import net.aufdemrand.denizencore.tags.ReplaceableTagEvent;
 import net.aufdemrand.denizencore.tags.TagManager;
+import net.aufdemrand.denizencore.utilities.CoreUtilities;
 import net.aufdemrand.denizencore.utilities.YamlConfiguration;
 import net.aufdemrand.denizencore.utilities.text.StringHolder;
 import org.bukkit.Bukkit;
@@ -364,16 +364,16 @@ public class YamlCommand extends AbstractCommand implements Listener {
 
                     switch (yaml_action) {
                         case INCREASE:
-                            Set(yaml, index, keyStr, CoreUtilities.doubleToString(aH.getDoubleFrom(Get(yaml, index, keyStr, "0")) + aH.getDoubleFrom(valueStr)));
+                            Set(yaml, index, keyStr, CoreUtilities.bigDecToString(aH.getBigDecFrom(Get(yaml, index, keyStr, "0")).add(aH.getBigDecFrom(valueStr))));
                             break;
                         case DECREASE:
-                            Set(yaml, index, keyStr, CoreUtilities.doubleToString(aH.getDoubleFrom(Get(yaml, index, keyStr, "0")) - aH.getDoubleFrom(valueStr)));
+                            Set(yaml, index, keyStr, CoreUtilities.bigDecToString(aH.getBigDecFrom(Get(yaml, index, keyStr, "0")).subtract(aH.getBigDecFrom(valueStr))));
                             break;
                         case MULTIPLY:
-                            Set(yaml, index, keyStr, CoreUtilities.doubleToString(aH.getDoubleFrom(Get(yaml, index, keyStr, "1")) * aH.getDoubleFrom(valueStr)));
+                            Set(yaml, index, keyStr, CoreUtilities.bigDecToString(aH.getBigDecFrom(Get(yaml, index, keyStr, "1")).multiply(aH.getBigDecFrom(valueStr))));
                             break;
                         case DIVIDE:
-                            Set(yaml, index, keyStr, CoreUtilities.doubleToString(aH.getDoubleFrom(Get(yaml, index, keyStr, "1")) / aH.getDoubleFrom(valueStr)));
+                            Set(yaml, index, keyStr, CoreUtilities.bigDecToString(aH.getBigDecFrom(Get(yaml, index, keyStr, "1")).divide(aH.getBigDecFrom(valueStr))));
                             break;
                         case DELETE:
                             yaml.set(keyStr, null);
