@@ -397,6 +397,50 @@ public class dMaterial implements dObject {
     public final static dMaterial ANDESITE = new dMaterial(Material.STONE, 5).forceIdentifyAs("ANDESITE");
     public final static dMaterial POLISHED_ANDESITE = new dMaterial(Material.STONE, 6).forceIdentifyAs("POLISHED_ANDESITE");
 
+    // Version checks for version-specific materials
+    public static dMaterial getMaterial1_12(String material, int data, String name) {
+        if (NMSHandler.getVersion().isAtLeast(NMSVersion.v1_12_R1)) {
+            return new dMaterial(Material.valueOf(material), data).forceIdentifyAs(name);
+        }
+        return null;
+    }
+
+    // Concrete
+    public final static dMaterial WHITE_CONCRETE = getMaterial1_12("CONCRETE", 0, "WHITE_CONCRETE");
+    public final static dMaterial ORANGE_CONCRETE = getMaterial1_12("CONCRETE", 1, "ORANGE_CONCRETE");
+    public final static dMaterial MAGENTA_CONCRETE = getMaterial1_12("CONCRETE", 2, "MAGENTA_CONCRETE");
+    public final static dMaterial LIGHT_BLUE_CONCRETE = getMaterial1_12("CONCRETE", 3, "LIGHT_BLUE_CONCRETE");
+    public final static dMaterial YELLOW_CONCRETE = getMaterial1_12("CONCRETE", 4, "YELLOW_CONCRETE");
+    public final static dMaterial LIME_CONCRETE = getMaterial1_12("CONCRETE", 5, "LIME_CONCRETE");
+    public final static dMaterial PINK_CONCRETE = getMaterial1_12("CONCRETE", 6, "PINK_CONCRETE");
+    public final static dMaterial GRAY_CONCRETE = getMaterial1_12("CONCRETE", 7, "GRAY_CONCRETE");
+    public final static dMaterial LIGHT_GRAY_CONCRETE = getMaterial1_12("CONCRETE", 8, "LIGHT_GRAY_CONCRETE");
+    public final static dMaterial CYAN_CONCRETE = getMaterial1_12("CONCRETE", 9, "CYAN_CONCRETE");
+    public final static dMaterial PURPLE_CONCRETE = getMaterial1_12("CONCRETE", 10, "PURPLE_CONCRETE");
+    public final static dMaterial BLUE_CONCRETE = getMaterial1_12("CONCRETE", 11, "BLUE_CONCRETE");
+    public final static dMaterial BROWN_CONCRETE = getMaterial1_12("CONCRETE", 12, "BROWN_CONCRETE");
+    public final static dMaterial GREEN_CONCRETE = getMaterial1_12("CONCRETE", 13, "GREEN_CONCRETE");
+    public final static dMaterial RED_CONCRETE = getMaterial1_12("CONCRETE", 14, "RED_CONCRETE");
+    public final static dMaterial BLACK_CONCRETE = getMaterial1_12("CONCRETE", 15, "BLACK_CONCRETE");
+
+    // Concrete Powder
+    public final static dMaterial WHITE_CONCRETE_POWDER = getMaterial1_12("CONCRETE_POWDER", 0, "WHITE_CONCRETE_POWDER");
+    public final static dMaterial ORANGE_CONCRETE_POWDER = getMaterial1_12("CONCRETE_POWDER", 1, "ORANGE_CONCRETE_POWDER");
+    public final static dMaterial MAGENTA_CONCRETE_POWDER = getMaterial1_12("CONCRETE_POWDER", 2, "MAGENTA_CONCRETE_POWDER");
+    public final static dMaterial LIGHT_BLUE_CONCRETE_POWDER = getMaterial1_12("CONCRETE_POWDER", 3, "LIGHT_BLUE_CONCRETE_POWDER");
+    public final static dMaterial YELLOW_CONCRETE_POWDER = getMaterial1_12("CONCRETE_POWDER", 4, "YELLOW_CONCRETE_POWDER");
+    public final static dMaterial LIME_CONCRETE_POWDER = getMaterial1_12("CONCRETE_POWDER", 5, "LIME_CONCRETE_POWDER");
+    public final static dMaterial PINK_CONCRETE_POWDER = getMaterial1_12("CONCRETE_POWDER", 6, "PINK_CONCRETE_POWDER");
+    public final static dMaterial GRAY_CONCRETE_POWDER = getMaterial1_12("CONCRETE_POWDER", 7, "GRAY_CONCRETE_POWDER");
+    public final static dMaterial LIGHT_GRAY_CONCRETE_POWDER = getMaterial1_12("CONCRETE_POWDER", 8, "LIGHT_GRAY_CONCRETE_POWDER");
+    public final static dMaterial CYAN_CONCRETE_POWDER = getMaterial1_12("CONCRETE_POWDER", 9, "CYAN_CONCRETE_POWDER");
+    public final static dMaterial PURPLE_CONCRETE_POWDER = getMaterial1_12("CONCRETE_POWDER", 10, "PURPLE_CONCRETE_POWDER");
+    public final static dMaterial BLUE_CONCRETE_POWDER = getMaterial1_12("CONCRETE_POWDER", 11, "BLUE_CONCRETE_POWDER");
+    public final static dMaterial BROWN_CONCRETE_POWDER = getMaterial1_12("CONCRETE_POWDER", 12, "BROWN_CONCRETE_POWDER");
+    public final static dMaterial GREEN_CONCRETE_POWDER = getMaterial1_12("CONCRETE_POWDER", 13, "GREEN_CONCRETE_POWDER");
+    public final static dMaterial RED_CONCRETE_POWDER = getMaterial1_12("CONCRETE_POWDER", 14, "RED_CONCRETE_POWDER");
+    public final static dMaterial BLACK_CONCRETE_POWDER = getMaterial1_12("CONCRETE_POWDER", 15, "BLACK_CONCRETE_POWDER");
+
     // TODO: The following would be walls of useless materials, make properties for these instead of custom mats
     // Step rotations [rotation=(north/west/south/east)(up/down)] for each of the step blocks
     // Rotations for chests/furnaces/pumpkins/cocoa/etc [rotation=(north/south/east/west)] for each of those types
