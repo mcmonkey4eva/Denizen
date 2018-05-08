@@ -1,6 +1,7 @@
 package net.aufdemrand.denizen.objects;
 
 import net.aufdemrand.denizen.nms.NMSHandler;
+import net.aufdemrand.denizen.nms.NMSVersion;
 import net.aufdemrand.denizen.utilities.debugging.dB;
 import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.Fetchable;
@@ -493,7 +494,9 @@ public class dMaterial implements dObject {
             try {
                 Field field = dMaterial.class.getField(material.name());
                 dMaterial mat = (dMaterial) field.get(null);
-                registerVariety(mat);
+                if (mat != null) {
+                    registerVariety(mat);
+                }
             }
             catch (Exception e) {
                 dB.echoError(e);
