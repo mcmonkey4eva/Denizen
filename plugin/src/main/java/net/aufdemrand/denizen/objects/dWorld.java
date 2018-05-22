@@ -889,6 +889,62 @@ public class dWorld implements dObject, Adjustable {
             }
         });
 
+        // <--[tag]
+        // @attribute <w@world.list_gamerules>
+        // @returns dList(Element)
+        // @description
+        // returns a list of gamerules in this world.
+        // -->
+        registerTag("list_gamerules", new TagRunnable() {
+            @Override
+            public String run(Attribute attribute, dObject object) {
+                ArrayList<Element> gamerules = new ArrayList<Element>();
+
+                for (String gamerule : ((dWorld) object).getWorld().getGameRules()) {
+                    gamerules.add(new Element(gamerule));
+                }
+
+                return new dList(gamerules)
+                        .getAttribute(attribute.fulfill(1));
+            }
+        });
+
+        // <--[tag]
+        // @attribute <w@world.has_gamerule[<gamerule name>]>
+        // @returns Element(Boolean)
+        // @description
+        // returns if the gamerule exists.
+        // -->
+        registerTag("has_gamerule", new TagRunnable() {
+            @Override
+            public String run(Attribute attribute, dObject object) {
+                if (!attribute.hasContext(1)) {
+                    dB.echoError("The tag w@world.has_gamerule[...] must have a value.");
+                    return null;
+                }
+                return new Element(((dWorld) object).getWorld().isGameRule(attribute.getContext(1)))
+                        .getAttribute(attribute.fulfill(1));
+            }
+        });
+
+        // <--[tag]
+        // @attribute <w@world.gamerule[<gamerule name>]>
+        // @returns Element
+        // @description
+        // returns the value of the gamerule.
+        // -->
+        registerTag("gamerule", new TagRunnable() {
+            @Override
+            public String run(Attribute attribute, dObject object) {
+                if (!attribute.hasContext(1)) {
+                    dB.echoError("The tag w@world.gamerule[...] must have a value.");
+                    return null;
+                }
+                return new Element(((dWorld) object).getWorld().getGameRuleValue(attribute.getContext(1)))
+                        .getAttribute(attribute.fulfill(1));
+            }
+        });
+
     }
 
     public static HashMap<String, TagRunnable> registeredTags = new HashMap<String, TagRunnable>();
