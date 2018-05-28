@@ -93,33 +93,8 @@ public class RunCommand extends AbstractCommand implements Holdable {
 
         for (aH.Argument arg : aH.interpret(scriptEntry.getArguments())) {
 
-            if (arg.matchesPrefix("i", "id")) {
-                scriptEntry.addObject("id", arg.asElement());
-            }
-
-            else if (arg.matchesPrefix("a", "as")
-                    && arg.matchesArgumentType(dPlayer.class)) {
-                ((BukkitScriptEntryData) scriptEntry.entryData).setPlayer(arg.asType(dPlayer.class));
-                dB.echoError(scriptEntry.getResidingQueue(), "Run as:<player> is outdated, use player:<player>");
-            }
-
-            else if (arg.matchesPrefix("a", "as")
-                    && arg.matchesArgumentType(dNPC.class)) {
-                ((BukkitScriptEntryData) scriptEntry.entryData).setNPC(arg.asType(dNPC.class));
-                dB.echoError(scriptEntry.getResidingQueue(), "Run as:<npc> is outdated, use npc:<npc>");
-            }
-
-            // Catch invalid entry for 'as' argument
-            else if (arg.matchesPrefix("a", "as")) {
-                dB.echoError(scriptEntry.getResidingQueue(), "Specified target was not attached. Value must contain a valid PLAYER or NPC object.");
-            }
-
-            else if (arg.matchesPrefix("d", "def", "define", "c", "context")) {
+            if (arg.matchesPrefix("d", "def", "define", "c", "context")) {
                 scriptEntry.addObject("definitions", arg.asElement());
-            }
-
-            else if (arg.matches("instant", "instantly")) {
-                scriptEntry.addObject("instant", new Element(true));
             }
 
             else if (arg.matchesPrefix("delay")
@@ -130,6 +105,30 @@ public class RunCommand extends AbstractCommand implements Holdable {
             else if (arg.matches("local", "locally")) {
                 scriptEntry.addObject("local", new Element("true"));
                 scriptEntry.addObject("script", scriptEntry.getScript());
+            }
+
+            else if (arg.matches("instant", "instantly")) {
+                scriptEntry.addObject("instant", new Element(true));
+            }
+
+            else if (arg.matchesPrefix("i", "id")) {
+                scriptEntry.addObject("id", arg.asElement());
+            }
+
+            else if (arg.matchesPrefix("a", "as")) {
+
+            	if(arg.matchesArgumentType(dPlayer.class)) {
+                    ((BukkitScriptEntryData) scriptEntry.entryData).setPlayer(arg.asType(dPlayer.class));
+                    dB.echoError(scriptEntry.getResidingQueue(), "Run as:<player> is outdated, use player:<player>");
+
+            	} else if (arg.matchesArgumentType(dNPC.class)) {
+	                ((BukkitScriptEntryData) scriptEntry.entryData).setNPC(arg.asType(dNPC.class));
+	                dB.echoError(scriptEntry.getResidingQueue(), "Run as:<npc> is outdated, use npc:<npc>");
+
+            	} else {
+                    dB.echoError(scriptEntry.getResidingQueue(), "Specified target was not attached. Value must contain a valid PLAYER or NPC object.");
+            	}
+
             }
 
             else if (!scriptEntry.hasObject("script")
