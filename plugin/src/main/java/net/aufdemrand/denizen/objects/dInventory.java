@@ -11,6 +11,7 @@ import net.aufdemrand.denizen.tags.BukkitTagContext;
 import net.aufdemrand.denizen.utilities.Utilities;
 import net.aufdemrand.denizen.utilities.debugging.dB;
 import net.aufdemrand.denizen.utilities.depends.Depends;
+import net.aufdemrand.denizen.utilities.nbt.CustomNBT;
 import net.aufdemrand.denizencore.objects.*;
 import net.aufdemrand.denizencore.objects.aH.Argument;
 import net.aufdemrand.denizencore.objects.aH.PrimitiveType;
@@ -215,7 +216,9 @@ public class dInventory implements dObject, Notable, Adjustable {
                     return new dInventory(arg.asElement().asInt());
                 }
                 else {
-                    if (!silent) dB.echoError("That type of inventory does not exist!");
+                    if (!silent) {
+                        dB.echoError("That type of inventory does not exist!");
+                    }
                 }
             }
             else if (type.equals("npc")) {
@@ -232,8 +235,10 @@ public class dInventory implements dObject, Notable, Adjustable {
                 if (dPlayer.matches(holder)) {
                     dInventory workbench = dPlayer.valueOf(holder).getWorkbench();
                     if (workbench != null) {
-                        if (!silent) dB.echoError("Value of dInventory returning null (" + string + ")." +
-                                " Specified player does not have an open workbench.");
+                        if (!silent) {
+                            dB.echoError("Value of dInventory returning null (" + string + ")." +
+                                    " Specified player does not have an open workbench.");
+                        }
                     }
                     else {
                         return workbench;
@@ -257,12 +262,16 @@ public class dInventory implements dObject, Notable, Adjustable {
             }
 
             // If the dInventory is invalid, alert the user and return null
-            if (!silent) dB.echoError("Value of dInventory returning null. Invalid " +
-                    type + " specified: " + holder);
+            if (!silent) {
+                dB.echoError("Value of dInventory returning null. Invalid " +
+                        type + " specified: " + holder);
+            }
             return null;
         }
 
-        if (!silent) dB.echoError("Value of dInventory returning null. Invalid dInventory specified: " + string);
+        if (!silent) {
+            dB.echoError("Value of dInventory returning null. Invalid dInventory specified: " + string);
+        }
         return null;
     }
 
@@ -742,7 +751,7 @@ public class dInventory implements dObject, Notable, Adjustable {
     }
 
     public int firstEmpty(int startSlot) {
-        ItemStack[] inventory = getContents();
+        ItemStack[] inventory = getStorageContents();
         for (int i = startSlot; i < inventory.length; i++) {
             if (inventory[i] == null) {
                 return i;
@@ -1151,6 +1160,7 @@ public class dInventory implements dObject, Notable, Adjustable {
             destination.setContents(this.getContents());
         }
     }
+
     public dInventory setSlots(int slot, ItemStack... items) {
         return setSlots(slot, items, items.length);
     }
@@ -1632,6 +1642,44 @@ public class dInventory implements dObject, Notable, Adjustable {
         }
 
         // <--[tag]
+        // @attribute <in@inventory.contains.nbt[<key>]>
+        // @returns Element(Boolean)
+        // @description
+        // Returns whether the inventory contains an item with the specified key.
+        // -->
+        if (attribute.startsWith("contains.nbt") && attribute.hasContext(2)) {
+            String keyName = attribute.getContext(2);
+            int qty = 1;
+            int attribs = 2;
+
+            // <--[tag]
+            // @attribute <in@inventory.contains.nbt[<key>].quantity[<#>]>
+            // @returns Element(Boolean)
+            // @description
+            // Returns whether the inventory contains a certain quantity of an item with the specified key.
+            // -->
+            if ((attribute.getAttribute(3).startsWith("quantity") || attribute.getAttribute(3).startsWith("qty")) &&
+                    attribute.hasContext(3) &&
+                    aH.matchesInteger(attribute.getContext(3))) {
+                qty = attribute.getIntContext(3);
+                attribs = 3;
+            }
+
+            int found_items = 0;
+
+            for (ItemStack item : getContents()) {
+                if (CustomNBT.hasCustomNBT(item, keyName, CustomNBT.KEY_DENIZEN)) {
+                    found_items += item.getAmount();
+                    if (found_items >= qty) {
+                        break;
+                    }
+                }
+            }
+
+            return new Element(found_items >= qty).getAttribute(attribute.fulfill(attribs));
+        }
+
+        // <--[tag]
         // @attribute <in@inventory.contains.material[<material>]>
         // @returns Element(Boolean)
         // @description
@@ -1752,7 +1800,8 @@ public class dInventory implements dObject, Notable, Adjustable {
         // Returns -1 if the inventory is full.
         // -->
         if (attribute.startsWith("first_empty")) {
-            return new Element(firstEmpty(0)).getAttribute(attribute.fulfill(1));
+            int val = firstEmpty(0);
+            return new Element(val >= 0 ? (val + 1) : -1).getAttribute(attribute.fulfill(1));
         }
 
         // <--[tag]

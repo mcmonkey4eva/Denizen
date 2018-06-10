@@ -862,7 +862,7 @@ public class Denizen extends JavaPlugin implements DenizenImplementation {
             propertyParser.registerProperty(ItemBook.class, dItem.class);
             propertyParser.registerProperty(ItemDisplayname.class, dItem.class);
             propertyParser.registerProperty(ItemDurability.class, dItem.class);
-            propertyParser.registerProperty(ItemDye.class, dItem.class);
+            propertyParser.registerProperty(ItemColor.class, dItem.class);
             propertyParser.registerProperty(ItemEnchantments.class, dItem.class);
             propertyParser.registerProperty(ItemFirework.class, dItem.class);
             propertyParser.registerProperty(ItemFlags.class, dItem.class);
@@ -1626,47 +1626,36 @@ public class Denizen extends JavaPlugin implements DenizenImplementation {
         if (comparedto.equalsIgnoreCase("location")) {
             outcome = dLocation.matches(comparable);
         }
-
         else if (comparedto.equalsIgnoreCase("material")) {
             outcome = dMaterial.matches(comparable);
         }
-
         else if (comparedto.equalsIgnoreCase("materiallist")) {
             outcome = dList.valueOf(comparable).containsObjectsFrom(dMaterial.class);
         }
-
         else if (comparedto.equalsIgnoreCase("entity")) {
             outcome = dEntity.matches(comparable);
         }
-
         else if (comparedto.equalsIgnoreCase("spawnedentity")) {
             outcome = (dEntity.matches(comparable) && dEntity.valueOf(comparable).isSpawned());
         }
-
         else if (comparedto.equalsIgnoreCase("npc")) {
             outcome = dNPC.matches(comparable);
         }
-
         else if (comparedto.equalsIgnoreCase("player")) {
             outcome = dPlayer.matches(comparable);
         }
-
         else if (comparedto.equalsIgnoreCase("offlineplayer")) {
             outcome = (dPlayer.valueOf(comparable) != null && !dPlayer.valueOf(comparable).isOnline());
         }
-
         else if (comparedto.equalsIgnoreCase("onlineplayer")) {
             outcome = (dPlayer.valueOf(comparable) != null && dPlayer.valueOf(comparable).isOnline());
         }
-
         else if (comparedto.equalsIgnoreCase("item")) {
             outcome = dItem.matches(comparable);
         }
-
         else if (comparedto.equalsIgnoreCase("cuboid")) {
             outcome = dCuboid.matches(comparable);
         }
-
         else {
             dB.echoError("Invalid 'matches' type '" + comparedto + "'!");
         }
@@ -1682,6 +1671,16 @@ public class Denizen extends JavaPlugin implements DenizenImplementation {
     @Override
     public boolean allowedToWebget() {
         return Settings.allowWebget();
+    }
+
+    @Override
+    public void preTagExecute() {
+        try {
+            org.spigotmc.AsyncCatcher.enabled = false;
+        }
+        catch (Throwable e) {
+            dB.echoError("Running not-Spigot?!");
+        }
     }
 }
 

@@ -128,13 +128,13 @@ public class ProjectileHitsScriptEvent extends BukkitScriptEvent implements List
     @Override
     public dObject getContext(String name) {
         if (name.equals("projectile")) {
-            return projectile;
+            return projectile.getDenizenObject();
         }
         else if (name.equals("location")) {
             return location;
         }
         else if (name.equals("shooter") && shooter != null) {
-            return shooter;
+            return shooter.getDenizenObject();
         }
         return super.getContext(name);
     }
@@ -164,7 +164,8 @@ public class ProjectileHitsScriptEvent extends BukkitScriptEvent implements List
                         break;
                     }
                 }
-            } catch (IllegalStateException ex) {
+            }
+            catch (IllegalStateException ex) {
                 // This happens because it can. Also not explainable whatsoever.
                 // As this error happens on no fault of the user, display no error message... just cancel the event.
                 return;
