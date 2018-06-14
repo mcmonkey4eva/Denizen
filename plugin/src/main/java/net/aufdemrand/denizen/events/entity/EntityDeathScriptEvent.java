@@ -97,11 +97,7 @@ public class EntityDeathScriptEvent extends BukkitScriptEvent implements Listene
             return false;
         }
 
-        if (!runInCheck(scriptContainer, s, lower, entity.getLocation())) {
-            return false;
-        }
-
-        return true;
+        return runInCheck(scriptContainer, s, lower, entity.getLocation());
     }
 
     @Override
@@ -224,32 +220,42 @@ public class EntityDeathScriptEvent extends BukkitScriptEvent implements Listene
             player = entity.getDenizenPlayer();
         }
 
-        damager = null;
-        EntityDamageEvent lastDamage = entity.getBukkitEntity().getLastDamageCause();
-        if (lastDamage != null) {
-            if (lastDamage instanceof EntityDamageByEntityEvent) {
-                damager = new dEntity(((EntityDamageByEntityEvent) lastDamage).getDamager()).getDenizenObject();
-            }
+        cause = null;
+        if (livingEntity.getLastDamageCause() != null) {
+            cause = new Element(livingEntity.getLastDamageCause().getCause().toString());
+        }
 
+        damager = null;
+        EntityDamageEvent hitEvent = entity.getBukkitEntity().getLastDamageCause();
+
+        // died instantly
+        if (hitEvent != null && hitEvent instanceof EntityDamageByEntityEvent) {
+            dEntity entity = new dEntity(((EntityDamageByEntityEvent) hitEvent).getDamager());
+
+            // died by projectile
+            if (entity.isProjectile() && entity.hasShooter()) {
+                entity = entity.getShooter(); 
+            }
+            damager = entity.getDenizenObject();
+
+        // died over time, i.e. fire
+        } else if (livingEntity.getKiller() != null) {
+            damager = new dPlayer(livingEntity.getKiller());
         }
 
         message = null;
         inventory = null;
-        PlayerDeathEvent subEvent = null;
+        PlayerDeathEvent playerEvent = null;
         if (event instanceof PlayerDeathEvent) {
-            subEvent = (PlayerDeathEvent) event;
-            message = new Element(subEvent.getDeathMessage());
+            playerEvent = (PlayerDeathEvent) event;
+            message = new Element(playerEvent.getDeathMessage());
 
             // Null check to prevent NPCs from causing an NPE
             if (player != null) {
                 inventory = player.getInventory();
             }
-            keep_inv = subEvent.getKeepInventory();
-            keep_level = subEvent.getKeepLevel();
-        }
-        cause = null;
-        if (event.getEntity().getLastDamageCause() != null) {
-            cause = new Element(event.getEntity().getLastDamageCause().getCause().toString());
+            keep_inv = playerEvent.getKeepInventory();
+            keep_level = playerEvent.getKeepLevel();
         }
 
         drops = new dList();
@@ -277,15 +283,15 @@ public class EntityDeathScriptEvent extends BukkitScriptEvent implements Listene
                 }
             }
         }
-        if (event instanceof PlayerDeathEvent) {
-            ((PlayerDeathEvent) event).setKeepInventory(keep_inv);
-            ((PlayerDeathEvent) event).setKeepLevel(keep_level);
-        }
-        if (message != null && subEvent != null) {
-            subEvent.setDeathMessage(message.asString());
-        }
-        if (cancelled && subEvent != null) {
-            subEvent.setDeathMessage(null);
+        if (playerEvent != null) {
+            playerEvent.setKeepInventory(keep_inv);
+            playerEvent.setKeepLevel(keep_level);
+            if (message != null) {
+                playerEvent.setDeathMessage(message.asString());
+            }
+            if (cancelled) {
+                playerEvent.setDeathMessage(null);
+            }
         }
 
         dEntity.forgetEntity(livingEntity);
