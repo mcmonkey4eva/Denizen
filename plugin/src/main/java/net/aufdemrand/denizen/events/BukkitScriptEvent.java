@@ -113,7 +113,11 @@ public abstract class BukkitScriptEvent extends ScriptEvent {
         }
         item = new dItem(item.getItemStack().clone());
         item.setAmount(1);
-        if (CoreUtilities.toLowerCase(item.identifyNoIdentifier()).equals(comparedto)) {
+        dMaterial material = dMaterial.valueOf(comparedto);
+        if (material == null || item.getMaterial().getMaterial() != material.getMaterial()) {
+        	return false;
+        }
+        else if (CoreUtilities.toLowerCase(item.identifyNoIdentifier()).equals(comparedto)) {
             return true;
         }
         else if (CoreUtilities.toLowerCase(item.identifyMaterialNoIdentifier()).equals(comparedto)) {
@@ -134,7 +138,11 @@ public abstract class BukkitScriptEvent extends ScriptEvent {
             return false;
         }
         comparedto = CoreUtilities.toLowerCase(comparedto);
-        if (comparedto.equals("block") || comparedto.equals("material")) {
+        dMaterial material = dMaterial.valueOf(comparedto);
+        if (material == null || mat.getMaterial() != material.getMaterial()) {
+        	return false;
+        }
+        else if (comparedto.equals("block") || comparedto.equals("material")) {
             return true;
         }
         else if (CoreUtilities.toLowerCase(mat.realName()).equals(comparedto)) {

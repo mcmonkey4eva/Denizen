@@ -101,7 +101,7 @@ public class PlayerClicksBlockScriptEvent extends BukkitScriptEvent implements L
                 dB.echoError("Invalid WITH item in " + getName() + " for '" + s + "' in " + scriptContainer.getName());
                 return false;
             }
-            if (held == null || !tryItem(held, with)) {
+            if (!tryItem(held, with)) {
                 return false;
             }
         }
