@@ -147,7 +147,7 @@ public class CommandSmartEvent implements OldSmartEvent, Listener {
             cuboid_context.add(cuboid.identifySimple());
         }
         for (String str : events) {
-            cuboidEvents.add(str + " in " + new dWorld(event.getPlayer().getLocation().getWorld()).identifySimple());
+            cuboidEvents.add(str + " in " + new dWorld(event.getPlayer().getWorld()).identifySimple());
         }
         events.addAll(cuboidEvents);
         // Add in cuboids context, with either the cuboids or an empty list
