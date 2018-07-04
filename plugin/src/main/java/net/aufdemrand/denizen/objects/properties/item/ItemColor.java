@@ -8,6 +8,7 @@ import net.aufdemrand.denizencore.objects.Mechanism;
 import net.aufdemrand.denizencore.objects.dObject;
 import net.aufdemrand.denizencore.objects.properties.Property;
 import net.aufdemrand.denizencore.tags.Attribute;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -63,7 +64,11 @@ public class ItemColor implements Property {
                     && (mat == Material.POTION
                     || mat == Material.LINGERING_POTION
                     || mat == Material.SPLASH_POTION)) {
-                return new dColor(((PotionMeta) item.getItemStack().getItemMeta()).getColor()).getAttribute(attribute.fulfill((1)));
+                PotionMeta pm = (PotionMeta) item.getItemStack().getItemMeta();
+                if (!pm.hasColor()) {
+                    return new dColor(Color.WHITE).getAttribute(attribute.fulfill((1)));
+                }
+                return new dColor(pm.getColor()).getAttribute(attribute.fulfill((1)));
             }
             return new dColor(((LeatherArmorMeta) item.getItemStack().getItemMeta()).getColor()).getAttribute(attribute.fulfill(1));
         }
@@ -79,7 +84,11 @@ public class ItemColor implements Property {
                 && (mat == Material.POTION
                 || mat == Material.LINGERING_POTION
                 || mat == Material.SPLASH_POTION)) {
-            return new dColor(((PotionMeta) item.getItemStack().getItemMeta()).getColor()).identify();
+            PotionMeta pm = (PotionMeta) item.getItemStack().getItemMeta();
+            if (!pm.hasColor()) {
+                return null;
+            }
+            return new dColor(pm.getColor()).identify();
         }
         return new dColor(((LeatherArmorMeta) item.getItemStack().getItemMeta()).getColor()).identify();
     }

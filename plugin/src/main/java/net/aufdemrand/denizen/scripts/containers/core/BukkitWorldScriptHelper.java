@@ -3,6 +3,7 @@ package net.aufdemrand.denizen.scripts.containers.core;
 import net.aufdemrand.denizen.BukkitScriptEntryData;
 import net.aufdemrand.denizen.Settings;
 import net.aufdemrand.denizen.objects.*;
+import net.aufdemrand.denizen.objects.notable.NotableManager;
 import net.aufdemrand.denizen.utilities.DenizenAPI;
 import net.aufdemrand.denizen.utilities.ScoreboardHelper;
 import net.aufdemrand.denizen.utilities.debugging.dB;
@@ -220,6 +221,7 @@ public class BukkitWorldScriptHelper implements Listener {
     //
     // @Determine
     // "CANCELLED" to stop the player from clicking.
+    // dItem to set the current item for the event.
     //
     // -->
     @EventHandler
@@ -232,7 +234,7 @@ public class BukkitWorldScriptHelper implements Listener {
         dItem holding;
 
         dInventory inventory = dInventory.mirrorBukkitInventory(event.getInventory());
-        final dPlayer player = dEntity.getPlayerFrom((Player) event.getWhoClicked());
+        final dPlayer player = dEntity.getPlayerFrom(event.getWhoClicked());
         String type = event.getInventory().getType().name();
         String click = event.getClick().name();
         String slotType = event.getSlotType().name();
@@ -247,6 +249,13 @@ public class BukkitWorldScriptHelper implements Listener {
         events.add(interaction + "in inventory");
         events.add(interaction + "in " + type);
         events.add(interaction + "in " + inventory.identifySimple());
+
+        boolean isNote = NotableManager.isSaved(inventory);
+
+        if (isNote) {
+            events.add("player clicks in notable");
+            events.add(interaction + "in notable");
+        }
 
         if (event.getCursor() != null) {
             holding = new dItem(event.getCursor());
@@ -264,6 +273,12 @@ public class BukkitWorldScriptHelper implements Listener {
             events.add("player clicks in inventory with " + holding.identifyMaterial());
             events.add("player clicks in " + type + " with " + holding.identifyMaterial());
             events.add("player clicks in " + inventory.identifySimple() + " with " + holding.identifyMaterial());
+            if (isNote) {
+                events.add(interaction + "in notable with " + holding.identifySimple());
+                events.add(interaction + "in notable with " + holding.identifyMaterial());
+                events.add("player clicks in notable with " + holding.identifySimple());
+                events.add("player clicks in notable with " + holding.identifyMaterial());
+            }
         }
 
         if (event.getCurrentItem() != null) {
@@ -293,6 +308,16 @@ public class BukkitWorldScriptHelper implements Listener {
                     item.identifyMaterial() + " in " + inventory.identifySimple());
             events.add(interaction +
                     item.identifyMaterial() + " in " + inventory.identifySimple());
+            if (isNote) {
+                events.add("player clicks " +
+                        item.identifySimple() + " in notable");
+                events.add(interaction +
+                        item.identifySimple() + " in notable");
+                events.add("player clicks " +
+                        item.identifyMaterial() + " in notable");
+                events.add(interaction +
+                        item.identifyMaterial() + " in notable");
+            }
 
             if (event.getCursor() != null) {
                 holding = new dItem(event.getCursor());
@@ -301,7 +326,12 @@ public class BukkitWorldScriptHelper implements Listener {
                         item.identifySimple(),
                         item.identifyMaterial()
                 };
-                final String[] inventoryStrings = new String[]{
+                final String[] inventoryStrings = isNote ? new String[]{
+                        "inventory",
+                        "notable",
+                        type,
+                        inventory.identifySimple()
+                } : new String[]{
                         "inventory",
                         type,
                         inventory.identifySimple()
@@ -347,6 +377,15 @@ public class BukkitWorldScriptHelper implements Listener {
                     }
                 }
             }.runTaskLater(DenizenAPI.getCurrentInstance(), 1);
+        }
+        else if (dItem.matches(determination)) {
+            dItem dit = dItem.valueOf(determination, player, null);
+            if (dit == null) {
+                dB.echoError("Invalid dItem: " + dit);
+            }
+            else {
+                event.setCurrentItem(dit.getItemStack());
+            }
         }
     }
 
