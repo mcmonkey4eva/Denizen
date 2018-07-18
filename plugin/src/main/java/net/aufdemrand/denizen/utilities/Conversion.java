@@ -81,15 +81,15 @@ public class Conversion {
         String string = arg.getValue();
 
         if (dInventory.matches(string)) {
-            BukkitScriptEntryData data = (BukkitScriptEntryData) scriptEntry.entryData;
-            if (data != null) {
-                dInventory inv = dInventory.valueOf(string, data.getTagContext());
-                return new AbstractMap.SimpleEntry<Integer, dInventory>(inv.getContents().length, inv);
+            dInventory inv;
+            if (arg.matchesArgumentType(dInventory.class)) {
+                inv = arg.asType(dInventory.class);
             }
             else {
-                dInventory inv = dInventory.valueOf(string, null);
-                return new AbstractMap.SimpleEntry<Integer, dInventory>(inv.getContents().length, inv);
+                BukkitScriptEntryData data = (BukkitScriptEntryData) scriptEntry.entryData;
+                inv = dInventory.valueOf(string, data != null ? data.getTagContext() : null);
             }
+            return new AbstractMap.SimpleEntry<Integer, dInventory>(inv.getContents().length, inv);
         }
         else if (arg.matchesArgumentList(dItem.class)) {
             List<dItem> list = dList.valueOf(string).filter(dItem.class, scriptEntry);
