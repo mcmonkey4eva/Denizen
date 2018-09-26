@@ -43,6 +43,9 @@ public class ItemBaseColor implements Property {
     dItem item;
 
     private DyeColor getBaseColor() {
+        if (!item.getItemStack().hasItemMeta()) {  // shield is uncolored
+            return null;
+        }
         ItemMeta itemMeta = item.getItemStack().getItemMeta();
         if (itemMeta instanceof BlockStateMeta) {
             return ((Banner) ((BlockStateMeta) itemMeta).getBlockState()).getBaseColor();
