@@ -30,6 +30,7 @@ public class PlayerJoinsScriptEvent extends BukkitScriptEvent implements Listene
     //
     // @Determine
     // Element to change the join message.
+    // "none" to cancel the join message.
     //
     // -->
 

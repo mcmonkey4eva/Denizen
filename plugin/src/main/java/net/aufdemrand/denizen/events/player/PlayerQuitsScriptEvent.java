@@ -30,6 +30,7 @@ public class PlayerQuitsScriptEvent extends BukkitScriptEvent implements Listene
     //
     // @Determine
     // Element to change the quit message.
+    // "none" to cancel the quit message.
     //
     // -->
 
