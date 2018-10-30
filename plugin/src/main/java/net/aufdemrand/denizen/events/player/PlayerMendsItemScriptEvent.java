@@ -129,15 +129,6 @@ public class PlayerMendsItemScriptEvent extends BukkitScriptEvent implements Lis
         fire();
         event.setCancelled(cancelled);
         event.setRepairAmount(repairAmount.asInt());
-        final Player p = event.getPlayer();
-        if (cancelled) {
-            Bukkit.getScheduler().scheduleSyncDelayedTask(DenizenAPI.getCurrentInstance(), new Runnable() {
-                @Override
-                public void run() {
-                    p.updateInventory();
-                }
-            }, 1);
-        }
     }
 
 }
