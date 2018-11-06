@@ -144,7 +144,7 @@ public class EntityFramed implements Property {
         // @input dItem(|Element)
         // @description
         // Sets the entity's framed item and optionally the rotation as well.
-        // Valid rotations: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Rotation.html
+        // Valid rotations: <@link url https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Rotation.html>
         // For example: framed:i@diamond_sword|clockwise
         // @tags
         // <e@entity.is_frame>
