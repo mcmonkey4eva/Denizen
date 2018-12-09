@@ -31,6 +31,7 @@ import net.aufdemrand.denizen.objects.properties.inventory.InventoryHolder;
 import net.aufdemrand.denizen.objects.properties.inventory.InventorySize;
 import net.aufdemrand.denizen.objects.properties.inventory.InventoryTitle;
 import net.aufdemrand.denizen.objects.properties.item.*;
+import net.aufdemrand.denizen.objects.properties.traderecipe.*;
 import net.aufdemrand.denizen.scripts.commands.BukkitCommandRegistry;
 import net.aufdemrand.denizen.scripts.containers.core.*;
 import net.aufdemrand.denizen.scripts.triggers.TriggerRegistry;
@@ -226,6 +227,11 @@ import java.util.logging.Logger;
 // |   m@<material_name>,<data> - fetches the material as specified by Bukkit's material enumeration with specified data
 // |   m@<data_variety_material> - fetches the material specified by Denizen's 'data variety' dMaterials
 // |   m@random - fetches a random material
+//
+// + ----- dTradeRecipe -----+
+// | object notation: traderecipe@    can reference unique objects: no      can be notable: no
+// | constructors: ( <>'s represent non-static information and are not literal)
+// |   traderecipe@recipe - fetches an empty trade recipe with a result of i@air and zero maximum uses
 //
 // + ----- dList -------+
 // | object notation: li@  can reference unique objects: yes  can be notable: no
@@ -729,30 +735,31 @@ public class Denizen extends JavaPlugin implements DenizenImplementation {
             ScriptEvent.registerScriptEvent(new WorldUnloadsScriptEvent());
 
 
-            ObjectFetcher.registerWithObjectFetcher(dBiome.class);     // b@
+            ObjectFetcher.registerWithObjectFetcher(dBiome.class);       // b@
             dBiome.registerTags(); // TODO: Automate this once all classes have tag registries
-            ObjectFetcher.registerWithObjectFetcher(dChunk.class);     // ch@
+            ObjectFetcher.registerWithObjectFetcher(dChunk.class);       // ch@
             dChunk.registerTags(); // TODO: Automate this once all classes have tag registries
-            ObjectFetcher.registerWithObjectFetcher(dColor.class);     // co@
+            ObjectFetcher.registerWithObjectFetcher(dColor.class);       // co@
             dColor.registerTags(); // TODO: Automate this once all classes have tag registries
-            ObjectFetcher.registerWithObjectFetcher(dCuboid.class);    // cu@
+            ObjectFetcher.registerWithObjectFetcher(dCuboid.class);      // cu@
             dCuboid.registerTags(); // TODO: Automate this once all classes have tag registries
-            ObjectFetcher.registerWithObjectFetcher(dEllipsoid.class); // ellipsoid@
+            ObjectFetcher.registerWithObjectFetcher(dEllipsoid.class);   // ellipsoid@
             dEllipsoid.registerTags(); // TODO: Automate this once all classes have tag registries
-            ObjectFetcher.registerWithObjectFetcher(dEntity.class);    // e@
-            ObjectFetcher.registerWithObjectFetcher(dInventory.class); // in@
-            ObjectFetcher.registerWithObjectFetcher(dItem.class);      // i@
+            ObjectFetcher.registerWithObjectFetcher(dEntity.class);      // e@
+            ObjectFetcher.registerWithObjectFetcher(dInventory.class);   // in@
+            ObjectFetcher.registerWithObjectFetcher(dItem.class);        // i@
             dItem.registerTags(); // TODO: Automate this once all classes have tag registries
-            ObjectFetcher.registerWithObjectFetcher(dLocation.class);  // l@
-            ObjectFetcher.registerWithObjectFetcher(dMaterial.class);  // m@
+            ObjectFetcher.registerWithObjectFetcher(dLocation.class);    // l@
+            ObjectFetcher.registerWithObjectFetcher(dMaterial.class);    // m@
             dMaterial.registerTags(); // TODO: Automate this once all classes have tag registries
             if (Depends.citizens != null) {
-                ObjectFetcher.registerWithObjectFetcher(dNPC.class);   // n@
+                ObjectFetcher.registerWithObjectFetcher(dNPC.class);     // n@
             }
-            ObjectFetcher.registerWithObjectFetcher(dPlayer.class);    // p@
-            ObjectFetcher.registerWithObjectFetcher(dPlugin.class);    // pl@
+            ObjectFetcher.registerWithObjectFetcher(dPlayer.class);      // p@
+            ObjectFetcher.registerWithObjectFetcher(dPlugin.class);      // pl@
             dPlugin.registerTags(); // TODO: Automate this once all classes have tag registries
-            ObjectFetcher.registerWithObjectFetcher(dWorld.class);     // w@
+            ObjectFetcher.registerWithObjectFetcher(dTradeRecipe.class); // traderecipe@
+            ObjectFetcher.registerWithObjectFetcher(dWorld.class);       // w@
             dWorld.registerTags(); // TODO: Automate this once all classes have tag registries
 
 
@@ -886,6 +893,13 @@ public class Denizen extends JavaPlugin implements DenizenImplementation {
                 PropertyParser.registerProperty(ItemSpawnEgg.class, dItem.class);
             }
             PropertyParser.registerProperty(ItemUnbreakable.class, dItem.class);
+
+            // register core dTradeRecipe properties
+            PropertyParser.registerProperty(TradeRecipeHasXp.class, dTradeRecipe.class);
+            PropertyParser.registerProperty(TradeRecipeIngredients.class, dTradeRecipe.class);
+            PropertyParser.registerProperty(TradeRecipeMaxUses.class, dTradeRecipe.class);
+            PropertyParser.registerProperty(TradeRecipeResult.class, dTradeRecipe.class);
+            PropertyParser.registerProperty(TradeRecipeUses.class, dTradeRecipe.class);
         }
         catch (Exception e) {
             dB.echoError(e);
@@ -1654,6 +1668,9 @@ public class Denizen extends JavaPlugin implements DenizenImplementation {
         }
         else if (comparedto.equalsIgnoreCase("cuboid")) {
             outcome = dCuboid.matches(comparable);
+        }
+        else if (comparedto.equalsIgnoreCase("traderecipe")) {
+            outcome = dTradeRecipe.matches(comparable);
         }
         else {
             dB.echoError("Invalid 'matches' type '" + comparedto + "'!");
