@@ -734,6 +734,18 @@ public class dEntity implements dObject, Adjustable, EntityFormObject {
                 : dInventory.mirrorBukkitInventory(getBukkitInventory()) : null;
     }
 
+    public dList getTradeRecipes() {
+        if (entity instanceof Merchant) {
+            Merchant merchant = (Merchant) entity;
+            ArrayList<dTradeRecipe> recipes = new ArrayList<>();
+            for (MerchantRecipe recipe : merchant.getRecipes()) {
+                recipes.add(new dTradeRecipe(recipe));
+            }
+            return new dList(recipes);
+        }
+        return null;
+    }
+
     public String getName() {
         if (isCitizensNPC()) {
             return getDenizenNPC().getCitizen().getName();

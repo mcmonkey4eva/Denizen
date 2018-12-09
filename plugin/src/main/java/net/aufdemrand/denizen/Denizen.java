@@ -853,6 +853,7 @@ public class Denizen extends JavaPlugin implements DenizenImplementation {
                 PropertyParser.registerProperty(EntitySpell.class, dEntity.class);
             }
             PropertyParser.registerProperty(EntityTame.class, dEntity.class);
+            PropertyParser.registerProperty(EntityTradeRecipes.class, dEntity.class);
             PropertyParser.registerProperty(EntityVisible.class, dEntity.class);
 
             // register core dInventory properties
