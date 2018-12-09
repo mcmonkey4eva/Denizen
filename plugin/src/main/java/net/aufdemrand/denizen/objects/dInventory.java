@@ -31,12 +31,7 @@ import org.bukkit.block.DoubleChest;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.CraftingInventory;
-import org.bukkit.inventory.HorseInventory;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.BookMeta;
 
 import java.util.*;
