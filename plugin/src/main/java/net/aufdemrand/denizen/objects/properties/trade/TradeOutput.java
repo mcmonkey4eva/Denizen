@@ -1,7 +1,7 @@
-package net.aufdemrand.denizen.objects.properties.traderecipe;
+package net.aufdemrand.denizen.objects.properties.trade;
 
 import net.aufdemrand.denizen.objects.dItem;
-import net.aufdemrand.denizen.objects.dTradeRecipe;
+import net.aufdemrand.denizen.objects.dTrade;
 import net.aufdemrand.denizencore.objects.Mechanism;
 import net.aufdemrand.denizencore.objects.dObject;
 import net.aufdemrand.denizencore.objects.properties.Property;
@@ -10,22 +10,22 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
 
-public class TradeRecipeResult implements Property {
+public class TradeOutput implements Property {
 
     public static boolean describes(dObject recipe) {
-        return recipe instanceof dTradeRecipe;
+        return recipe instanceof dTrade;
     }
 
-    public static TradeRecipeResult getFrom(dObject recipe) {
+    public static TradeOutput getFrom(dObject recipe) {
         if (!describes(recipe)) {
             return null;
         }
-        return new TradeRecipeResult((dTradeRecipe) recipe);
+        return new TradeOutput((dTrade) recipe);
     }
 
-    private dTradeRecipe recipe;
+    private dTrade recipe;
 
-    public TradeRecipeResult(dTradeRecipe recipe) {
+    public TradeOutput(dTrade recipe) {
         this.recipe = recipe;
     }
 
@@ -37,7 +37,7 @@ public class TradeRecipeResult implements Property {
     }
 
     public String getPropertyId() {
-        return "result";
+        return "output";
     }
 
     public String getAttribute(Attribute attribute) {
@@ -46,13 +46,13 @@ public class TradeRecipeResult implements Property {
         }
 
         // <--[tag]
-        // @attribute <traderecipe@recipe.result>
+        // @attribute <trade@trade.output>
         // @returns dItem
-        // @mechanism dTradeRecipe.result
+        // @mechanism dTradeRecipe.output
         // @description
-        // Returns the result of the trade recipe.
+        // Returns what the trade will give the player.
         // -->
-        if (attribute.startsWith("result")) {
+        if (attribute.startsWith("output")) {
             return new dItem(recipe.getRecipe().getResult()).getAttribute(attribute.fulfill(1));
         }
 
@@ -62,15 +62,15 @@ public class TradeRecipeResult implements Property {
     public void adjust(Mechanism mechanism) {
 
         // <--[mechanism]
-        // @object dTradeRecipe
-        // @name result
+        // @object dTrade
+        // @name output
         // @input dItem
         // @description
-        // Sets the trade recipe's result.
+        // Sets what the trade will give the player.
         // @tags
-        // <traderecipe@recipe.result>
+        // <trade@trade.output>
         // -->
-        if (mechanism.matches("result") && mechanism.requireObject(dItem.class)) {
+        if (mechanism.matches("output") && mechanism.requireObject(dItem.class)) {
             ItemStack item;
             item = mechanism.hasValue() ? mechanism.getValue().asType(dItem.class).getItemStack() : new ItemStack(Material.AIR);
 

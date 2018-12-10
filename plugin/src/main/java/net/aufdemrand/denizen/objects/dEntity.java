@@ -737,9 +737,9 @@ public class dEntity implements dObject, Adjustable, EntityFormObject {
     public dList getTradeRecipes() {
         if (entity instanceof Merchant) {
             Merchant merchant = (Merchant) entity;
-            ArrayList<dTradeRecipe> recipes = new ArrayList<>();
+            ArrayList<dTrade> recipes = new ArrayList<>();
             for (MerchantRecipe recipe : merchant.getRecipes()) {
-                recipes.add(new dTradeRecipe(recipe));
+                recipes.add(new dTrade(recipe));
             }
             return new dList(recipes);
         }

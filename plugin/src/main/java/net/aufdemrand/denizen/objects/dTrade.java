@@ -13,18 +13,18 @@ import org.bukkit.inventory.MerchantRecipe;
 
 import java.util.regex.Matcher;
 
-public class dTradeRecipe implements dObject, Adjustable {
+public class dTrade implements dObject, Adjustable {
 
     //////////////////
     //    OBJECT FETCHER
     ////////////////
 
-    public static dTradeRecipe valueOf(String string) {
+    public static dTrade valueOf(String string) {
         return valueOf(string, null);
     }
 
-    @Fetchable("traderecipe")
-    public static dTradeRecipe valueOf(String string, TagContext context) {
+    @Fetchable("trade")
+    public static dTrade valueOf(String string, TagContext context) {
         if (string == null) {
             return null;
         }
@@ -33,28 +33,28 @@ public class dTradeRecipe implements dObject, Adjustable {
         // Handle objects with properties through the object fetcher
         Matcher m = ObjectFetcher.DESCRIBED_PATTERN.matcher(string);
         if (m.matches()) {
-            return ObjectFetcher.getObjectFrom(dTradeRecipe.class, string, new BukkitTagContext(((BukkitTagContext) context).player,
+            return ObjectFetcher.getObjectFrom(dTrade.class, string, new BukkitTagContext(((BukkitTagContext) context).player,
                     ((BukkitTagContext) context).npc, false, null, !context.debug, null));
         }
 
-        string = CoreUtilities.toLowerCase(string).replace("traderecipe@", "");
-        if (string.toLowerCase().matches("recipe")) {
+        string = CoreUtilities.toLowerCase(string).replace("trade@", "");
+        if (string.toLowerCase().matches("trade")) {
             MerchantRecipe recipe = new MerchantRecipe(new ItemStack(Material.AIR), 0);
             recipe.addIngredient(new ItemStack(Material.AIR));
-            return new dTradeRecipe(recipe);
+            return new dTrade(recipe);
         }
         return null;
     }
 
     public static boolean matches(String arg) {
-        return arg.replace("traderecipe@", "").matches("recipe");
+        return arg.matches("trade@trade");
     }
 
     ///////////////
     //   Constructors
     /////////////
 
-    public dTradeRecipe(MerchantRecipe recipe) {
+    public dTrade(MerchantRecipe recipe) {
         this.recipe = recipe;
     }
 
@@ -80,13 +80,13 @@ public class dTradeRecipe implements dObject, Adjustable {
     //  DSCRIPT ARGUMENT METHODS
     /////////////////////////
 
-    private String prefix = "traderecipe";
+    private String prefix = "trade";
 
     public String getPrefix() {
         return prefix;
     }
 
-    public dTradeRecipe setPrefix(String prefix) {
+    public dTrade setPrefix(String prefix) {
         this.prefix = prefix;
         return this;
     }
@@ -100,11 +100,11 @@ public class dTradeRecipe implements dObject, Adjustable {
     }
 
     public String getObjectType() {
-        return "TradeRecipe";
+        return "Trade";
     }
 
     public String identify() {
-        return prefix + "@recipe" + PropertyParser.getPropertiesString(this);
+        return prefix + "@trade" + PropertyParser.getPropertiesString(this);
     }
 
     public String identifySimple() {

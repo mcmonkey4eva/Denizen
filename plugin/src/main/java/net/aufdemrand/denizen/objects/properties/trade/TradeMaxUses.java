@@ -1,28 +1,28 @@
-package net.aufdemrand.denizen.objects.properties.traderecipe;
+package net.aufdemrand.denizen.objects.properties.trade;
 
-import net.aufdemrand.denizen.objects.dTradeRecipe;
+import net.aufdemrand.denizen.objects.dTrade;
 import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.Mechanism;
 import net.aufdemrand.denizencore.objects.dObject;
 import net.aufdemrand.denizencore.objects.properties.Property;
 import net.aufdemrand.denizencore.tags.Attribute;
 
-public class TradeRecipeMaxUses implements Property {
+public class TradeMaxUses implements Property {
 
     public static boolean describes(dObject recipe) {
-        return recipe instanceof dTradeRecipe;
+        return recipe instanceof dTrade;
     }
 
-    public static TradeRecipeMaxUses getFrom(dObject recipe) {
+    public static TradeMaxUses getFrom(dObject recipe) {
         if (!describes(recipe)) {
             return null;
         }
-        return new TradeRecipeMaxUses((dTradeRecipe) recipe);
+        return new TradeMaxUses((dTrade) recipe);
     }
 
-    private dTradeRecipe recipe;
+    private dTrade recipe;
 
-    public TradeRecipeMaxUses(dTradeRecipe recipe) {
+    public TradeMaxUses(dTrade recipe) {
         this.recipe = recipe;
     }
 
@@ -43,11 +43,11 @@ public class TradeRecipeMaxUses implements Property {
         }
 
         // <--[tag]
-        // @attribute <traderecipe@recipe.max_uses>
+        // @attribute <trade@trade.max_uses>
         // @returns Element(Boolean)
-        // @mechanism dTradeRecipe.max_uses
+        // @mechanism dTrade.max_uses
         // @description
-        // Returns the maximum amount of times that the trade recipe can be used.
+        // Returns the maximum amount of times that the trade can be used.
         // -->
         if (attribute.startsWith("max_uses")) {
             return new Element(recipe.getRecipe().getMaxUses()).getAttribute(attribute.fulfill(1));
@@ -59,11 +59,11 @@ public class TradeRecipeMaxUses implements Property {
     public void adjust(Mechanism mechanism) {
 
         // <--[mechanism]
-        // @object dTradeRecipe
-        // @name //
-        // @input //
+        // @object dTrade
+        // @name max_uses
+        // @input Element(Number)
         // @description
-        // //
+        // Sets the maximum amount of times that the trade can be used.
         // @tags
         // //
         // -->

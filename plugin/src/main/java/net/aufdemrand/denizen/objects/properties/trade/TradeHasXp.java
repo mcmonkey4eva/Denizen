@@ -1,28 +1,28 @@
-package net.aufdemrand.denizen.objects.properties.traderecipe;
+package net.aufdemrand.denizen.objects.properties.trade;
 
-import net.aufdemrand.denizen.objects.dTradeRecipe;
+import net.aufdemrand.denizen.objects.dTrade;
 import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.Mechanism;
 import net.aufdemrand.denizencore.objects.dObject;
 import net.aufdemrand.denizencore.objects.properties.Property;
 import net.aufdemrand.denizencore.tags.Attribute;
 
-public class TradeRecipeHasXp implements Property {
+public class TradeHasXp implements Property {
 
     public static boolean describes(dObject recipe) {
-        return recipe instanceof dTradeRecipe;
+        return recipe instanceof dTrade;
     }
 
-    public static TradeRecipeHasXp getFrom(dObject recipe) {
+    public static TradeHasXp getFrom(dObject recipe) {
         if (!describes(recipe)) {
             return null;
         }
-        return new TradeRecipeHasXp((dTradeRecipe) recipe);
+        return new TradeHasXp((dTrade) recipe);
     }
 
-    private dTradeRecipe recipe;
+    private dTrade recipe;
 
-    public TradeRecipeHasXp(dTradeRecipe recipe) {
+    public TradeHasXp(dTrade recipe) {
         this.recipe = recipe;
     }
 
@@ -43,11 +43,11 @@ public class TradeRecipeHasXp implements Property {
         }
 
         // <--[tag]
-        // @attribute <traderecipe@recipe.has_xp>
+        // @attribute <trade@trade.has_xp>
         // @returns Element(Boolean)
-        // @mechanism dTradeRecipe.has_xp
+        // @mechanism dTrade.has_xp
         // @description
-        // Returns whether the trade recipe has an experience reward.
+        // Returns whether the trade has an experience reward.
         // -->
         if (attribute.startsWith("has_xp")) {
             return new Element(recipe.getRecipe().hasExperienceReward()).getAttribute(attribute.fulfill(1));
@@ -59,13 +59,13 @@ public class TradeRecipeHasXp implements Property {
     public void adjust(Mechanism mechanism) {
 
         // <--[mechanism]
-        // @object dTradeRecipe
+        // @object dTrade
         // @name has_xp
-        // @input //
+        // @input Element(Number)
         // @description
-        // //
+        // Sets whether this trade will reward XP upon successful trading.
         // @tags
-        // //
+        // <trade@trade.has_xp>
         // -->
         if (mechanism.matches("has_xp") && mechanism.requireBoolean()) {
             recipe.getRecipe().setExperienceReward(mechanism.getValue().asBoolean());

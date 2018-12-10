@@ -1,7 +1,7 @@
 package net.aufdemrand.denizen.objects.properties.entity;
 
 import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizen.objects.dTradeRecipe;
+import net.aufdemrand.denizen.objects.dTrade;
 import net.aufdemrand.denizencore.objects.Mechanism;
 import net.aufdemrand.denizencore.objects.dList;
 import net.aufdemrand.denizencore.objects.dObject;
@@ -12,23 +12,23 @@ import org.bukkit.inventory.MerchantRecipe;
 
 import java.util.ArrayList;
 
-public class EntityTradeRecipes implements Property {
+public class EntityTrades implements Property {
 
     public static boolean describes(dObject entity) {
         return entity instanceof dEntity &&
                 ((dEntity) entity).getBukkitEntity() instanceof Merchant;
     }
 
-    public static EntityTradeRecipes getFrom(dObject entity) {
+    public static EntityTrades getFrom(dObject entity) {
         if (!describes(entity)) {
             return null;
         }
-        return new EntityTradeRecipes((dEntity) entity);
+        return new EntityTrades((dEntity) entity);
     }
 
     private dEntity entity;
 
-    public EntityTradeRecipes(dEntity entity) {
+    public EntityTrades(dEntity entity) {
         this.entity = entity;
     }
 
@@ -40,7 +40,7 @@ public class EntityTradeRecipes implements Property {
     }
 
     public String getPropertyId() {
-        return "trade_recipes";
+        return "trades";
     }
 
     public String getAttribute(Attribute attribute) {
@@ -49,13 +49,13 @@ public class EntityTradeRecipes implements Property {
         }
 
         // <--[tag]
-        // @attribute <e@entity.trade_recipes>
-        // @returns dList(dTradeRecipe)
-        // @mechanism dEntity.trade_recipes
+        // @attribute <e@entity.trades>
+        // @returns dList(dTrade)
+        // @mechanism dEntity.trades
         // @description
         // Returns a list of the Villager's trade recipes.
         // -->
-        if (attribute.startsWith("trade_recipes")) {
+        if (attribute.startsWith("trades")) {
             return entity.getTradeRecipes().getAttribute(attribute.fulfill(1));
         }
 
@@ -66,16 +66,16 @@ public class EntityTradeRecipes implements Property {
 
         // <--[mechanism]
         // @object dEntity
-        // @name trade_recipes
-        // @input dList(dTradeRecipe)
+        // @name trades
+        // @input dList(dTrade)
         // @description
-        // Sets the trade recipes that the entity will offer.
+        // Sets the trades that the entity will offer.
         // @tags
-        // <e@entity.trade_recipes>
+        // <e@entity.trades>
         // -->
-        if (mechanism.matches("trade_recipes")) {
+        if (mechanism.matches("trades")) {
             ArrayList<MerchantRecipe> recipes = new ArrayList<>();
-            for (dTradeRecipe recipe : mechanism.getValue().asType(dList.class).filter(dTradeRecipe.class)) {
+            for (dTrade recipe : mechanism.getValue().asType(dList.class).filter(dTrade.class)) {
                 recipes.add(recipe.getRecipe());
             }
             ((Merchant) entity.getBukkitEntity()).setRecipes(recipes);

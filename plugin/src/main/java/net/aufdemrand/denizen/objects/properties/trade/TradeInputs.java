@@ -1,35 +1,34 @@
-package net.aufdemrand.denizen.objects.properties.traderecipe;
+package net.aufdemrand.denizen.objects.properties.trade;
 
 import net.aufdemrand.denizen.objects.dItem;
-import net.aufdemrand.denizen.objects.dTradeRecipe;
+import net.aufdemrand.denizen.objects.dTrade;
 import net.aufdemrand.denizen.utilities.debugging.dB;
 import net.aufdemrand.denizencore.objects.Mechanism;
 import net.aufdemrand.denizencore.objects.dList;
 import net.aufdemrand.denizencore.objects.dObject;
 import net.aufdemrand.denizencore.objects.properties.Property;
 import net.aufdemrand.denizencore.tags.Attribute;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TradeRecipeIngredients implements Property {
+public class TradeInputs implements Property {
 
     public static boolean describes(dObject recipe) {
-        return recipe instanceof dTradeRecipe;
+        return recipe instanceof dTrade;
     }
 
-    public static TradeRecipeIngredients getFrom(dObject recipe) {
+    public static TradeInputs getFrom(dObject recipe) {
         if (!describes(recipe)) {
             return null;
         }
-        return new TradeRecipeIngredients((dTradeRecipe) recipe);
+        return new TradeInputs((dTrade) recipe);
     }
 
-    private dTradeRecipe recipe;
+    private dTrade recipe;
 
-    public TradeRecipeIngredients(dTradeRecipe recipe) {
+    public TradeInputs(dTrade recipe) {
         this.recipe = recipe;
     }
 
@@ -45,7 +44,7 @@ public class TradeRecipeIngredients implements Property {
     }
 
     public String getPropertyId() {
-        return "ingredients";
+        return "inputs";
     }
 
     public String getAttribute(Attribute attribute) {
@@ -54,13 +53,13 @@ public class TradeRecipeIngredients implements Property {
         }
 
         // <--[tag]
-        // @attribute <traderecipe@recipe.ingredients>
+        // @attribute <trade@trade.inputs>
         // @returns dList(dItem)
-        // @mechanism dTradeRecipe.ingredients
+        // @mechanism dTrade.inputs
         // @description
-        // Returns the ingredients of the trade recipe.
+        // Returns the list of items required to make the trade.
         // -->
-        if (attribute.startsWith("ingredients")) {
+        if (attribute.startsWith("inputs")) {
             ArrayList<dItem> itemList = new ArrayList<>();
             for (ItemStack item : recipe.getRecipe().getIngredients()) {
                 itemList.add(new dItem(item));
@@ -74,15 +73,15 @@ public class TradeRecipeIngredients implements Property {
     public void adjust(Mechanism mechanism) {
 
         // <--[mechanism]
-        // @object dTradeRecipe
-        // @name ingredients
+        // @object dTrade
+        // @name inputs
         // @input dList(dItem)
         // @description
-        // Sets the trade recipe's ingredients. Provide no input or an empty list for no ingredients.
+        // Sets the items required to make a successful trade. Use an empty input to make the trade impossible.
         // @tags
-        // <traderecipe@recipe.ingredients>
+        // <trade@trade.input>
         // -->
-        if (mechanism.matches("ingredients")) {
+        if (mechanism.matches("inputs")) {
             List<ItemStack> ingredients = new ArrayList<>();
             dList list = mechanism.getValue().asType(dList.class);
 
@@ -92,7 +91,7 @@ public class TradeRecipeIngredients implements Property {
             }
             if (list.size() > 2) {
                 // Maybe come up with a slightly better error message?
-                dB.echoError("Trade recipe given " + list.size() + " ingredients. There must be 1 or 2!");
+                dB.echoError("Trade recipe given " + list.size() + " inputs. There must be 1 or 2!");
             }
 
             for (int i = 0; i < Math.max(list.size(), 2); i++) {

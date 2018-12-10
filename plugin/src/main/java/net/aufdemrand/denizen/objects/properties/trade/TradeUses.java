@@ -1,28 +1,28 @@
-package net.aufdemrand.denizen.objects.properties.traderecipe;
+package net.aufdemrand.denizen.objects.properties.trade;
 
-import net.aufdemrand.denizen.objects.dTradeRecipe;
+import net.aufdemrand.denizen.objects.dTrade;
 import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.Mechanism;
 import net.aufdemrand.denizencore.objects.dObject;
 import net.aufdemrand.denizencore.objects.properties.Property;
 import net.aufdemrand.denizencore.tags.Attribute;
 
-public class TradeRecipeUses implements Property {
+public class TradeUses implements Property {
 
     public static boolean describes(dObject recipe) {
-        return recipe instanceof dTradeRecipe;
+        return recipe instanceof dTrade;
     }
 
-    public static TradeRecipeUses getFrom(dObject recipe) {
+    public static TradeUses getFrom(dObject recipe) {
         if (!describes(recipe)) {
             return null;
         }
-        return new TradeRecipeUses((dTradeRecipe) recipe);
+        return new TradeUses((dTrade) recipe);
     }
 
-    private dTradeRecipe recipe;
+    private dTrade recipe;
 
-    public TradeRecipeUses(dTradeRecipe recipe) {
+    public TradeUses(dTrade recipe) {
         this.recipe = recipe;
     }
 
@@ -43,11 +43,11 @@ public class TradeRecipeUses implements Property {
         }
 
         // <--[tag]
-        // @attribute <traderecipe@recipe.uses>
+        // @attribute <trade@trade.uses>
         // @returns Element(Number)
-        // @mechanism dTradeRecipe.uses
+        // @mechanism dTrade.uses
         // @description
-        // Returns how many times the trade recipe has been used.
+        // Returns how many times the trade has been used.
         // -->
         if (attribute.startsWith("uses")) {
             return new Element(recipe.getRecipe().getUses()).getAttribute(attribute.fulfill(1));
@@ -59,13 +59,13 @@ public class TradeRecipeUses implements Property {
     public void adjust(Mechanism mechanism) {
 
         // <--[mechanism]
-        // @object dTradeRecipe
+        // @object dTrade
         // @name uses
         // @input Element(Number)
         // @description
-        // Sets the amount of times the trade recipe has been used.
+        // Sets the amount of times the trade has been used.
         // @tags
-        // <traderecipe@recipe.uses>
+        // <trade@trade.uses>
         // -->
         if (mechanism.matches("uses") && mechanism.requireInteger()) {
             recipe.getRecipe().setUses(mechanism.getValue().asInt());
