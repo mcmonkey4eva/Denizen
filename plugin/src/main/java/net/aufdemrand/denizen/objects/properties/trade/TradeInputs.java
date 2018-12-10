@@ -85,7 +85,7 @@ public class TradeInputs implements Property {
             List<ItemStack> ingredients = new ArrayList<>();
             dList list = mechanism.getValue().asType(dList.class);
 
-            if (!mechanism.hasValue() || mechanism.getValue().asType(dList.class).isEmpty()) {
+            if (!mechanism.hasValue() || list.filter(dItem.class).isEmpty()) {
                 recipe.getRecipe().setIngredients(ingredients);
                 return;
             }
@@ -94,8 +94,8 @@ public class TradeInputs implements Property {
                 dB.echoError("Trade recipe given " + list.size() + " inputs. There must be 1 or 2!");
             }
 
-            for (int i = 0; i < Math.max(list.size(), 2); i++) {
-                ingredients.add(dItem.valueOf(list.get(i)).getItemStack());
+            for (dItem item : list.filter(dItem.class)) {
+                ingredients.add(item.getItemStack());
             }
             recipe.getRecipe().setIngredients(ingredients);
         }

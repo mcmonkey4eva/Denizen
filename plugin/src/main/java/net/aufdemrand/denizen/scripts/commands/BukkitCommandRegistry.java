@@ -2660,6 +2660,35 @@ public class BukkitCommandRegistry extends CommandRegistry {
 
 
         // <--[command]
+        // @Name OpenTrades
+        // @Syntax opentrades [<trade>|...] (title:<title>) (players:<player>|...)
+        // @Required 1
+        // @Stable stable
+        // @Short Opens a virtual trading inventory using the specified trades.
+        // @Author suspic
+        // @Group player
+        //
+        // @Description
+        // Opens a virtual trading inventory using the specified trades.
+        // If the title is not specified, no title will be applied to the trading inventory.
+        //
+        // @Tags
+        // <p@player.open_inventory.selected_trade>
+        // <p@player.open_inventory.selected_trade.index>
+        //
+        // @Usage
+        // Use to open an unusable trade.
+        // - opentrade <trade@trade>
+        //
+        // @Usage
+        // Use to open a list of trades with an optional title.
+        // - opentrade <trade@trade[result=i@stone;inputs=li@i@stone;max_uses=9999]> "title:Useless Trades"
+        // -->
+        registerCoreMember(OpenTradesCommand.class,
+                "OPENTRADES", "opentrades [<trade>|...] (title:<title>) (players:<player>|...)", 1);
+
+
+        // <--[command]
         // @Name Oxygen
         // @Syntax oxygen [<#>] (type:{remaining}/maximum) (mode:{set}/add/remove)
         // @Required 1
