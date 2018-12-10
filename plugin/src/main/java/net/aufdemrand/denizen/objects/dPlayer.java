@@ -1534,33 +1534,28 @@ public class dPlayer implements dObject, Adjustable, EntityFormObject {
         // inventory, this returns the player's inventory.
         // -->
         if (attribute.startsWith("open_inventory")) {
-            attribute = attribute.fulfill(1);
-            Inventory inv = getPlayerEntity().getOpenInventory().getTopInventory();
-            if (inv instanceof MerchantInventory) {
+            return dInventory.mirrorBukkitInventory(getPlayerEntity().getOpenInventory().getTopInventory())
+                    .getAttribute(attribute.fulfill(1));
+        }
 
-                // <--[tag]
-                // @attribute <p@player.open_inventory.selected_trade.index>
-                // @returns Element(Number)
-                // @description
-                // Returns the index of the trade recipe that the player is viewing.
-                // -->
-                if (attribute.matches("selected_trade.index")) {
-                    return new Element(((MerchantInventory) inv).getSelectedRecipeIndex())
-                            .getAttribute(attribute.fulfill(2));
-                }
+        // <--[tag]
+        // @attribute <p@player.selected_trade.index>
+        // @returns Element(Number)
+        // @description
+        // Returns the trade the player is currently viewing, if any.
+        if (attribute.startsWith("selected_trade.index")) {
+            return new Element(((MerchantInventory) getPlayerEntity().getOpenInventory()).getSelectedRecipeIndex())
+                    .getAttribute(attribute.fulfill(2));
+        }
 
-                // <--[tag]
-                // @attribute <p@player.open_inventory.selected_trade>
-                // @returns dTrade
-                // @description
-                // Returns the trade recipe that the player is viewing.
-                // -->
-                if (attribute.matches("selected_trade")) {
-                    return new dTrade(((MerchantInventory) inv).getSelectedRecipe())
-                            .getAttribute(attribute.fulfill(1));
-                }
-            }
-            return dInventory.mirrorBukkitInventory(inv).getAttribute(attribute);
+        // <--[tag]
+        // @attribute <p@player.selected_trade>
+        // @returns dTrade
+        // @description
+        // Returns the trade the player is currently viewing, if any.
+        if (attribute.startsWith("selected_trade")) {
+            return new dTrade(((MerchantInventory) getPlayerEntity().getOpenInventory()).getSelectedRecipe())
+                    .getAttribute(attribute.fulfill(1));
         }
 
         // <--[tag]
