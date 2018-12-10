@@ -231,7 +231,7 @@ import java.util.logging.Logger;
 // + ----- dTrade -----+
 // | object notation: trade@    can reference unique objects: no      can be notable: no
 // | constructors: ( <>'s represent non-static information and are not literal)
-// |   trade@recipe - fetches an empty trade recipe with a result of i@air and zero maximum uses
+// |   trade@trade - fetches an empty trade with a result of i@air and zero maximum uses
 //
 // + ----- dList -------+
 // | object notation: li@  can reference unique objects: yes  can be notable: no
