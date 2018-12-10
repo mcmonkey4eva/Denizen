@@ -1539,23 +1539,26 @@ public class dPlayer implements dObject, Adjustable, EntityFormObject {
         }
 
         // <--[tag]
-        // @attribute <p@player.selected_trade.index>
+        // @attribute <p@player.selected_trade_index>
         // @returns Element(Number)
         // @description
-        // Returns the trade the player is currently viewing, if any.
-        if (attribute.startsWith("selected_trade.index")) {
-            return new Element(((MerchantInventory) getPlayerEntity().getOpenInventory()).getSelectedRecipeIndex())
-                    .getAttribute(attribute.fulfill(2));
+        // Returns the index of the trade the player is currently viewing, if any.
+        // -->
+        if (attribute.startsWith("selected_trade_index")) {
+            return new Element(((MerchantInventory) getPlayerEntity().getOpenInventory().getTopInventory())
+                    .getSelectedRecipeIndex() + 1).getAttribute(attribute.fulfill(1));
         }
 
-        // <--[tag]
+        // This is almost completely broke and only works if the player has placed items in the trade slots.
+        // [tag]
         // @attribute <p@player.selected_trade>
         // @returns dTrade
         // @description
         // Returns the trade the player is currently viewing, if any.
+        //
         if (attribute.startsWith("selected_trade")) {
-            return new dTrade(((MerchantInventory) getPlayerEntity().getOpenInventory()).getSelectedRecipe())
-                    .getAttribute(attribute.fulfill(1));
+            return new dTrade(((MerchantInventory) getPlayerEntity().getOpenInventory().getTopInventory())
+                    .getSelectedRecipe()).getAttribute(attribute.fulfill(1));
         }
 
         // <--[tag]
