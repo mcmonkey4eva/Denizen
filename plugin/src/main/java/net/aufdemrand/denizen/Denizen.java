@@ -834,6 +834,7 @@ public class Denizen extends JavaPlugin implements DenizenImplementation {
             if (NMSHandler.getVersion().isAtLeast(NMSVersion.v1_9_R2)) {
                 PropertyParser.registerProperty(EntityIsShowingBottom.class, dEntity.class);
             }
+            PropertyParser.registerProperty(EntityIsTrading.class, dEntity.class);
             PropertyParser.registerProperty(EntityItem.class, dEntity.class);
             PropertyParser.registerProperty(EntityJumpStrength.class, dEntity.class);
             PropertyParser.registerProperty(EntityKnockback.class, dEntity.class);
@@ -854,6 +855,7 @@ public class Denizen extends JavaPlugin implements DenizenImplementation {
             }
             PropertyParser.registerProperty(EntityTame.class, dEntity.class);
             PropertyParser.registerProperty(EntityTrades.class, dEntity.class);
+            PropertyParser.registerProperty(EntityTradingWith.class, dEntity.class);
             PropertyParser.registerProperty(EntityVisible.class, dEntity.class);
 
             // register core dInventory properties
