@@ -2661,7 +2661,7 @@ public class BukkitCommandRegistry extends CommandRegistry {
 
         // <--[command]
         // @Name OpenTrades
-        // @Syntax opentrades [<trade>|...] (title:<title>) (players:<player>|...)
+        // @Syntax opentrades [<entity>/<trade>|...] (title:<title>) (players:<player>|...)
         // @Required 1
         // @Stable stable
         // @Short Opens a virtual trading inventory using the specified trades.
@@ -2669,12 +2669,17 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Group player
         //
         // @Description
-        // Opens a virtual trading inventory using the specified trades.
+        // Forces a player to open a villager's trading inventory or a virtual trading inventory.
+        // If a list of trades is specified, more than one player can be specified.
+        // Otherwise, if an entity is specified, only one player can be specified.
         // If the title is not specified, no title will be applied to the trading inventory.
+        // If no player is specified, by default the attached player will be forced to trade.
         //
         // @Tags
-        // <p@player.open_inventory.selected_trade>
-        // <p@player.open_inventory.selected_trade.index>
+        // <p@player.selected_trade_index>
+        // <e@entity.is_trading>
+        // <e@entity.trades>
+        // <e@entity.trading_with>
         //
         // @Usage
         // Use to open an unusable trade.
@@ -2683,9 +2688,13 @@ public class BukkitCommandRegistry extends CommandRegistry {
         // @Usage
         // Use to open a list of trades with an optional title.
         // - opentrade <trade@trade[result=i@stone;inputs=li@i@stone;max_uses=9999]> "title:Useless Trades"
+        //
+        // @Usage
+        // Use to force a player to trade with a villager.
+        // - opentrade <def[villager_entity]>
         // -->
         registerCoreMember(OpenTradesCommand.class,
-                "OPENTRADES", "opentrades [<trade>|...] (title:<title>) (players:<player>|...)", 1);
+                "OPENTRADES", "opentrades [<entity>/<trade>|...] (title:<title>) (players:<player>|...)", 1);
 
 
         // <--[command]

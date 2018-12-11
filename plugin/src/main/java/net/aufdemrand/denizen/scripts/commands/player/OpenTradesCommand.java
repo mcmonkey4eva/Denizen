@@ -1,6 +1,7 @@
 package net.aufdemrand.denizen.scripts.commands.player;
 
 import net.aufdemrand.denizen.BukkitScriptEntryData;
+import net.aufdemrand.denizen.objects.dEntity;
 import net.aufdemrand.denizen.objects.dPlayer;
 import net.aufdemrand.denizen.objects.dTrade;
 import net.aufdemrand.denizen.utilities.debugging.dB;
@@ -26,16 +27,20 @@ public class OpenTradesCommand extends AbstractCommand {
         for (aH.Argument arg : aH.interpret(scriptEntry.getArguments())) {
 
             if (!scriptEntry.hasObject("trades")
-                    && (arg.matchesArgumentType(dTrade.class)
-                    || arg.matchesArgumentType(dList.class))) {
+                    && !scriptEntry.hasObject("entity")
+                    && arg.matchesArgumentList(dTrade.class)) {
                 scriptEntry.addObject("trades", arg.asType(dList.class).filter(dTrade.class));
+            }
+            else if (!scriptEntry.hasObject("trades")
+                    && !scriptEntry.hasObject("entity")
+                    && arg.matchesArgumentType(dEntity.class)) {
+                scriptEntry.addObject("entity", arg.asType(dEntity.class));
             }
             else if (arg.matchesPrefix("title")) {
                 scriptEntry.addObject("title", arg.asElement());
             }
             else if (arg.matchesPrefix("players")
-                    && (arg.matchesArgumentType(dPlayer.class)
-                    || arg.matchesArgumentType(dList.class))) {
+                    && arg.matchesArgumentList(dPlayer.class)) {
                 scriptEntry.addObject("players", arg.asType(dList.class).filter(dPlayer.class));
             }
             else {
@@ -44,8 +49,8 @@ public class OpenTradesCommand extends AbstractCommand {
 
         }
 
-        if (!scriptEntry.hasObject("trades")) {
-            throw new InvalidArgumentsException("Must have at least one trade!");
+        if (!scriptEntry.hasObject("trades") && !scriptEntry.hasObject("entity")) {
+            throw new InvalidArgumentsException("Must have an entity or at least one trade to trade with!");
         }
 
         scriptEntry.defaultObject("title", new Element(""))
@@ -56,16 +61,31 @@ public class OpenTradesCommand extends AbstractCommand {
     public void execute(ScriptEntry scriptEntry) throws CommandExecutionException {
 
         String title = scriptEntry.getElement("title").asString();
+        dEntity entity = scriptEntry.getdObject("entity");
         List<dTrade> trades = (List<dTrade>) scriptEntry.getObject("trades");
         List<dPlayer> players = (List<dPlayer>) scriptEntry.getObject("players");
 
         if (scriptEntry.dbCallShouldDebug()) {
 
             dB.report(scriptEntry, getName(),
-                    aH.debugList("trades", trades)
-                            + aH.debugObj("title", title)
-                            +  aH.debugList("players", players));
+                    (entity != null ? aH.debugObj("entity", entity) : "")
+                            + (trades != null ? aH.debugList("trades", trades) : "")
+                            + (title.isEmpty() ? aH.debugObj("title", title) : "")
+                            + aH.debugList("players", players));
 
+        }
+
+        if (entity != null) {
+            if (players.size() > 1) {
+                dB.echoError("No more than one player can access the same entity!");
+                return;
+            }
+            if (entity.getBukkitEntity() instanceof Merchant) {
+                players.get(0).getPlayerEntity().openMerchant((Merchant) entity.getBukkitEntity(), true);
+                return;
+            }
+            dB.echoError("The specified entity isn't a merchant!");
+            return;
         }
 
         List<MerchantRecipe> recipes = new ArrayList<>();
